@@ -1,7 +1,10 @@
 // src/juice/audioMixer.ts
 import { juiceDirector } from './JuiceDirector';
+import * as stems from './audioStems';
 
-export type StemCueId = 'monsoon_light' | 'monsoon_heavy' | 'ceb_power_cut';
+export type StemCueId =
+  | 'monsoon_light' | 'monsoon_heavy' | 'ceb_power_cut'
+  | 'kandy_night_cicadas' | 'infant_cry_dissonant' | 'yak_bera_ritual';
 
 class AudioMixerEngine {
   private ctx: AudioContext | null = null;
@@ -17,27 +20,24 @@ class AudioMixerEngine {
     if (this.ctx?.state === 'suspended') this.ctx.resume();
   }
 
-  public getAnalyser(): AnalyserNode | null {
-    return this.analyser;
-  }
-
-  public getCurrentCueId(): StemCueId | '' {
-    return this.currentCueId;
-  }
+  public getAnalyser(): AnalyserNode | null { return this.analyser; }
+  public getCurrentCueId(): StemCueId | '' { return this.currentCueId; }
+  public getDreamFilter(): BiquadFilterNode | null { return this.dreamFilter; }
 
   public init(): void {
     if (this.ctx) return;
-    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AudioCtx = typeof window !== 'undefined'
+      ? (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)
+      : (globalThis as unknown as { AudioContext: typeof AudioContext }).AudioContext;
+    if (!AudioCtx) return;
     this.ctx = new AudioCtx();
 
     this.dreamFilter = this.ctx.createBiquadFilter();
     this.dreamFilter.type = 'lowpass';
     this.dreamFilter.frequency.value = 18000;
     this.dreamFilter.Q.value = 1.8;
-
     this.masterGain = this.ctx.createGain();
     this.masterGain.gain.value = 0.85;
-
     this.analyser = this.ctx.createAnalyser();
     this.analyser.fftSize = 256;
     this.analyser.smoothingTimeConstant = 0.82;
@@ -45,65 +45,28 @@ class AudioMixerEngine {
     this.dreamFilter.connect(this.masterGain);
     this.masterGain.connect(this.analyser);
     this.analyser.connect(this.ctx.destination);
-
     this.buildProceduralStems();
 
     juiceDirector.on('AUDIO_CUE', ({ cueId, muffleDreamFilter }) => {
       this.previewCue((cueId as StemCueId) || 'monsoon_light');
       this.setDreamMuffle(muffleDreamFilter);
     });
-
     juiceDirector.on('ANCHOR_STATE_CHANGE', ({ held }) => {
       this.setDreamMuffle(held ? false : this.isMuffled);
-      if (held) this.playIronKeyResonance();
+      if (held) this.playIronKeyTone();
       else this.playYakBeraPulse(0.65);
     });
   }
 
   private buildProceduralStems(): void {
     if (!this.ctx || !this.dreamFilter) return;
-    const sr = this.ctx.sampleRate;
-    const buf = this.ctx.createBuffer(1, sr * 3, sr);
-    const data = buf.getChannelData(0);
-    let b0 = 0, b1 = 0, b2 = 0;
-    for (let i = 0; i < data.length; i++) {
-      const white = Math.random() * 2 - 1;
-      b0 = 0.997 * b0 + white * 0.029;
-      b1 = 0.985 * b1 + white * 0.032;
-      b2 = 0.950 * b2 + white * 0.048;
-      data[i] = (b0 + b1 + b2 + white * 0.015) * 3.5;
-    }
-
-    const makeNoiseStem = (freq: number, q: number): GainNode => {
-      const src = this.ctx!.createBufferSource();
-      src.buffer = buf;
-      src.loop = true;
-      const bp = this.ctx!.createBiquadFilter();
-      bp.type = 'bandpass';
-      bp.frequency.value = freq;
-      bp.Q.value = q;
-      const gain = this.ctx!.createGain();
-      gain.gain.value = 0.0001;
-      src.connect(bp);
-      bp.connect(gain);
-      gain.connect(this.dreamFilter!);
-      src.start();
-      return gain;
-    };
-
-    this.stems.set('monsoon_light', makeNoiseStem(1350, 0.9));
-    this.stems.set('monsoon_heavy', makeNoiseStem(680, 0.5));
-
-    const humGain = makeNoiseStem(420, 0.7);
-    const humOsc = this.ctx.createOscillator();
-    const subGain = this.ctx.createGain();
-    humOsc.type = 'sawtooth';
-    humOsc.frequency.value = 50; // 50Hz CEB transformer hum
-    subGain.gain.value = 0.15;
-    humOsc.connect(subGain);
-    subGain.connect(humGain);
-    humOsc.start();
-    this.stems.set('ceb_power_cut', humGain);
+    const buf = stems.createPinkNoiseBuffer(this.ctx);
+    this.stems.set('monsoon_light', stems.createNoiseStem(this.ctx, this.dreamFilter, buf, 1350, 0.9));
+    this.stems.set('monsoon_heavy', stems.createNoiseStem(this.ctx, this.dreamFilter, buf, 680, 0.5));
+    this.stems.set('ceb_power_cut', stems.createCebHumStem(this.ctx, this.dreamFilter, buf));
+    this.stems.set('kandy_night_cicadas', stems.createCicadaStem(this.ctx, this.dreamFilter, buf));
+    this.stems.set('infant_cry_dissonant', stems.createNoiseStem(this.ctx, this.dreamFilter, buf, 540, 3.2));
+    this.stems.set('yak_bera_ritual', stems.createNoiseStem(this.ctx, this.dreamFilter, buf, 180, 2.0));
   }
 
   public previewCue(nextCueId: StemCueId, crossfadeSec = 1.8): void {
@@ -121,7 +84,10 @@ class AudioMixerEngine {
   public setDreamMuffle(muffle: boolean): void {
     this.isMuffled = muffle;
     this.setFilterParams(muffle ? 320 : 18000, muffle ? 2.4 : 1.0, muffle ? 1.5 : 0.35);
-    if (muffle) this.playYakBeraPulse(0.8);
+    if (muffle && this.ctx && this.masterGain) {
+      stems.playInfantWhimper(this.ctx, this.masterGain);
+      stems.playYakBeraPulse(this.ctx, this.masterGain, 0.8);
+    }
   }
 
   public setFilterParams(hz: number, q: number, rampSec = 0.12): void {
@@ -136,40 +102,15 @@ class AudioMixerEngine {
 
   public playYakBeraPulse(intensity = 0.85): void {
     this.unlock();
-    if (!this.ctx || !this.masterGain) return;
-    const now = this.ctx.currentTime;
-    [0, 0.24].forEach((offset, idx) => {
-      const osc = this.ctx!.createOscillator();
-      const env = this.ctx!.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(idx === 0 ? 68 : 54, now + offset);
-      osc.frequency.exponentialRampToValueAtTime(26, now + offset + 0.45);
-      env.gain.setValueAtTime(0.001, now + offset);
-      env.gain.linearRampToValueAtTime(intensity * (idx === 0 ? 0.6 : 0.9), now + offset + 0.02);
-      env.gain.exponentialRampToValueAtTime(0.0001, now + offset + 0.55);
-      osc.connect(env);
-      env.connect(this.masterGain!);
-      osc.start(now + offset);
-      osc.stop(now + offset + 0.6);
-    });
+    if (this.ctx && this.masterGain) stems.playYakBeraPulse(this.ctx, this.masterGain, intensity);
   }
 
-  public playIronKeyResonance(): void {
+  public playIronKeyTone(): void {
     this.unlock();
-    if (!this.ctx || !this.masterGain) return;
-    const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const env = this.ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(528, now);
-    osc.frequency.exponentialRampToValueAtTime(522, now + 0.35);
-    env.gain.setValueAtTime(0.14, now);
-    env.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
-    osc.connect(env);
-    env.connect(this.masterGain);
-    osc.start(now);
-    osc.stop(now + 0.42);
+    if (this.ctx && this.masterGain) stems.playIronKeyTone(this.ctx, this.masterGain);
   }
+
+  public playIronKeyResonance(): void { this.playIronKeyTone(); }
 }
 
 export const audioMixer = new AudioMixerEngine();
