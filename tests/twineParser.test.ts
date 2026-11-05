@@ -4,7 +4,7 @@ import * as path from 'path';
 import { parseTweeStory, applyStateMutations } from '../src/core/twineParser';
 import { juiceDirector } from '../src/juice/JuiceDirector';
 import { textMutator } from '../src/juice/textMutator';
-import { RuntimeVariables } from '../src/core/schema';
+import { FlowLoopId, RuntimeVariables } from '../src/core/schema';
 
 describe('Deterministic Engine Core (twineParser, JuiceDirector, textMutator)', () => {
   const tweeContent = fs.readFileSync(
@@ -132,5 +132,32 @@ describe('Deterministic Engine Core (twineParser, JuiceDirector, textMutator)', 
 
     juiceDirector.setAnchorHeld(false);
     vi.useRealTimers();
+  });
+
+  it('parses Casefile 02 flow loop directives into valid FlowLoopId values', () => {
+    const rawTwee = `:: Passage_Bamboo [#flow:kandy_mist_bamboo]
+Bamboo grove.
+
+:: Passage_Silhouette [#flow:mohini_saree_silhouette]
+White saree on the roadside.
+
+:: Passage_Puddle [#flow:kaduru_puddle_feet]
+Reflections in the puddle.
+
+:: Passage_Torch [#flow:sanni_mask_torch]
+Torchlight flickering.
+`;
+    const parsed = parseTweeStory(rawTwee);
+    const expectedFlows: FlowLoopId[] = [
+      'kandy_mist_bamboo',
+      'mohini_saree_silhouette',
+      'kaduru_puddle_feet',
+      'sanni_mask_torch',
+    ];
+
+    expect(parsed['Passage_Bamboo'].directives.flow).toBe(expectedFlows[0]);
+    expect(parsed['Passage_Silhouette'].directives.flow).toBe(expectedFlows[1]);
+    expect(parsed['Passage_Puddle'].directives.flow).toBe(expectedFlows[2]);
+    expect(parsed['Passage_Torch'].directives.flow).toBe(expectedFlows[3]);
   });
 });

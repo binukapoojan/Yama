@@ -4,7 +4,11 @@ export type FlowLoopId =
   | 'bodima_rain_window'
   | 'pahana_steady'
   | 'pahana_nil_manel'
-  | 'mirror_dark_idle';
+  | 'mirror_dark_idle'
+  | 'kandy_mist_bamboo'
+  | 'mohini_saree_silhouette'
+  | 'kaduru_puddle_feet'
+  | 'sanni_mask_torch';
 
 export type HapticPatternId = 'heartbeat_slow' | 'heartbeat_panic' | 'dread_throb' | 'iron_grip';
 
