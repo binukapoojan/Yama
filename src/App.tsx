@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import rawTwee from '../story-twine/casefile01_kalu_kumara.twee?raw';
-import { RuntimeVariables, TwineChoice } from './core/schema';
+import rawCase01 from '../story-twine/casefile01_kalu_kumara.twee?raw';
+import rawCase02 from '../story-twine/casefile02_mohini.twee?raw';
+import { RuntimeVariables, SamayamVelava, StoryGraph, TwineChoice } from './core/schema';
 import { applyStateMutations, parseTweeStory } from './core/twineParser';
-import { decodeBulathPayload } from './core/bulathCodec';
+import { BulathHurullaPayload, decodeBulathPayload } from './core/bulathCodec';
 import { juiceDirector } from './juice/JuiceDirector';
 import { audioMixer } from './juice/audioMixer';
 import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor';
@@ -12,26 +13,39 @@ import { FlowBackdrop } from './components/viewport/FlowBackdrop';
 import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask';
 import { AudioMixerDebugPanel } from './components/debug/AudioMixerDebugPanel';
 
+export function resolveCasefileConfig(search: string, storyGraph: StoryGraph) {
+  const params = new URLSearchParams(search);
+  const token = params.get('bulath');
+  const incomingBulath: BulathHurullaPayload | null = token ? decodeBulathPayload(token) : null;
+  const val = (params.get('case') ?? params.get('casefile') ?? '').toLowerCase();
+  const isCase02 =
+    val === '2' || val === '02' || val === 'mohini' ||
+    incomingBulath?.avatar === 'MALA_MOHINI' || incomingBulath?.avatar === 'RATI_MOHINI';
+
+  const startingPassageId = isCase02
+    ? incomingBulath && storyGraph['Kattadiya_Mohini_Entry'] ? 'Kattadiya_Mohini_Entry' : 'Upper_Lake_Mist_Start'
+    : incomingBulath && storyGraph['Kattadiya_Sastra_Entry'] ? 'Kattadiya_Sastra_Entry' : 'Dusk_Balcony_Check';
+  const initialSamayam: SamayamVelava = isCase02 ? 'MADDHAMA_MIDNIGHT' : 'SANDHYA_DUSK';
+
+  return { isCase02, incomingBulath, startingPassageId, initialSamayam };
+}
+
 export const App: React.FC = () => {
-  const storyGraph = useMemo(() => parseTweeStory(rawTwee), []);
-
-  const incomingBulath = useMemo(() => {
-    if (typeof window === 'undefined') return null;
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('bulath');
-    return token ? decodeBulathPayload(token) : null;
-  }, []);
-
-  const [currentPassageId, setCurrentPassageId] = useState<string>(
-    incomingBulath && storyGraph['Kattadiya_Sastra_Entry'] ? 'Kattadiya_Sastra_Entry' : 'Dusk_Balcony_Check'
+  const storyGraph = useMemo(() => ({ ...parseTweeStory(rawCase01), ...parseTweeStory(rawCase02) }), []);
+  const { isCase02, incomingBulath, startingPassageId, initialSamayam } = useMemo(
+    () => resolveCasefileConfig(typeof window !== 'undefined' ? window.location.search : '', storyGraph),
+    [storyGraph]
   );
+
+  const [currentPassageId, setCurrentPassageId] = useState<string>(startingPassageId);
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(() => ({
     tanikama: incomingBulath?.tanikama ?? 50,
     balma: incomingBulath?.balma ?? 20,
-    samayam_velava: 'SANDHYA_DUSK',
+    samayam_velava: initialSamayam,
   }));
 
-  const activePassage = storyGraph[currentPassageId] ?? storyGraph['Dusk_Balcony_Check'];
+  const activePassage =
+    storyGraph[currentPassageId] ?? (isCase02 ? storyGraph['Upper_Lake_Mist_Start'] : storyGraph['Dusk_Balcony_Check']);
 
   useEffect(() => {
     const unlockAudio = () => audioMixer.unlock();
