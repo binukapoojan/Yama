@@ -1,130 +1,88 @@
+// story-twine/scripts/compile-twee-to-json.ts
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CasefileId } from '../../src/core/bulathCodec';
 import { FlowLoopId, HapticPatternId, SamayamVelava, StoryGraph } from '../../src/core/schema';
 import { parseTweeStory } from '../../src/core/twineParser';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '../..');
-const TWEE_FILES = [
-  path.join(ROOT_DIR, 'story-twine/casefile01_kalu_kumara.twee'),
-  path.join(ROOT_DIR, 'story-twine/casefile02_mohini.twee'),
-];
+const TWINE_DIR = path.join(ROOT_DIR, 'story-twine');
 const OUT_JSON_PATH = path.join(ROOT_DIR, 'src/core/compiledStory.json');
 const FLOW_DIR = path.join(ROOT_DIR, 'public/flow-loops');
 
+const CASEFILE_MANIFEST: ReadonlyArray<{
+  id: CasefileId;
+  file: string;
+  entries: readonly string[];
+}> = [
+  { id: 'CF01', file: 'casefile01_kalu_kumara.twee', entries: ['Dusk_Balcony_Check', 'Kattadiya_Sastra_Entry'] },
+  { id: 'CF02', file: 'casefile02_mohini.twee', entries: ['Upper_Lake_Mist_Start', 'Kattadiya_Mohini_Entry'] },
+];
+
 const VALID_FLOWS = new Set<FlowLoopId>([
-  'bodima_rain_window',
-  'pahana_steady',
-  'pahana_nil_manel',
-  'mirror_dark_idle',
-  'kandy_mist_bamboo',
-  'mohini_saree_silhouette',
-  'kaduru_puddle_feet',
-  'sanni_mask_torch',
+  'bodima_rain_window', 'pahana_steady', 'pahana_nil_manel', 'mirror_dark_idle',
+  'kandy_mist_bamboo', 'mohini_saree_silhouette', 'kaduru_puddle_feet', 'sanni_mask_torch',
 ]);
-const VALID_SAMAYAM = new Set<SamayamVelava>([
-  'ALUYA_DAWN',
-  'IRA_MUDUN_MIDDAY',
-  'SANDHYA_DUSK',
-  'MADDHAMA_MIDNIGHT',
-]);
-const VALID_HAPTICS = new Set<HapticPatternId>([
-  'heartbeat_slow',
-  'heartbeat_panic',
-  'dread_throb',
-  'iron_grip',
-]);
-const ENTRY_PASSAGES = new Set([
-  'Dusk_Balcony_Check',
-  'Kattadiya_Sastra_Entry',
-  'Upper_Lake_Mist_Start',
-  'Kattadiya_Mohini_Entry',
-]);
+const VALID_SAMAYAM = new Set<SamayamVelava>(['ALUYA_DAWN', 'IRA_MUDUN_MIDDAY', 'SANDHYA_DUSK', 'MADDHAMA_MIDNIGHT']);
+const VALID_HAPTICS = new Set<HapticPatternId>(['heartbeat_slow', 'heartbeat_panic', 'dread_throb', 'iron_grip']);
 
-function validateAndCompile(): void {
-  for (const filePath of TWEE_FILES) {
-    if (!fs.existsSync(filePath)) {
-      console.error(`[TWEE ERROR] Missing source file: ${filePath}`);
-      process.exit(1);
-    }
-  }
-
+function compileAnthology(): void {
+  const compiledAnthology: Partial<Record<CasefileId, StoryGraph>> = {};
   const errors: string[] = [];
   const warnings: string[] = [];
-  const mergedGraph: StoryGraph = {};
+  let totalPassages = 0;
 
-  for (const filePath of TWEE_FILES) {
+  for (const spec of CASEFILE_MANIFEST) {
+    const filePath = path.join(TWINE_DIR, spec.file);
+    if (!fs.existsSync(filePath)) {
+      errors.push(`[${spec.id}] Missing source file: story-twine/${spec.file}`);
+      continue;
+    }
+
     const rawTwee = fs.readFileSync(filePath, 'utf-8');
-    const fileName = path.basename(filePath);
+    auditRawLines(spec.id, rawTwee, errors);
 
-    // 1. Raw Line-Level Syntax Audit (Unclosed brackets & invalid header tags)
-    rawTwee.split(/\r?\n/).forEach((line, idx) => {
-      const lineNum = idx + 1;
-      const trimmed = line.trim();
-      if (trimmed.startsWith('::')) {
-        const tagMatch = /\[([^\]]*)\]/.exec(trimmed);
-        const rawTags = tagMatch ? tagMatch[1].trim().split(/\s+/).filter(Boolean) : [];
-        for (const tag of rawTags) {
-          if (!tag.startsWith('#')) continue;
-          const [k, v] = tag.slice(1).split(':');
-          if (k === 'flow' && !VALID_FLOWS.has(v as FlowLoopId)) {
-            errors.push(`${fileName}:${lineNum}: Invalid #flow loop "${v}".`);
-          }
-          if (k === 'samayam' && !VALID_SAMAYAM.has((v ?? '').toUpperCase() as SamayamVelava)) {
-            errors.push(`${fileName}:${lineNum}: Invalid #samayam tag "${v}".`);
-          }
-          if (k === 'haptic' && !VALID_HAPTICS.has(v as HapticPatternId)) {
-            errors.push(`${fileName}:${lineNum}: Invalid #haptic pattern "${v}".`);
-          }
-        }
-      } else if (trimmed.includes('[[') && !/^\[\[([^\]|]+?)(?:->|\|)([^\]]+?)\](?:\[([^\]]+)\])?\]?/.test(trimmed)) {
-        errors.push(`${fileName}:${lineNum}: Malformed choice link syntax: "${trimmed}"`);
-      }
-    });
+    const graph = parseTweeStory(rawTwee);
+    const passageIds = new Set(Object.keys(graph));
+    const reachable = new Set<string>(spec.entries);
 
-    const fileGraph = parseTweeStory(rawTwee);
-    for (const [name, passage] of Object.entries(fileGraph)) {
-      if (mergedGraph[name]) {
-        errors.push(`Duplicate passage "${name}" found in ${fileName}.`);
-      }
-      mergedGraph[name] = passage;
-    }
-  }
-
-  // 2. Structural Graph & {mutate} Token Audit
-  const passageIds = new Set(Object.keys(mergedGraph));
-  const incomingLinks = new Set<string>(ENTRY_PASSAGES);
-
-  for (const [name, passage] of Object.entries(mergedGraph)) {
-    if (passage.directives.flow) {
-      const videoFile = path.join(FLOW_DIR, `${passage.directives.flow}.webm`);
-      if (!fs.existsSync(videoFile)) {
-        warnings.push(`[${name}] Flow video not yet on disk: public/flow-loops/${passage.directives.flow}.webm`);
+    for (const entry of spec.entries) {
+      if (!passageIds.has(entry)) {
+        errors.push(`[${spec.id}] Required entry passage ":: ${entry}" is missing in ${spec.file}.`);
       }
     }
 
-    passage.paragraphs.forEach((para, pIdx) => {
-      for (const seg of para) {
-        if (seg.type === 'plain' && (/\{mutate/i.test(seg.text) || /"->"/i.test(seg.text))) {
-          errors.push(`[${name}] Paragraph ${pIdx + 1} has malformed {mutate: "A" -> "B"} syntax: "${seg.text}"`);
+    for (const [name, passage] of Object.entries(graph)) {
+      if (passage.directives.flow) {
+        const webmPath = path.join(FLOW_DIR, `${passage.directives.flow}.webm`);
+        if (!fs.existsSync(webmPath)) {
+          warnings.push(`[${spec.id}:${name}] Flow video missing on disk: public/flow-loops/${passage.directives.flow}.webm`);
         }
       }
-    });
-
-    for (const choice of passage.choices) {
-      if (!passageIds.has(choice.targetPassage)) {
-        errors.push(`[${name}] Broken choice link -> "${choice.targetPassage}" (target passage does not exist).`);
-      } else {
-        incomingLinks.add(choice.targetPassage);
+      passage.paragraphs.forEach((para, pIdx) => {
+        for (const seg of para) {
+          if (seg.type === 'plain' && (/\{mutate/i.test(seg.text) || /"->"/i.test(seg.text))) {
+            errors.push(`[${spec.id}:${name}] Para ${pIdx + 1} has malformed {mutate} syntax: "${seg.text}"`);
+          }
+        }
+      });
+      for (const choice of passage.choices) {
+        if (!passageIds.has(choice.targetPassage)) {
+          errors.push(`[${spec.id}:${name}] Broken link -> "${choice.targetPassage}" does not exist in ${spec.file}.`);
+        } else {
+          reachable.add(choice.targetPassage);
+        }
       }
     }
-  }
 
-  for (const id of passageIds) {
-    if (!incomingLinks.has(id)) {
-      warnings.push(`[${id}] Orphan passage: no incoming choice links point to this passage.`);
+    for (const id of passageIds) {
+      if (!reachable.has(id)) warnings.push(`[${spec.id}:${id}] Orphan passage: no incoming choice links.`);
     }
+
+    compiledAnthology[spec.id] = graph;
+    totalPassages += passageIds.size;
   }
 
   warnings.forEach((w) => console.warn(`\x1b[33mWARN:\x1b[0m ${w}`));
@@ -133,8 +91,27 @@ function validateAndCompile(): void {
     process.exit(1);
   }
 
-  fs.writeFileSync(OUT_JSON_PATH, JSON.stringify(mergedGraph, null, 2), 'utf-8');
-  console.log(`\x1b[32m[TWEE OK]\x1b[0m Compiled ${passageIds.size} passages -> src/core/compiledStory.json`);
+  fs.writeFileSync(OUT_JSON_PATH, JSON.stringify(compiledAnthology, null, 2), 'utf-8');
+  console.log(`\x1b[32m[TWEE OK]\x1b[0m Validated ${CASEFILE_MANIFEST.length} casefiles (${totalPassages} passages) -> src/core/compiledStory.json`);
 }
 
-validateAndCompile();
+function auditRawLines(caseId: CasefileId, rawTwee: string, errors: string[]): void {
+  rawTwee.split(/\r?\n/).forEach((line, idx) => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('::')) {
+      const tagMatch = /\[([^\]]*)\]/.exec(trimmed);
+      const tags = tagMatch ? tagMatch[1].trim().split(/\s+/).filter(Boolean) : [];
+      for (const tag of tags) {
+        if (!tag.startsWith('#')) continue;
+        const [k, v] = tag.slice(1).split(':');
+        if (k === 'flow' && !VALID_FLOWS.has(v as FlowLoopId)) errors.push(`[${caseId}:L${idx + 1}] Invalid #flow "${v}".`);
+        if (k === 'samayam' && !VALID_SAMAYAM.has((v ?? '').toUpperCase() as SamayamVelava)) errors.push(`[${caseId}:L${idx + 1}] Invalid #samayam "${v}".`);
+        if (k === 'haptic' && !VALID_HAPTICS.has(v as HapticPatternId)) errors.push(`[${caseId}:L${idx + 1}] Invalid #haptic "${v}".`);
+      }
+    } else if (trimmed.includes('[[') && !/^\[\[([^\]|]+?)(?:->|\|)([^\]]+?)\](?:\[([^\]]*)\])?\]?/.test(trimmed)) {
+      errors.push(`[${caseId}:L${idx + 1}] Malformed choice syntax: "${trimmed}"`);
+    }
+  });
+}
+
+compileAnthology();

@@ -2,6 +2,7 @@ import { RuntimeVariables } from './schema';
 
 export type AvatarType = 'HANDUN_KUMARA' | 'VATHA_KUMARA' | 'MALA_MOHINI' | 'RATI_MOHINI';
 export type KaluKumaraAvatar = AvatarType;
+export type CasefileId = 'CF01' | 'CF02';
 export type BlemishType = 'DARK_BRUISE' | 'VEIN_KNOT' | 'PINHOLE_TEAR' | 'OILY_SHEEN' | 'STEM_ROT';
 
 export interface BulathBlemish {
