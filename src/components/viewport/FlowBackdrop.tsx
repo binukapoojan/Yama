@@ -7,6 +7,10 @@ const FLOW_LOOPS: FlowLoopId[] = [
   'pahana_steady',
   'pahana_nil_manel',
   'mirror_dark_idle',
+  'kandy_mist_bamboo',
+  'mohini_saree_silhouette',
+  'kaduru_puddle_feet',
+  'sanni_mask_torch',
 ];
 
 export const FlowBackdrop: React.FC = () => {

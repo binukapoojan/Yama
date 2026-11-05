@@ -17,6 +17,13 @@ const HAPTIC_PATTERNS: Record<HapticPatternId, number[]> = {
   iron_grip: [18, 35, 12],
 };
 
+const MOHINI_LOOPS: ReadonlySet<FlowLoopId> = new Set([
+  'mohini_saree_silhouette',
+  'kandy_mist_bamboo',
+  'kaduru_puddle_feet',
+  'sanni_mask_torch',
+]);
+
 class JuiceDirectorEngine {
   private listeners: { [K in keyof JuiceEventMap]?: Set<Listener<any>> } = {};
   private anchorHeld = false;
@@ -39,13 +46,17 @@ class JuiceDirectorEngine {
     return this.anchorHeld;
   }
 
+  private getProtectedLoop(): FlowLoopId {
+    return MOHINI_LOOPS.has(this.activePassageLoop) ? 'kaduru_puddle_feet' : 'pahana_steady';
+  }
+
   public enterPassage(passage: TwinePassage, currentBalma: number): void {
     const { directives } = passage;
 
     if (directives.flow) {
       this.activePassageLoop = directives.flow;
       this.emit('FLOW_CROSSFADE', {
-        loopId: this.anchorHeld ? 'pahana_steady' : this.activePassageLoop,
+        loopId: this.anchorHeld ? this.getProtectedLoop() : this.activePassageLoop,
         isProtectedOverride: this.anchorHeld,
       });
     }
@@ -76,7 +87,7 @@ class JuiceDirectorEngine {
 
     if (held) {
       this.triggerHaptic('iron_grip');
-      this.emit('FLOW_CROSSFADE', { loopId: 'pahana_steady', isProtectedOverride: true });
+      this.emit('FLOW_CROSSFADE', { loopId: this.getProtectedLoop(), isProtectedOverride: true });
       this.emit('AUDIO_CUE', { cueId: this.activeAudioCue, muffleDreamFilter: false });
     } else {
       this.emit('FLOW_CROSSFADE', { loopId: this.activePassageLoop, isProtectedOverride: false });
