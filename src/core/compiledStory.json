@@ -1,0 +1,1093 @@
+{
+  "Dusk_Balcony_Check": {
+    "name": "Dusk_Balcony_Check",
+    "directives": {
+      "samayam": "SANDHYA_DUSK",
+      "flow": "bodima_rain_window",
+      "audio": "monsoon_light",
+      "haptic": "heartbeat_slow",
+      "vignette": 0.52
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "The CEB transformer down on High Level Road pops with a dull blue flash. Inside your second-floor Nugegoda annex, the ceiling fan clicks once and begins spinning down in the humid dark."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Water from your late-evening shower still drips from the ends of your hair onto your collarbone. Outside the frosted naco louver blades, monsoon rain hammers the Amano tin roof. Your washed clothes are still hanging on the concrete balcony wire. The wall clock reads "
+        },
+        {
+          "type": "mutate",
+          "id": "Dusk_Balcony_Check_p1_m0",
+          "wakingText": "6:14 PM",
+          "corruptedText": "6:66 PM — THE SAMAYAM WATCH",
+          "delayMs": 2800
+        },
+        {
+          "type": "plain",
+          "text": "."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Step out onto the wet balcony to pull the clothes off the wire",
+        "targetPassage": "Balcony_Rain_Breach",
+        "mutations": [
+          {
+            "variable": "taboo_laundry",
+            "operator": "=",
+            "value": true
+          },
+          {
+            "variable": "taboo_bathed_dusk",
+            "operator": "=",
+            "value": true
+          },
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 15
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Leave the laundry in the rain and latch the wooden louver door",
+        "targetPassage": "Louver_Latch_Safe",
+        "mutations": [
+          {
+            "variable": "taboo_bathed_dusk",
+            "operator": "=",
+            "value": true
+          },
+          {
+            "variable": "tanikama",
+            "operator": "+=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Balcony_Rain_Breach": {
+    "name": "Balcony_Rain_Breach",
+    "directives": {
+      "samayam": "SANDHYA_DUSK",
+      "flow": "pahana_nil_manel",
+      "audio": "monsoon_heavy",
+      "haptic": "dread_throb",
+      "vignette": 0.64,
+      "balmaDelta": 10
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "You unlatch the balcony door and step onto the slick cement. The streetlights along the lane are dead. As you gather the damp cotton fabric into your arms, the wind shifts up from the canal behind the boarding house."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "The rain does not smell like wet tar or diesel exhaust anymore. Clinging to the damp sleeves in your arms is the heavy, sweet stench of "
+        },
+        {
+          "type": "mutate",
+          "id": "Balcony_Rain_Breach_p1_m0",
+          "wakingText": "laundry soap and rain",
+          "corruptedText": "bruised Nil Manel water-lilies and crushed sandalwood",
+          "delayMs": 2400
+        },
+        {
+          "type": "plain",
+          "text": ". Down in the banana grove by the boundary wall, something tall stands motionless between the wet leaves."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Shake the damp clothes out three times over the rail before stepping back",
+        "targetPassage": "Evening_Hair_And_Hearth",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "+=",
+            "value": 5
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Clutch the cold bundle tight against your chest and hurry inside",
+        "targetPassage": "Evening_Hair_And_Hearth",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 15
+          },
+          {
+            "variable": "tanikama",
+            "operator": "+=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Louver_Latch_Safe": {
+    "name": "Louver_Latch_Safe",
+    "directives": {
+      "samayam": "SANDHYA_DUSK",
+      "flow": "pahana_steady",
+      "audio": "monsoon_heavy",
+      "vignette": 0.48
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "You slide the brass bolt across the wooden door without stepping outside. Through the slanted glass louver blades, the damp clothes whip violently in a gust that does not touch the mango tree beside them."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "A thin draft leaks through the frame, carrying a trace of "
+        },
+        {
+          "type": "mutate",
+          "id": "Louver_Latch_Safe_p1_m0",
+          "wakingText": "wet garden soil",
+          "corruptedText": "cold river mud and dark musk",
+          "delayMs": 3000
+        },
+        {
+          "type": "plain",
+          "text": ". On the narrow shelf beside your study table sits a small brass pahana lamp with a cotton wick and a bottle of coconut oil left by your mother."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Strike a match and light the brass pahana on the shelf",
+        "targetPassage": "Evening_Hair_And_Hearth",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "-=",
+            "value": 5
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Save the oil and use your phone screen to see in the dark",
+        "targetPassage": "Evening_Hair_And_Hearth",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "+=",
+            "value": 15
+          },
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Evening_Hair_And_Hearth": {
+    "name": "Evening_Hair_And_Hearth",
+    "directives": {
+      "samayam": "SANDHYA_DUSK",
+      "flow": "bodima_rain_window",
+      "audio": "monsoon_heavy",
+      "haptic": "heartbeat_slow",
+      "vignette": 0.58
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "Your roommate will not be back from Kandy until Sunday evening. The annex feels smaller in the blackout, cut off from the main house below by an external concrete staircase."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Your wet hair hangs heavy and cold against the nape of your neck. On the corner of your desk sits an open tin of sweet oil-fried kevum and aggala you bought near the railway station at sunset. In the quiet between thunderclaps, you hear "
+        },
+        {
+          "type": "mutate",
+          "id": "Evening_Hair_And_Hearth_p1_m0",
+          "wakingText": "water dripping into the plastic bucket",
+          "corruptedText": "soft, bare footsteps pausing outside your bathroom door",
+          "delayMs": 2600
+        },
+        {
+          "type": "plain",
+          "text": "."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Leave your damp hair loose and eat a sweet kevum in the dark",
+        "targetPassage": "Vanity_Mirror_Threshold",
+        "mutations": [
+          {
+            "variable": "taboo_hair_unbound",
+            "operator": "=",
+            "value": true
+          },
+          {
+            "variable": "taboo_sweet_snacks",
+            "operator": "=",
+            "value": true
+          },
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 20
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Twist your wet hair up with a brass pin and close the sweetmeat tin",
+        "targetPassage": "Vanity_Mirror_Threshold",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "+=",
+            "value": 5
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Leave your hair unbound to dry, but push the oil-cakes away",
+        "targetPassage": "Vanity_Mirror_Threshold",
+        "mutations": [
+          {
+            "variable": "taboo_hair_unbound",
+            "operator": "=",
+            "value": true
+          },
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Vanity_Mirror_Threshold": {
+    "name": "Vanity_Mirror_Threshold",
+    "directives": {
+      "samayam": "SANDHYA_DUSK",
+      "flow": "mirror_dark_idle",
+      "audio": "ceb_power_cut",
+      "haptic": "heartbeat_slow",
+      "vignette": 0.68
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "By nine o'clock the rain settles into a relentless, suffocating drumbeat on the tin roof. Fatigue pulls at your eyelids, heavy and warm, though the air in the corner of the room has turned bitingly cold."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Directly opposite the foot of your bed stands the tall wooden dressing table. Its unshrouded mirror faces your pillow. In the dim amber glow of the brass wick, the tarnished glass reflects the white mosquito net hanging over your mattress—and "
+        },
+        {
+          "type": "mutate",
+          "id": "Vanity_Mirror_Threshold_p1_m0",
+          "wakingText": "the empty shadow of the wardrobe behind it",
+          "corruptedText": "a dark, broad-shouldered silhouette standing just behind the net",
+          "delayMs": 2500
+        },
+        {
+          "type": "plain",
+          "text": "."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Drape a cotton bath towel over the mirror without looking into the glass",
+        "targetPassage": "Midnight_Phone_Intrusion",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "-=",
+            "value": 5
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Wipe the moisture from the mirror and inspect the reflection closely",
+        "targetPassage": "Mirror_Gaze_Trap",
+        "mutations": [
+          {
+            "variable": "taboo_mirror_unshrouded",
+            "operator": "=",
+            "value": true
+          },
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 25
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Crawl straight under the mosquito net leaving the mirror uncovered",
+        "targetPassage": "Midnight_Phone_Intrusion",
+        "mutations": [
+          {
+            "variable": "taboo_mirror_unshrouded",
+            "operator": "=",
+            "value": true
+          },
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 15
+          },
+          {
+            "variable": "tanikama",
+            "operator": "+=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Mirror_Gaze_Trap": {
+    "name": "Mirror_Gaze_Trap",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "mirror_dark_idle",
+      "audio": "ceb_power_cut",
+      "haptic": "dread_throb",
+      "vignette": 0.78,
+      "balmaDelta": 15
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "You lean toward the glass. Your own eyes stare back, wide and dark, framed by damp strands of hair. For three heartbeats nothing moves."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Then your reflection "
+        },
+        {
+          "type": "mutate",
+          "id": "Mirror_Gaze_Trap_p1_m0",
+          "wakingText": "blinks in time with you",
+          "corruptedText": "smiles slowly while your own mouth stays frozen shut",
+          "delayMs": 2100
+        },
+        {
+          "type": "plain",
+          "text": ". A scent of crushed blue lotus petals rises from the backing of the mirror, so thick it coats the back of your throat. Beneath your pillow on the bed lies the old iron key your grandmother tied with a white Pirith thread."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Grip the iron key under the pillow and step backward without looking",
+        "targetPassage": "Midnight_Phone_Intrusion",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "-=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": true
+      },
+      {
+        "label": "Stumble back onto the mattress as cold breath fogs the glass from within",
+        "targetPassage": "Midnight_Phone_Intrusion",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 15
+          },
+          {
+            "variable": "tanikama",
+            "operator": "+=",
+            "value": 15
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Midnight_Phone_Intrusion": {
+    "name": "Midnight_Phone_Intrusion",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "pahana_nil_manel",
+      "audio": "ceb_power_cut",
+      "haptic": "heartbeat_panic",
+      "vignette": 0.76
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "You lie beneath the tucked mosquito net. Your phone vibrates once against the mattress. The battery icon is gone; the clock in the corner is locked at 11:59 PM."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "A message banner glows on the dark glass: "
+        },
+        {
+          "type": "mutate",
+          "id": "Midnight_Phone_Intrusion_p1_m0",
+          "wakingText": "Amma: Did you lock the balcony door properly?",
+          "corruptedText": "He is already inside the net with you. Let go of the iron key.",
+          "delayMs": 2300
+        },
+        {
+          "type": "plain",
+          "text": ". Across the room, the flame of the brass pahana stretches horizontally, turning a deep, bruised indigo-violet as if drawn by a long inhalation."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Tap the screen to reply to the message in the dark",
+        "targetPassage": "Sleep_Paralysis_Weight",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 20
+          },
+          {
+            "variable": "tanikama",
+            "operator": "+=",
+            "value": 15
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Turn the phone face down and hold the cold iron key beneath your pillow",
+        "targetPassage": "Sleep_Paralysis_Weight",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "-=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": true
+      },
+      {
+        "label": "Watch the top of the mosquito net where the white mesh is bowing down",
+        "targetPassage": "Sleep_Paralysis_Weight",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 15
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Sleep_Paralysis_Weight": {
+    "name": "Sleep_Paralysis_Weight",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "pahana_nil_manel",
+      "audio": "yak_bera_ritual",
+      "haptic": "heartbeat_panic",
+      "vignette": 0.86,
+      "balmaDelta": 15
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "The mattress sinks beside your hip. A crushing, velvet weight settles directly across your sternum, pinning your ribs until your lungs burn for air."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Seven overlapping voices whisper from the corners of the ceiling like rustling silk sarees, while a face of polished night leans down through the mesh. His breath smells of sandalwood paste, frying oil, and river silt. He whispers into your ear: "
+        },
+        {
+          "type": "mutate",
+          "id": "Sleep_Paralysis_Weight_p1_m0",
+          "wakingText": "Open your fingers. Drop the cold iron and sleep.",
+          "corruptedText": "I have no warrant over those who hold iron and remember the Queen Mother.",
+          "delayMs": 2200
+        },
+        {
+          "type": "plain",
+          "text": "."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Keep the iron key pressed into your palm and bite your tongue until dawn",
+        "targetPassage": "Outcome_Athura_Survived",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "-=",
+            "value": 25
+          }
+        ],
+        "requiresAnchorHeld": true
+      },
+      {
+        "label": "Open your fingers and breathe in the sweet blue lotus air",
+        "targetPassage": "Outcome_Athura_Possessed",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 40
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Try to scream at the face pressing through the mosquito net",
+        "targetPassage": "Outcome_Athura_Possessed",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 30
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Outcome_Athura_Survived": {
+    "name": "Outcome_Athura_Survived",
+    "directives": {
+      "samayam": "ALUYA_DAWN",
+      "flow": "pahana_steady",
+      "audio": "monsoon_light",
+      "haptic": "iron_grip",
+      "vignette": 0.35
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "The iron key bites deep into your palm, warm with your pulse. As the first crow calls from the wet jak tree outside and a morning bus horn echoes down High Level Road, the crushing weight lifts from your chest all at once."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "The brass pahana flame snaps upright, burning clear golden-amber again. On the floor outside the mosquito net lies a single bruised Nil Manel petal, already shriveling into harmless black ash in the grey dawn light. You survived the Samayam watch unbroken."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Examine the forensic aftermath from the Kattadiya perspective",
+        "targetPassage": "Kattadiya_Sastra_Entry",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "=",
+            "value": 40
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Relive Tuesday dusk in the Nugegoda annex",
+        "targetPassage": "Dusk_Balcony_Check",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "=",
+            "value": 20
+          },
+          {
+            "variable": "tanikama",
+            "operator": "=",
+            "value": 50
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Outcome_Athura_Possessed": {
+    "name": "Outcome_Athura_Possessed",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "mirror_dark_idle",
+      "audio": "yak_bera_ritual",
+      "haptic": "dread_throb",
+      "vignette": 0.88
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "Your fingers slacken. The iron key slips from the edge of the mattress and clinks onto the cement floor. Cold water-lily petals fill your mouth and lungs as the indigo dark closes over the mosquito net."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Three days later, the private hospital in Colombo discharges you with unexplained delirium and a fever that will not break. You lie staring at the ceiling fan, whispering to the empty corner by the mirror, while your terrified mother sends a Bulath Hurulla sheaf south to summon a Kattadiya."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Accept the Bulath Hurulla and step into the Kattadiya role",
+        "targetPassage": "Kattadiya_Sastra_Entry",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "=",
+            "value": 75
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Return to Tuesday dusk in the annex",
+        "targetPassage": "Dusk_Balcony_Check",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "=",
+            "value": 20
+          },
+          {
+            "variable": "tanikama",
+            "operator": "=",
+            "value": 50
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Kattadiya_Sastra_Entry": {
+    "name": "Kattadiya_Sastra_Entry",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "pahana_steady",
+      "audio": "monsoon_light",
+      "haptic": "iron_grip",
+      "vignette": 0.45
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "It is 10:15 PM on Friday. You sit cross-legged on a woven reed mat in the narrow living room of the Nugegoda annex, your brass pahana burning steadily before you. In the bedroom behind the curtain, the twenty-one-year-old student murmurs feverishly in her sleep."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Her mother kneels and places the Bulath Hurulla sheaf into your hands. Following the silent discipline of the Sastra-kariya, you ask zero questions. You lift the top dark-green betel leaf toward the golden flame to read the Lakunu encoded in its veins."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Pass the Pahana flame behind the betel leaf to read its veins and blemishes",
+        "targetPassage": "Sastra_Vein_Deduction",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "-=",
+            "value": 5
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Enter the bedroom first to inspect the thresholds and check her Nadi pulse",
+        "targetPassage": "Bedroom_Lakunu_Forensics",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "-=",
+            "value": 5
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Sastra_Vein_Deduction": {
+    "name": "Sastra_Vein_Deduction",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "pahana_steady",
+      "audio": "ceb_power_cut",
+      "haptic": "heartbeat_slow",
+      "vignette": 0.52
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "As the amber light pierces the waxy blade of the betel leaf, the internal geometry glows like gold wire. The stem bends northwest toward the canal."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Where dusk water touched her hair, a dark bruise clouds the leaf apex; where the unshrouded mirror caught her reflection, a pinhole pierces the midrib; where sweet oil-cakes or damp laundry lingered past six o'clock, oily knots thicken the lower veins. This is not natural fever: "
+        },
+        {
+          "type": "mutate",
+          "id": "Sastra_Vein_Deduction_p1_m0",
+          "wakingText": "the veins appear calm at first glance",
+          "corruptedText": "Kalu Kumara has fixed his Balma upon the household",
+          "delayMs": 2400
+        },
+        {
+          "type": "plain",
+          "text": "."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Step into the bedroom to verify the physical Lakunu and Nadi pulse",
+        "targetPassage": "Bedroom_Lakunu_Forensics",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 5
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Call for gokkola fronds to weave the Pideni Thattuwa offering tray",
+        "targetPassage": "Pideni_Altar_Preparation",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Bedroom_Lakunu_Forensics": {
+    "name": "Bedroom_Lakunu_Forensics",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "mirror_dark_idle",
+      "audio": "ceb_power_cut",
+      "haptic": "heartbeat_slow",
+      "vignette": 0.62
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "Inside the cramped bedroom, you press three fingers to the girl's wrist. Her Nadi pulse leaps erratically between Vatha and Pitta—hot blood racing beneath ice-cold skin."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "You inspect the room without speaking: the vanity mirror stands directly aligned with the pillow, the balcony louver latch smells faintly of bruised water-lilies, and ants trail toward an old tin of sweetmeats. There is no buried Kodivina charm beneath the threshold; she was struck in Tanikama during the dusk watch."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Confirm Kalu Kumara Balma and prepare the Pideni Thattuwa altar",
+        "targetPassage": "Pideni_Altar_Preparation",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "-=",
+            "value": 10
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Return to the brass lamp to re-examine the betel leaf veins",
+        "targetPassage": "Sastra_Vein_Deduction",
+        "mutations": [
+          {
+            "variable": "tanikama",
+            "operator": "-=",
+            "value": 5
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Pideni_Altar_Preparation": {
+    "name": "Pideni_Altar_Preparation",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "pahana_steady",
+      "audio": "yak_bera_ritual",
+      "haptic": "iron_grip",
+      "vignette": 0.55
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "Midnight approaches. In the tight annex living room, you lash split bamboo and pale yellow gokkola strips into a square Pideni Thattuwa frame. At the four cardinal points you set seven bruised flowers, sweet kevum, charred pulutu meat, and powdered dummala resin."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "In the center rests the wet clay Bali Pili effigy of the Dark Prince. Before sealing the offering with blood and turmeric, you must turn the effigy's face toward the exact avatar revealed by the betel leaf: East toward the sweetmeats for the seductive Handun Kumara, or West toward the burnt offerings for the suffocating Vatha Kumara."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Turn the clay effigy East to bind Handun Kumara and begin the Samayama",
+        "targetPassage": "Midnight_Samayama_Confrontation",
+        "mutations": [
+          {
+            "variable": "avatar_chosen",
+            "operator": "=",
+            "value": "HANDUN_KUMARA"
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Turn the clay effigy West to bind Vatha Kumara and begin the Samayama",
+        "targetPassage": "Midnight_Samayama_Confrontation",
+        "mutations": [
+          {
+            "variable": "avatar_chosen",
+            "operator": "=",
+            "value": "VATHA_KUMARA"
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Midnight_Samayama_Confrontation": {
+    "name": "Midnight_Samayama_Confrontation",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "pahana_nil_manel",
+      "audio": "yak_bera_ritual",
+      "haptic": "heartbeat_panic",
+      "vignette": 0.82,
+      "balmaDelta": 15
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "The low-country yak bera drum thunders against the apartment walls. You cast a handful of dummala resin across the torch flame—a sheet of blinding amber fire roars toward the ceiling, forcing the shadow out of the bedroom doorway."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "The pahana flame bends flat, turning indigo as Kalu Kumara tries to twist your tongue inside the mantra: "
+        },
+        {
+          "type": "mutate",
+          "id": "Midnight_Samayama_Confrontation_p1_m0",
+          "wakingText": "You have no jurisdiction in a concrete city, old man",
+          "corruptedText": "By the Varama of the Buddha and the Seven Barren Queens, confess and depart",
+          "delayMs": 2200
+        },
+        {
+          "type": "plain",
+          "text": ". You must anchor the cold iron ward to lock the true liturgical words in place before striking the clay effigy."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Hold the iron ward, recite the Rata Yakuma warrant, and sever the bond",
+        "targetPassage": "Outcome_Kattadiya_Banished",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "=",
+            "value": 0
+          }
+        ],
+        "requiresAnchorHeld": true
+      },
+      {
+        "label": "Shout the mantra and strike the effigy without holding the iron ward",
+        "targetPassage": "Outcome_Kattadiya_Backfire",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "+=",
+            "value": 35
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Outcome_Kattadiya_Banished": {
+    "name": "Outcome_Kattadiya_Banished",
+    "directives": {
+      "samayam": "ALUYA_DAWN",
+      "flow": "pahana_steady",
+      "audio": "monsoon_light",
+      "haptic": "iron_grip",
+      "vignette": 0.32
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "With the iron ward locked under your thumb, your voice cuts through the indigo smoke without faltering. You bring the plantain blade down across the edge of the Pideni Thattuwa. A sharp crack echoes through the room as the clay effigy splits cleanly down its chest, accepting the surrogate tribute."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "In the bedroom, the girl draws a long, clear breath. Her fever breaks into cool sweat. You knot the white Pirith Nula thread three times around her wrist as the first light of dawn touches the Nugegoda rooftops, carrying the woven tray out to the crossroads to rot in the sun."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Begin a new playthrough from Tuesday dusk in the annex",
+        "targetPassage": "Dusk_Balcony_Check",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "=",
+            "value": 20
+          },
+          {
+            "variable": "tanikama",
+            "operator": "=",
+            "value": 50
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Inspect a new Bulath Hurulla sheaf in Kattadiya Mode",
+        "targetPassage": "Kattadiya_Sastra_Entry",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "=",
+            "value": 25
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  },
+  "Outcome_Kattadiya_Backfire": {
+    "name": "Outcome_Kattadiya_Backfire",
+    "directives": {
+      "samayam": "MADDHAMA_MIDNIGHT",
+      "flow": "mirror_dark_idle",
+      "audio": "yak_bera_ritual",
+      "haptic": "dread_throb",
+      "vignette": 0.88
+    },
+    "paragraphs": [
+      [
+        {
+          "type": "plain",
+          "text": "Without the iron ward anchoring your hand, the indigo draft twists the final syllable of the mantra in your throat. The dummala torch sputters out in acrid black smoke."
+        }
+      ],
+      [
+        {
+          "type": "plain",
+          "text": "Inside the bedroom, the vanity mirror cracks from corner to corner, and a low laugh echoes from behind the mosquito net. The clay effigy on the Pideni Thattuwa remains whole and cold. You must steady the lamp and re-consecrate the altar before dawn slips away."
+        }
+      ]
+    ],
+    "choices": [
+      {
+        "label": "Re-light the brass pahana and rebuild the Pideni Thattuwa altar",
+        "targetPassage": "Pideni_Altar_Preparation",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "=",
+            "value": 40
+          }
+        ],
+        "requiresAnchorHeld": false
+      },
+      {
+        "label": "Return to the Sastra betel leaf inspection",
+        "targetPassage": "Kattadiya_Sastra_Entry",
+        "mutations": [
+          {
+            "variable": "balma",
+            "operator": "=",
+            "value": 30
+          }
+        ],
+        "requiresAnchorHeld": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+:root {
+  --lamp-x: 50%;
+  --lamp-y: 42%;
+  --lamp-radius: 40vmax;
+  --lamp-darkness: 0.65;
+  --lamp-core-color: rgba(200, 150, 62, 0.09);
+}
+
+.duration-1200 {
+  transition-duration: 1200ms;
+}

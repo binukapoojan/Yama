@@ -1,0 +1,84 @@
+{
+  "projectId": "2166967115891669611",
+  "projectTitle": "Diegetic Narrative Horror Interface",
+  "screens": [
+    {
+      "id": "0e29a98fe4654db3851758bc6c6178cb",
+      "folder": "01_echoes_narrative_interface",
+      "title": "Echoes of the Hallway - Narrative Interface",
+      "deviceType": "MOBILE",
+      "resolution": "780x2642",
+      "hasHtml": true,
+      "hostedImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBGwMjv6dgWXGetZsRV6bUsS9X44FHAPX3w_aF9nOoHy8gchPWFINhxpDSewkJhDBmCwAPiAFmml6YkkrXgpY6ZKPH5ODOySfXjTs5pXJ-XppKw7FZvw5t_8pw6ewRWMZsocwWFjCGiFeUZ2v6dZEaT1idpRMwg8RDR8bLCuWEckG354JMBCNZTGzfrV5-2yVfhaAeXE3eu-_iDi8brwPmXLHnuUENKjFrAmpXoYDg",
+      "files": [
+        "screen.html",
+        "screenshot.png",
+        "hosted_image.jpg"
+      ]
+    },
+    {
+      "id": "203fc83f88ed4128a291abd6849dbd97",
+      "folder": "02_memory_flashback_16_9",
+      "title": "Cinematic psychological horror memory flashback scene, wide 16:9 landscape format",
+      "deviceType": "IMAGE_ASSET",
+      "resolution": "1376x768",
+      "hasHtml": false,
+      "hostedImageUrl": null,
+      "files": [
+        "screenshot.png"
+      ]
+    },
+    {
+      "id": "3c668630bcdc4fb899e416141f718098",
+      "folder": "03_echoes_desktop_widescreen",
+      "title": "Echoes of the Hallway - Desktop 16:9 Widescreen",
+      "deviceType": "DESKTOP",
+      "resolution": "2560x2336",
+      "hasHtml": true,
+      "hostedImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAl8PVu6EVnNHS80EyRqXYDlOo-AGHxBTzcALJLoC2UosyLQLGBEHfZGnTLcYoDljcC8C_IFP4qDHUAmUecFXNZnh_y5BN-9SAw0XAvx75KZBS8UBenAmo56uKcZbB6vtRcoHaI1M1oepnGdOZMEV3iDsu1a1YZU2Ka2dgIzCyhZWHNKxJGv5VBbjThpuvtsX7nnE6lLEYooGMDd3tvxvlC9KyCE-OvK2sMlF-FzYA",
+      "files": [
+        "screen.html",
+        "screenshot.png",
+        "hosted_image.jpg"
+      ]
+    },
+    {
+      "id": "7fb14b23c8d44a939fce4e7240a6d65f",
+      "folder": "04_midnight_hallway_portrait",
+      "title": "Cinematic psychological horror scene, vintage East Asian or rural misty school hallway at midnight (Portrait)",
+      "deviceType": "IMAGE_ASSET",
+      "resolution": "768x1376",
+      "hasHtml": false,
+      "hostedImageUrl": null,
+      "files": [
+        "screenshot.png"
+      ]
+    },
+    {
+      "id": "911002e6da8448dd957439c09af9aef1",
+      "folder": "05_midnight_hallway_landscape_16_9",
+      "title": "Cinematic psychological horror scene, wide 16:9 landscape format, corridor at midnight",
+      "deviceType": "IMAGE_ASSET",
+      "resolution": "1376x768",
+      "hasHtml": false,
+      "hostedImageUrl": null,
+      "files": [
+        "screenshot.png"
+      ]
+    },
+    {
+      "id": "e33866f719d04d9aa538a8addb378e09",
+      "folder": "06_echoes_memory_recall_state",
+      "title": "Echoes of the Hallway - Memory Recall State",
+      "deviceType": "DESKTOP",
+      "resolution": "2560x2904",
+      "hasHtml": true,
+      "hostedImageUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuCvHHwMwioEVTAIYcl1rBGO3JEmolAZdf7uH0IDj9_cra6qcKdQuZnnz0E3iMrzZzhXSMMSCKr5FwDZrdpscGxBje2b5GaUgXZpUS1U_XD-Rw4a4m2JKe6xB3JCML0fss9okq40bzNkVglrfqD5pfl4A45DzJM0rOUwtx64X37SrXYAl8hbXMu_ua0l8izL6kkQKs7EZegJ2LRRvBlpRzOgiYvzWLQp89l2lwTF0zg",
+      "files": [
+        "screen.html",
+        "screenshot.png",
+        "hosted_image.jpg"
+      ]
+    }
+  ]
+}

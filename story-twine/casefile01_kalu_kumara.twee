@@ -1,0 +1,155 @@
+:: Dusk_Balcony_Check [#samayam:SANDHYA_DUSK #flow:bodima_rain_window #audio:monsoon_light #haptic:heartbeat_slow #vignette:0.52]
+The CEB transformer down on High Level Road pops with a dull blue flash. Inside your second-floor Nugegoda annex, the ceiling fan clicks once and begins spinning down in the humid dark.
+
+Water from your late-evening shower still drips from the ends of your hair onto your collarbone. Outside the frosted naco louver blades, monsoon rain hammers the Amano tin roof. Your washed clothes are still hanging on the concrete balcony wire. The wall clock reads {mutate: "6:14 PM" -> "6:66 PM — THE SAMAYAM WATCH" @2800}.
+
+[[Step out onto the wet balcony to pull the clothes off the wire->Balcony_Rain_Breach][$taboo_laundry = true, $taboo_bathed_dusk = true, $balma += 15]]
+[[Leave the laundry in the rain and latch the wooden louver door->Louver_Latch_Safe][$taboo_bathed_dusk = true, $tanikama += 10]]
+
+
+:: Balcony_Rain_Breach [#samayam:SANDHYA_DUSK #flow:pahana_nil_manel #audio:monsoon_heavy #haptic:dread_throb #vignette:0.64 #balma:10]
+You unlatch the balcony door and step onto the slick cement. The streetlights along the lane are dead. As you gather the damp cotton fabric into your arms, the wind shifts up from the canal behind the boarding house.
+
+The rain does not smell like wet tar or diesel exhaust anymore. Clinging to the damp sleeves in your arms is the heavy, sweet stench of {mutate: "laundry soap and rain" -> "bruised Nil Manel water-lilies and crushed sandalwood" @2400}. Down in the banana grove by the boundary wall, something tall stands motionless between the wet leaves.
+
+[[Shake the damp clothes out three times over the rail before stepping back->Evening_Hair_And_Hearth][$tanikama += 5]]
+[[Clutch the cold bundle tight against your chest and hurry inside->Evening_Hair_And_Hearth][$balma += 15, $tanikama += 10]]
+
+
+:: Louver_Latch_Safe [#samayam:SANDHYA_DUSK #flow:pahana_steady #audio:monsoon_heavy #vignette:0.48]
+You slide the brass bolt across the wooden door without stepping outside. Through the slanted glass louver blades, the damp clothes whip violently in a gust that does not touch the mango tree beside them.
+
+A thin draft leaks through the frame, carrying a trace of {mutate: "wet garden soil" -> "cold river mud and dark musk" @3000}. On the narrow shelf beside your study table sits a small brass pahana lamp with a cotton wick and a bottle of coconut oil left by your mother.
+
+[[Strike a match and light the brass pahana on the shelf->Evening_Hair_And_Hearth][$balma -= 5]]
+[[Save the oil and use your phone screen to see in the dark->Evening_Hair_And_Hearth][$tanikama += 15, $balma += 10]]
+
+
+:: Evening_Hair_And_Hearth [#samayam:SANDHYA_DUSK #flow:bodima_rain_window #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.58]
+Your roommate will not be back from Kandy until Sunday evening. The annex feels smaller in the blackout, cut off from the main house below by an external concrete staircase.
+
+Your wet hair hangs heavy and cold against the nape of your neck. On the corner of your desk sits an open tin of sweet oil-fried kevum and aggala you bought near the railway station at sunset. In the quiet between thunderclaps, you hear {mutate: "water dripping into the plastic bucket" -> "soft, bare footsteps pausing outside your bathroom door" @2600}.
+
+[[Leave your damp hair loose and eat a sweet kevum in the dark->Vanity_Mirror_Threshold][$taboo_hair_unbound = true, $taboo_sweet_snacks = true, $balma += 20]]
+[[Twist your wet hair up with a brass pin and close the sweetmeat tin->Vanity_Mirror_Threshold][$tanikama += 5]]
+[[Leave your hair unbound to dry, but push the oil-cakes away->Vanity_Mirror_Threshold][$taboo_hair_unbound = true, $balma += 10]]
+
+
+:: Vanity_Mirror_Threshold [#samayam:SANDHYA_DUSK #flow:mirror_dark_idle #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.68]
+By nine o'clock the rain settles into a relentless, suffocating drumbeat on the tin roof. Fatigue pulls at your eyelids, heavy and warm, though the air in the corner of the room has turned bitingly cold.
+
+Directly opposite the foot of your bed stands the tall wooden dressing table. Its unshrouded mirror faces your pillow. In the dim amber glow of the brass wick, the tarnished glass reflects the white mosquito net hanging over your mattress—and {mutate: "the empty shadow of the wardrobe behind it" -> "a dark, broad-shouldered silhouette standing just behind the net" @2500}.
+
+[[Drape a cotton bath towel over the mirror without looking into the glass->Midnight_Phone_Intrusion][$balma -= 5]]
+[[Wipe the moisture from the mirror and inspect the reflection closely->Mirror_Gaze_Trap][$taboo_mirror_unshrouded = true, $balma += 25]]
+[[Crawl straight under the mosquito net leaving the mirror uncovered->Midnight_Phone_Intrusion][$taboo_mirror_unshrouded = true, $balma += 15, $tanikama += 10]]
+
+
+:: Mirror_Gaze_Trap [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:ceb_power_cut #haptic:dread_throb #vignette:0.78 #balma:15]
+You lean toward the glass. Your own eyes stare back, wide and dark, framed by damp strands of hair. For three heartbeats nothing moves.
+
+Then your reflection {mutate: "blinks in time with you" -> "smiles slowly while your own mouth stays frozen shut" @2100}. A scent of crushed blue lotus petals rises from the backing of the mirror, so thick it coats the back of your throat. Beneath your pillow on the bed lies the old iron key your grandmother tied with a white Pirith thread.
+
+[[Grip the iron key under the pillow and step backward without looking->Midnight_Phone_Intrusion][@anchor_held $balma -= 10]]
+[[Stumble back onto the mattress as cold breath fogs the glass from within->Midnight_Phone_Intrusion][$balma += 15, $tanikama += 15]]
+
+
+:: Midnight_Phone_Intrusion [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.76]
+You lie beneath the tucked mosquito net. Your phone vibrates once against the mattress. The battery icon is gone; the clock in the corner is locked at 11:59 PM.
+
+A message banner glows on the dark glass: {mutate: "Amma: Did you lock the balcony door properly?" -> "He is already inside the net with you. Let go of the iron key." @2300}. Across the room, the flame of the brass pahana stretches horizontally, turning a deep, bruised indigo-violet as if drawn by a long inhalation.
+
+[[Tap the screen to reply to the message in the dark->Sleep_Paralysis_Weight][$balma += 20, $tanikama += 15]]
+[[Turn the phone face down and hold the cold iron key beneath your pillow->Sleep_Paralysis_Weight][@anchor_held $balma -= 10]]
+[[Watch the top of the mosquito net where the white mesh is bowing down->Sleep_Paralysis_Weight][$balma += 15]]
+
+
+:: Sleep_Paralysis_Weight [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.86 #balma:15]
+The mattress sinks beside your hip. A crushing, velvet weight settles directly across your sternum, pinning your ribs until your lungs burn for air.
+
+Seven overlapping voices whisper from the corners of the ceiling like rustling silk sarees, while a face of polished night leans down through the mesh. His breath smells of sandalwood paste, frying oil, and river silt. He whispers into your ear: {mutate: "Open your fingers. Drop the cold iron and sleep." -> "I have no warrant over those who hold iron and remember the Queen Mother." @2200}.
+
+[[Keep the iron key pressed into your palm and bite your tongue until dawn->Outcome_Athura_Survived][@anchor_held $balma -= 25]]
+[[Open your fingers and breathe in the sweet blue lotus air->Outcome_Athura_Possessed][$balma += 40]]
+[[Try to scream at the face pressing through the mosquito net->Outcome_Athura_Possessed][$balma += 30]]
+
+
+:: Outcome_Athura_Survived [#samayam:ALUYA_DAWN #flow:pahana_steady #audio:monsoon_light #haptic:iron_grip #vignette:0.35]
+The iron key bites deep into your palm, warm with your pulse. As the first crow calls from the wet jak tree outside and a morning bus horn echoes down High Level Road, the crushing weight lifts from your chest all at once.
+
+The brass pahana flame snaps upright, burning clear golden-amber again. On the floor outside the mosquito net lies a single bruised Nil Manel petal, already shriveling into harmless black ash in the grey dawn light. You survived the Samayam watch unbroken.
+
+[[Examine the forensic aftermath from the Kattadiya perspective->Kattadiya_Sastra_Entry][$tanikama = 40]]
+[[Relive Tuesday dusk in the Nugegoda annex->Dusk_Balcony_Check][$balma = 20, $tanikama = 50]]
+
+
+:: Outcome_Athura_Possessed [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.88]
+Your fingers slacken. The iron key slips from the edge of the mattress and clinks onto the cement floor. Cold water-lily petals fill your mouth and lungs as the indigo dark closes over the mosquito net.
+
+Three days later, the private hospital in Colombo discharges you with unexplained delirium and a fever that will not break. You lie staring at the ceiling fan, whispering to the empty corner by the mirror, while your terrified mother sends a Bulath Hurulla sheaf south to summon a Kattadiya.
+
+[[Accept the Bulath Hurulla and step into the Kattadiya role->Kattadiya_Sastra_Entry][$tanikama = 75]]
+[[Return to Tuesday dusk in the annex->Dusk_Balcony_Check][$balma = 20, $tanikama = 50]]
+
+
+:: Kattadiya_Sastra_Entry [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_steady #audio:monsoon_light #haptic:iron_grip #vignette:0.45]
+It is 10:15 PM on Friday. You sit cross-legged on a woven reed mat in the narrow living room of the Nugegoda annex, your brass pahana burning steadily before you. In the bedroom behind the curtain, the twenty-one-year-old student murmurs feverishly in her sleep.
+
+Her mother kneels and places the Bulath Hurulla sheaf into your hands. Following the silent discipline of the Sastra-kariya, you ask zero questions. You lift the top dark-green betel leaf toward the golden flame to read the Lakunu encoded in its veins.
+
+[[Pass the Pahana flame behind the betel leaf to read its veins and blemishes->Sastra_Vein_Deduction][$tanikama -= 5]]
+[[Enter the bedroom first to inspect the thresholds and check her Nadi pulse->Bedroom_Lakunu_Forensics][$tanikama -= 5]]
+
+
+:: Sastra_Vein_Deduction [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_steady #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.52]
+As the amber light pierces the waxy blade of the betel leaf, the internal geometry glows like gold wire. The stem bends northwest toward the canal.
+
+Where dusk water touched her hair, a dark bruise clouds the leaf apex; where the unshrouded mirror caught her reflection, a pinhole pierces the midrib; where sweet oil-cakes or damp laundry lingered past six o'clock, oily knots thicken the lower veins. This is not natural fever: {mutate: "the veins appear calm at first glance" -> "Kalu Kumara has fixed his Balma upon the household" @2400}.
+
+[[Step into the bedroom to verify the physical Lakunu and Nadi pulse->Bedroom_Lakunu_Forensics][$balma += 5]]
+[[Call for gokkola fronds to weave the Pideni Thattuwa offering tray->Pideni_Altar_Preparation][$balma += 10]]
+
+
+:: Bedroom_Lakunu_Forensics [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.62]
+Inside the cramped bedroom, you press three fingers to the girl's wrist. Her Nadi pulse leaps erratically between Vatha and Pitta—hot blood racing beneath ice-cold skin.
+
+You inspect the room without speaking: the vanity mirror stands directly aligned with the pillow, the balcony louver latch smells faintly of bruised water-lilies, and ants trail toward an old tin of sweetmeats. There is no buried Kodivina charm beneath the threshold; she was struck in Tanikama during the dusk watch.
+
+[[Confirm Kalu Kumara Balma and prepare the Pideni Thattuwa altar->Pideni_Altar_Preparation][$tanikama -= 10]]
+[[Return to the brass lamp to re-examine the betel leaf veins->Sastra_Vein_Deduction][$tanikama -= 5]]
+
+
+:: Pideni_Altar_Preparation [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_steady #audio:yak_bera_ritual #haptic:iron_grip #vignette:0.55]
+Midnight approaches. In the tight annex living room, you lash split bamboo and pale yellow gokkola strips into a square Pideni Thattuwa frame. At the four cardinal points you set seven bruised flowers, sweet kevum, charred pulutu meat, and powdered dummala resin.
+
+In the center rests the wet clay Bali Pili effigy of the Dark Prince. Before sealing the offering with blood and turmeric, you must turn the effigy's face toward the exact avatar revealed by the betel leaf: East toward the sweetmeats for the seductive Handun Kumara, or West toward the burnt offerings for the suffocating Vatha Kumara.
+
+[[Turn the clay effigy East to bind Handun Kumara and begin the Samayama->Midnight_Samayama_Confrontation][$avatar_chosen = "HANDUN_KUMARA"]]
+[[Turn the clay effigy West to bind Vatha Kumara and begin the Samayama->Midnight_Samayama_Confrontation][$avatar_chosen = "VATHA_KUMARA"]]
+
+
+:: Midnight_Samayama_Confrontation [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.82 #balma:15]
+The low-country yak bera drum thunders against the apartment walls. You cast a handful of dummala resin across the torch flame—a sheet of blinding amber fire roars toward the ceiling, forcing the shadow out of the bedroom doorway.
+
+The pahana flame bends flat, turning indigo as Kalu Kumara tries to twist your tongue inside the mantra: {mutate: "You have no jurisdiction in a concrete city, old man" -> "By the Varama of the Buddha and the Seven Barren Queens, confess and depart" @2200}. You must anchor the cold iron ward to lock the true liturgical words in place before striking the clay effigy.
+
+[[Hold the iron ward, recite the Rata Yakuma warrant, and sever the bond->Outcome_Kattadiya_Banished][@anchor_held $balma = 0]]
+[[Shout the mantra and strike the effigy without holding the iron ward->Outcome_Kattadiya_Backfire][$balma += 35]]
+
+
+:: Outcome_Kattadiya_Banished [#samayam:ALUYA_DAWN #flow:pahana_steady #audio:monsoon_light #haptic:iron_grip #vignette:0.32]
+With the iron ward locked under your thumb, your voice cuts through the indigo smoke without faltering. You bring the plantain blade down across the edge of the Pideni Thattuwa. A sharp crack echoes through the room as the clay effigy splits cleanly down its chest, accepting the surrogate tribute.
+
+In the bedroom, the girl draws a long, clear breath. Her fever breaks into cool sweat. You knot the white Pirith Nula thread three times around her wrist as the first light of dawn touches the Nugegoda rooftops, carrying the woven tray out to the crossroads to rot in the sun.
+
+[[Begin a new playthrough from Tuesday dusk in the annex->Dusk_Balcony_Check][$balma = 20, $tanikama = 50]]
+[[Inspect a new Bulath Hurulla sheaf in Kattadiya Mode->Kattadiya_Sastra_Entry][$balma = 25]]
+
+
+:: Outcome_Kattadiya_Backfire [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.88]
+Without the iron ward anchoring your hand, the indigo draft twists the final syllable of the mantra in your throat. The dummala torch sputters out in acrid black smoke.
+
+Inside the bedroom, the vanity mirror cracks from corner to corner, and a low laugh echoes from behind the mosquito net. The clay effigy on the Pideni Thattuwa remains whole and cold. You must steady the lamp and re-consecrate the altar before dawn slips away.
+
+[[Re-light the brass pahana and rebuild the Pideni Thattuwa altar->Pideni_Altar_Preparation][$balma = 40]]
+[[Return to the Sastra betel leaf inspection->Kattadiya_Sastra_Entry][$balma = 30]]
