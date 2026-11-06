@@ -16,6 +16,7 @@ export interface BulathBlemish {
 export interface BulathHurullaPayload {
   shareCode: string;
   avatar: AvatarType;
+  casefile: CasefileId;
   veinCountLeft: number;
   veinCountRight: number;
   balma: number;
@@ -40,14 +41,14 @@ const PREFIX_TO_AVATAR: Record<string, AvatarType> = {
   HK: 'HANDUN_KUMARA', VK: 'VATHA_KUMARA', MM: 'MALA_MOHINI', RM: 'RATI_MOHINI',
 };
 
-export function encodeBulathPayload(state: RuntimeVariables): {
+export function encodeBulathPayload(state: RuntimeVariables, explicitCasefile?: CasefileId): {
   urlParam: string;
   payload: BulathHurullaPayload;
 } {
   const has = (k: string) => state[k] === true || state[`$${k}`] === true;
   let mask = 0;
   for (const item of TABOO_MAP) if (has(item.key) || has(item.alias)) mask |= item.bit;
-  const isMohini = TABOO_MAP.some((item) => has(item.alias));
+  const isMohini = explicitCasefile ? explicitCasefile === 'CF02' : TABOO_MAP.some((item) => has(item.alias));
   const balma = Math.max(0, Math.min(100, Math.round(Number(state.balma ?? 20))));
   const tanikama = Math.max(0, Math.min(100, Math.round(Number(state.tanikama ?? 50))));
 
@@ -99,6 +100,7 @@ function buildPayloadFromBits(
   return {
     shareCode: `BH-${prefix}-${hexMask}${hexBalma}`,
     avatar,
+    casefile: isMohini ? 'CF02' : 'CF01',
     veinCountLeft: 3 + (mask & 0x03),
     veinCountRight: 3 + ((mask >> 2) & 0x03),
     balma,
