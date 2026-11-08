@@ -1,3 +1,4 @@
+// src/components/diegetic/RiriMatFuneralCanvas.tsx
 import React, { useState } from 'react';
 import { audioMixer } from '../../juice/audioMixer';
 import { juiceDirector } from '../../juice/JuiceDirector';
@@ -6,15 +7,15 @@ interface RiriMatFuneralProps {
   onFuneralSealed: () => void;
 }
 
-const CHAKRA_NODES: ReadonlyArray<{ id: number; cy: number; label: string }> = [
-  { id: 0, cy: 118, label: 'Crown' },
-  { id: 1, cy: 200, label: 'Heart' },
-  { id: 2, cy: 282, label: 'Feet' },
+const CHAKRA_NODES: ReadonlyArray<{ id: number; cy: number; sinhala: string; label: string }> = [
+  { id: 0, cy: 118, sinhala: 'හිස', label: 'Crown' },
+  { id: 1, cy: 200, sinhala: 'ළය', label: 'Heart' },
+  { id: 2, cy: 282, sinhala: 'පාද', label: 'Feet' },
 ];
 
 export const RiriMatFuneralCanvas: React.FC<RiriMatFuneralProps> = ({ onFuneralSealed }) => {
   const [anointed, setAnointed] = useState<number[]>([]);
-  const [shroudFold, setShroudFold] = useState<number>(0); // 0 to 100
+  const [shroudFold, setShroudFold] = useState<number>(0);
   const [dragStartX, setDragStartX] = useState<number | null>(null);
   const [knotsTied, setKnotsTied] = useState<number[]>([]);
 
@@ -26,6 +27,7 @@ export const RiriMatFuneralCanvas: React.FC<RiriMatFuneralProps> = ({ onFuneralS
     setAnointed((prev) => [...prev, id]);
     juiceDirector.triggerHaptic('iron_grip');
     audioMixer.playYakBeraPulse(0.55);
+    audioMixer.playArterialPulse(0.8);
   };
 
   const handlePointerDown = (e: React.PointerEvent<SVGGElement>) => {
@@ -41,7 +43,7 @@ export const RiriMatFuneralCanvas: React.FC<RiriMatFuneralProps> = ({ onFuneralS
     if (delta >= 100) {
       setDragStartX(null);
       juiceDirector.triggerHaptic('dread_throb');
-      audioMixer.playYakBeraPulse(0.8);
+      audioMixer.playYakBeraPulse(0.85);
     }
   };
 
@@ -59,53 +61,44 @@ export const RiriMatFuneralCanvas: React.FC<RiriMatFuneralProps> = ({ onFuneralS
   const flapOffset = (shroudFold / 100) * 68;
 
   return (
-    <div className="relative mx-auto flex w-full max-w-[25rem] items-center justify-center select-none">
+    <div className="relative mx-auto flex w-full max-w-[26rem] flex-col items-center justify-center font-serif select-none">
+      <div className="mb-2 text-[11px] tracking-[0.18em] text-[#C8963E]/85 uppercase">
+        පැදුරු දානය · {!allAnointed ? `Anoint 3 Marma Nodes (${anointed.length}/3)` : !isShrouded ? 'Drag Mat Flaps Inward to Shroud' : `Tie 3 Gokkola Knots (${knotsTied.length}/3)`}
+      </div>
       <svg viewBox="0 0 400 400" className="h-auto w-full touch-none">
-        {/* Base Woven Rush Sleeping Mat (Pan Pedura) */}
-        <rect x="64" y="44" width="272" height="312" fill="#14110D" stroke="#C8963E" strokeWidth="1.4" strokeOpacity="0.45" />
+        {/* Woven Pan Pedura Sleeping Mat & Fringe */}
+        <rect x="64" y="44" width="272" height="312" fill="#14100C" stroke="#C8963E" strokeWidth="1.5" strokeOpacity="0.55" />
         {Array.from({ length: 11 }).map((_, i) => (
-          <line key={i} x1="64" y1={70 + i * 26} x2="336" y2={70 + i * 26} stroke="#C8963E" strokeWidth="0.5" strokeOpacity="0.2" />
+          <line key={i} x1="64" y1={70 + i * 26} x2="336" y2={70 + i * 26} stroke="#C8963E" strokeWidth="0.6" strokeOpacity="0.22" />
         ))}
 
-        {/* Surrogate Effigy Silhouette & 3 Rathu Kaha Diya (Blood-Lime) Nodes */}
-        <path d="M 200,82 C 218,82 226,102 218,122 L 232,215 L 216,312 L 184,312 L 168,215 L 182,122 C 174,102 182,82 200,82 Z" fill="#090807" stroke="#8C1D24" strokeWidth="1" strokeOpacity="0.5" />
-        {CHAKRA_NODES.map(({ id, cy }) => {
+        {/* Surrogate Effigy & 3 Rathu Kaha Diya (Blood-Lime) Marma Nodes */}
+        <path d="M 200,78 C 220,78 228,100 218,122 L 234,215 L 216,314 L 184,314 L 166,215 L 182,122 C 172,100 180,78 200,78 Z" fill="#090807" stroke="#8C1D24" strokeWidth="1.2" strokeOpacity="0.65" />
+        {CHAKRA_NODES.map(({ id, cy, sinhala, label }) => {
           const done = anointed.includes(id);
           return (
-            <circle
-              key={id}
-              cx="200"
-              cy={cy}
-              r={done ? '18' : '13'}
-              onClick={() => handleAnoint(id)}
-              fill={done ? '#8C1D24' : '#16120E'}
-              fillOpacity={done ? '0.88' : '0.9'}
-              stroke={done ? '#D49B27' : '#8C1D24'}
-              strokeWidth="1.6"
-              className="cursor-pointer transition-all duration-300"
-            />
+            <g key={id} onClick={() => handleAnoint(id)} className="cursor-pointer">
+              <circle cx="200" cy={cy} r={done ? '20' : '14'} fill={done ? '#8C1D24' : '#16120E'} fillOpacity={done ? '0.9' : '0.95'} stroke={done ? '#D49B27' : '#8C1D24'} strokeWidth="1.6" className="transition-all duration-300" />
+              <text x="200" y={cy + 3} textAnchor="middle" fill="#EAE3D2" fontSize="8.5">{done ? sinhala : label}</text>
+            </g>
           );
         })}
 
         {/* Folding Left & Right Woven Rush Flaps */}
-        <g
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={() => setDragStartX(null)}
-          className={allAnointed && !isShrouded ? 'cursor-ew-resize' : ''}
-        >
-          <rect x={64 + flapOffset} y="44" width="76" height="312" fill="#1E1912" stroke="#C8963E" strokeWidth="1.2" fillOpacity="0.94" />
-          <rect x={260 - flapOffset} y="44" width="76" height="312" fill="#1E1912" stroke="#C8963E" strokeWidth="1.2" fillOpacity="0.94" />
+        <g onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={() => setDragStartX(null)} className={allAnointed && !isShrouded ? 'cursor-ew-resize' : ''}>
+          <rect x={64 + flapOffset} y="44" width="76" height="312" fill="#1E1812" stroke="#C8963E" strokeWidth="1.3" fillOpacity="0.95" />
+          <rect x={260 - flapOffset} y="44" width="76" height="312" fill="#1E1812" stroke="#C8963E" strokeWidth="1.3" fillOpacity="0.95" />
         </g>
 
-        {/* Three Gokkola Funeral Cord Ties (Unlocked once mat is rolled shut) */}
+        {/* Three Gokkola Funeral Knots & Crimson Wada Mal Blossoms */}
         {isShrouded &&
           CHAKRA_NODES.map(({ id, cy }) => {
             const tied = knotsTied.includes(id);
             return (
               <g key={`knot_${id}`} onClick={() => handleTieKnot(id)} className="cursor-pointer">
-                <line x1="128" y1={cy} x2="272" y2={cy} stroke={tied ? '#D49B27' : '#C8963E'} strokeWidth={tied ? '4' : '1.5'} strokeDasharray={tied ? 'none' : '5 4'} />
-                <polygon points={`200,${cy - 10} 212,${cy} 200,${cy + 10} 188,${cy}`} fill={tied ? '#8C1D24' : '#16120E'} stroke="#D49B27" strokeWidth="1.5" />
+                <line x1="128" y1={cy} x2="272" y2={cy} stroke={tied ? '#D49B27' : '#C8963E'} strokeWidth={tied ? '4' : '1.6'} strokeDasharray={tied ? 'none' : '5 4'} />
+                <polygon points={`200,${cy - 12} 214,${cy} 200,${cy + 12} 186,${cy}`} fill={tied ? '#8C1D24' : '#16120E'} stroke="#D49B27" strokeWidth="1.6" />
+                {tied && <circle cx="200" cy={cy} r="3.5" fill="#D49B27" />}
               </g>
             );
           })}

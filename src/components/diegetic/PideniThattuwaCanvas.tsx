@@ -1,3 +1,4 @@
+// src/components/diegetic/PideniThattuwaCanvas.tsx
 import React, { useState } from 'react';
 import { audioMixer } from '../../juice/audioMixer';
 import { juiceDirector } from '../../juice/JuiceDirector';
@@ -7,9 +8,14 @@ interface PideniThattuwaProps {
   onConsecrated: () => void;
 }
 
+const CORNER_LAMPS = [
+  { x: 56, y: 56 }, { x: 344, y: 56 }, { x: 56, y: 344 }, { x: 344, y: 344 },
+] as const;
+
 export const PideniThattuwaCanvas: React.FC<PideniThattuwaProps> = ({ expectedAvatar, onConsecrated }) => {
   const [consecrated, setConsecrated] = useState(false);
   const [facing, setFacing] = useState<'EAST' | 'WEST' | null>(null);
+  const [wrongPulse, setWrongPulse] = useState(false);
 
   const handleAlign = (direction: 'EAST' | 'WEST') => {
     if (consecrated) return;
@@ -17,47 +23,92 @@ export const PideniThattuwaCanvas: React.FC<PideniThattuwaProps> = ({ expectedAv
     const target = direction === 'EAST' ? 'HANDUN_KUMARA' : 'VATHA_KUMARA';
     if (target === expectedAvatar) {
       setConsecrated(true);
+      setWrongPulse(false);
       juiceDirector.triggerHaptic('iron_grip');
-      audioMixer.playYakBeraPulse(0.9);
+      audioMixer.playYakBeraPulse(0.95);
       setTimeout(() => onConsecrated(), 700);
     } else {
+      setWrongPulse(true);
       juiceDirector.triggerHaptic('dread_throb');
       audioMixer.playYakBeraPulse(0.4);
     }
   };
 
+  const headShift = facing === 'WEST' ? -10 : facing === 'EAST' ? 10 : 0;
+
   return (
-    <div className="relative mx-auto flex w-full max-w-[25rem] flex-col items-center justify-center select-none">
+    <div className="relative mx-auto flex w-full max-w-[26rem] flex-col items-center justify-center font-serif select-none">
+      <div className="mb-2 text-[11px] tracking-[0.2em] text-[#C8963E]/85 uppercase">
+        පිදේනි තට්ටුව · Pideni Thattuwa Consecration ෴
+      </div>
       <svg viewBox="0 0 400 400" className="h-auto w-full touch-none">
-        {/* Woven Gokkola & Split Bamboo Square Altar Frame */}
-        <rect x="50" y="50" width="300" height="300" rx="8" fill="#120F0C" stroke="#C8963E" strokeWidth="1.8" strokeOpacity="0.7" />
-        <rect x="70" y="70" width="260" height="260" fill="none" stroke="#D49B27" strokeWidth="0.8" strokeDasharray="3 3" strokeOpacity="0.5" />
-        <line x1="50" y1="200" x2="350" y2="200" stroke="#C8963E" strokeWidth="0.6" strokeOpacity="0.3" />
-        <line x1="200" y1="50" x2="200" y2="350" stroke="#C8963E" strokeWidth="0.6" strokeOpacity="0.3" />
+        <defs>
+          <radialGradient id="pideniGlow" cx="200" cy="200" r="165" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor={consecrated ? '#D49B27' : '#C8963E'} stopOpacity={consecrated ? '0.28' : '0.12'} />
+            <stop offset="100%" stopColor="#090807" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <circle cx="200" cy="200" r="175" fill="url(#pideniGlow)" />
 
-        {/* East Altar (Handun Kumara - Sweetmeats & Flowers) */}
-        <g onClick={() => handleAlign('EAST')} className="cursor-pointer transition-opacity duration-300">
-          <circle cx="300" cy="200" r="28" fill={facing === 'EAST' ? '#2A2012' : '#090807'} stroke="#D49B27" strokeWidth="1.4" />
-          <text x="300" y="204" textAnchor="middle" fill="#EAE3D2" fontSize="10" fontFamily="serif" letterSpacing="1">EAST</text>
-          <text x="300" y="240" textAnchor="middle" fill="#D49B27" fontSize="9" opacity="0.8">Sweetmeats</text>
+        {/* Woven Gokkola & Split Bamboo 9-Grid Frame (Navagraha Kotuwa) */}
+        <rect x="48" y="48" width="304" height="304" rx="6" fill="#120E0B" stroke="#C8963E" strokeWidth="2" strokeOpacity="0.75" />
+        <rect x="64" y="64" width="272" height="272" fill="none" stroke="#D49B27" strokeWidth="0.9" strokeDasharray="4 3" strokeOpacity="0.55" />
+        {[138, 262].map((pos) => (
+          <g key={pos} stroke="#C8963E" strokeWidth="0.8" strokeOpacity="0.28">
+            <line x1="64" y1={pos} x2="336" y2={pos} />
+            <line x1={pos} y1="64" x2={pos} y2="336" />
+          </g>
+        ))}
+
+        {/* 4 Corner Vilakkuwa (Coconut-Shell Oil Wicks) */}
+        {CORNER_LAMPS.map((c, idx) => (
+          <g key={idx}>
+            <circle cx={c.x} cy={c.y} r="9" fill="#1A140F" stroke="#C8963E" strokeWidth="1.2" />
+            <circle cx={c.x} cy={c.y} r={consecrated ? '5' : '3.5'} fill="#D49B27" />
+          </g>
+        ))}
+
+        {/* North (Nil Manel Petals) & South (Dummala Resin Bowl) */}
+        <g opacity="0.75">
+          <circle cx="200" cy="98" r="24" fill="#101520" stroke="#3B4D7A" strokeWidth="1.2" />
+          <text x="200" y="96" textAnchor="middle" fill="#8A99AD" fontSize="9">නිල් මානෙල්</text>
+          <text x="200" y="108" textAnchor="middle" fill="#EAE3D2" fontSize="8" opacity="0.65">Nil Manel</text>
+          <circle cx="200" cy="302" r="24" fill="#1B130E" stroke="#C8963E" strokeWidth="1.2" />
+          <text x="200" y="300" textAnchor="middle" fill="#D49B27" fontSize="9">දුම්මල</text>
+          <text x="200" y="312" textAnchor="middle" fill="#EAE3D2" fontSize="8" opacity="0.65">Dummala</text>
         </g>
 
-        {/* West Altar (Vatha Kumara - Charred Pulutu) */}
-        <g onClick={() => handleAlign('WEST')} className="cursor-pointer transition-opacity duration-300">
-          <circle cx="100" cy="200" r="28" fill={facing === 'WEST' ? '#241214' : '#090807'} stroke="#8C1D24" strokeWidth="1.4" />
-          <text x="100" y="204" textAnchor="middle" fill="#EAE3D2" fontSize="10" fontFamily="serif" letterSpacing="1">WEST</text>
-          <text x="100" y="240" textAnchor="middle" fill="#8C1D24" fontSize="9" opacity="0.8">Charred Meat</text>
+        {/* East Altar (Handun Kumara - Sweet Kevum & Sandalwood) */}
+        <g onClick={() => handleAlign('EAST')} className="cursor-pointer">
+          <circle cx="302" cy="200" r="32" fill={facing === 'EAST' ? '#2C2111' : '#0D0B09'} stroke="#D49B27" strokeWidth={facing === 'EAST' ? '2.2' : '1.4'} />
+          <text x="302" y="195" textAnchor="middle" fill="#D49B27" fontSize="10">නැගෙනහිර</text>
+          <text x="302" y="208" textAnchor="middle" fill="#EAE3D2" fontSize="10" letterSpacing="1">EAST</text>
+          <text x="302" y="246" textAnchor="middle" fill="#D49B27" fontSize="9" opacity="0.85">Sweetmeats</text>
         </g>
 
-        {/* Center: Clay Bali Pili Effigy */}
+        {/* West Altar (Vatha Kumara - Charred Pulutu Meat) */}
+        <g onClick={() => handleAlign('WEST')} className="cursor-pointer">
+          <circle cx="98" cy="200" r="32" fill={facing === 'WEST' ? '#281114' : '#0D0B09'} stroke="#8C1D24" strokeWidth={facing === 'WEST' ? '2.2' : '1.4'} />
+          <text x="98" y="195" textAnchor="middle" fill="#8C1D24" fontSize="10">බස්නාහිර</text>
+          <text x="98" y="208" textAnchor="middle" fill="#EAE3D2" fontSize="10" letterSpacing="1">WEST</text>
+          <text x="98" y="246" textAnchor="middle" fill="#8C1D24" fontSize="9" opacity="0.85">Charred Meat</text>
+        </g>
+
+        {/* Center: Sculpted Clay Bali Pili Effigy of Kalu Kumara */}
         <g transform="translate(200, 200)" className="pointer-events-none">
-          <circle cx="0" cy="0" r="34" fill="#1C1813" stroke="#C8963E" strokeWidth="1.2" strokeOpacity={consecrated ? '1' : '0.4'} />
-          <ellipse cx={facing === 'WEST' ? -8 : facing === 'EAST' ? 8 : 0} cy="0" rx="14" ry="20" fill="#2E2419" />
-          <circle cx={facing === 'WEST' ? -12 : facing === 'EAST' ? 12 : 0} cy="-4" r="3" fill="#D49B27" />
+          <circle cx="0" cy="0" r="42" fill="#17130E" stroke={consecrated ? '#D49B27' : '#C8963E'} strokeWidth={consecrated ? '2' : '1.2'} />
+          <path d="M -20,30 C -22,8 22,8 20,30 Z" fill="#261E16" stroke="#C8963E" strokeWidth="0.9" />
+          <g transform={`translate(${headShift}, -4)`} className="transition-transform duration-300">
+            <polygon points="-14,-14 -7,-26 0,-18 7,-26 14,-14" fill="#C8963E" opacity="0.85" />
+            <ellipse cx="0" cy="0" rx="14" ry="17" fill="#2E2419" stroke="#C8963E" strokeWidth="1" />
+            <circle cx="-5" cy="-2" r="2.2" fill={consecrated ? '#D49B27' : '#8C1D24'} />
+            <circle cx="5" cy="-2" r="2.2" fill={consecrated ? '#D49B27' : '#8C1D24'} />
+          </g>
+          {consecrated && <path d="M 0,-22 L -4,4 L 4,14 L -2,34" fill="none" stroke="#D49B27" strokeWidth="2" />}
         </g>
       </svg>
-      <div className="mt-4 font-serif text-xs tracking-widest text-[#EAE3D2]/70 uppercase">
-        {consecrated ? 'Altar Sealed · Effigy Bound' : 'Turn Effigy Face to Consecrate Altar'}
+      <div className="mt-2 text-center text-xs tracking-widest text-[#EAE3D2]/75 uppercase">
+        {consecrated ? 'Altar Sealed · Effigy Bound' : wrongPulse ? 'Wrong Quarter · Consult the Betel Leaf' : 'Turn Effigy Face to Consecrate Altar'}
       </div>
     </div>
   );
