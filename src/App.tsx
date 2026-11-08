@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw'; import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw';
-import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas';
+import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas';
 import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { FlowBackdrop } from './components/viewport/FlowBackdrop';
 import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter'; import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
 import { RuntimeVariables, TwineChoice } from './core/schema'; import { applyStateMutations, parseTweeStory } from './core/twineParser'; import { audioMixer } from './juice/audioMixer'; import { juiceDirector } from './juice/JuiceDirector';
@@ -72,17 +72,7 @@ export const App: React.FC = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#090807] selection:bg-[#C8963E]/20 selection:text-[#EAE3D2]">
       <FlowBackdrop /><ChiaroscuroMask />
-      <header className="fixed inset-x-0 top-0 z-40 mx-auto flex max-w-[46rem] items-center justify-between border-b border-[#C8963E]/15 px-5 py-3.5 font-serif text-xs tracking-[0.12em] text-[#EAE3D2]/60 uppercase backdrop-blur-xs">
-        <div className="flex flex-wrap gap-x-4 gap-y-1">
-          {(['CF01', 'CF02', 'CF03', 'CF04'] as CasefileId[]).map((id) => (
-            <button key={id} type="button" onClick={() => switchCasefile(id, 'ATHURA')} className={`cursor-pointer transition-colors ${casefile === id ? 'text-[#C8963E]' : 'hover:text-[#EAE3D2]'}`}>{CASEFILE_META[id].title}</button>
-          ))}
-        </div>
-        <div className="flex shrink-0 space-x-3 text-[11px]">
-          <button type="button" onClick={() => setCompendiumOpen(true)} className="cursor-pointer text-[#C8963E]/80 hover:text-[#D49B27]">[Puskola]</button>
-          <button type="button" onClick={() => switchCasefile(casefile, 'KATTADIYA')} className="cursor-pointer text-[#EAE3D2]/45 hover:text-[#C8963E]">[Triage]</button>
-        </div>
-      </header>
+      <AnthologyHeader activeCasefile={casefile} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} />
       {sastraNext ? (
         <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
           <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
