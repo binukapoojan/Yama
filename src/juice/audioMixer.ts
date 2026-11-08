@@ -1,4 +1,9 @@
 // src/juice/audioMixer.ts
+import {
+  createCebHumStem, createCicadaStem, createNoiseStem, createPinkNoiseBuffer,
+  playInfantWhimper, playIronKeyTone as triggerIronKeyTone, playYakBeraPulse as triggerYakBera,
+} from './audioStems';
+
 export type AudioCueId =
   | 'monsoon_light' | 'monsoon_heavy' | 'ceb_power_cut' | 'yak_bera_ritual' | 'hearth_crackle' | 'arterial_pulse';
 export type StemCueId = AudioCueId;
@@ -9,10 +14,12 @@ class WebAudioMixer {
   private analyser: AnalyserNode | null = null;
   private rainGain: GainNode | null = null;
   private droneGain: GainNode | null = null;
+  private cicadaGain: GainNode | null = null;
   private hearthGain: GainNode | null = null;
   private arterialTimer: ReturnType<typeof setInterval> | null = null;
   private currentCue = 'monsoon_light';
-  private currentBalma = 20; private anchorHeld = false;
+  private currentBalma = 20;
+  private anchorHeld = false;
 
   public unlock(): void {
     if (this.ctx) { if (this.ctx.state === 'suspended') this.ctx.resume(); return; }
@@ -25,43 +32,37 @@ class WebAudioMixer {
     this.masterFilter.type = 'lowpass'; this.masterFilter.frequency.value = 14000;
     this.analyser = this.ctx.createAnalyser(); this.analyser.fftSize = 256;
     this.masterFilter.connect(this.analyser); this.analyser.connect(this.ctx.destination);
-    this.rainGain = this.buildNoiseStem('bandpass', 950, 0.7, 0.12, false);
-    this.hearthGain = this.buildNoiseStem('bandpass', 2650, 2.2, 0.0, true);
-    this.droneGain = this.buildSubDrone(54, 0.04);
+
+    const pinkBuf = createPinkNoiseBuffer(this.ctx);
+    this.rainGain = createNoiseStem(this.ctx, this.masterFilter, pinkBuf, 950, 0.7);
+    this.droneGain = createCebHumStem(this.ctx, this.masterFilter, pinkBuf);
+    this.cicadaGain = createCicadaStem(this.ctx, this.masterFilter, pinkBuf);
+    this.hearthGain = this.buildCrackleStem();
     this.setCue(this.currentCue, this.currentBalma);
   }
 
-  private buildNoiseStem(type: BiquadFilterType, freq: number, q: number, initGain: number, crackle: boolean): GainNode {
+  private buildCrackleStem(): GainNode {
     const ctx = this.ctx!, buf = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate), data = buf.getChannelData(0);
     let last = 0;
     for (let i = 0; i < data.length; i++) {
       const white = Math.random() * 2 - 1;
       last = (last + 0.02 * white) / 1.02;
-      data[i] = crackle ? last * 0.25 + (Math.random() < 0.0045 ? (Math.random() * 2 - 1) * 0.95 : 0) : last * 1.8;
+      data[i] = last * 0.25 + (Math.random() < 0.0045 ? (Math.random() * 2 - 1) * 0.95 : 0);
     }
     const src = ctx.createBufferSource(), filter = ctx.createBiquadFilter(), gain = ctx.createGain();
-    src.buffer = buf; src.loop = true; filter.type = type; filter.frequency.value = freq; filter.Q.value = q;
-    gain.gain.value = initGain; src.connect(filter); filter.connect(gain); gain.connect(this.masterFilter!); src.start();
-    return gain;
-  }
-
-  private buildSubDrone(freq: number, initGain: number): GainNode {
-    const ctx = this.ctx!, osc = ctx.createOscillator(), gain = ctx.createGain();
-    osc.type = 'triangle'; osc.frequency.value = freq; gain.gain.value = initGain;
-    osc.connect(gain); gain.connect(this.masterFilter!); osc.start();
+    src.buffer = buf; src.loop = true; filter.type = 'bandpass'; filter.frequency.value = 2650; filter.Q.value = 2.2;
+    gain.gain.value = 0.0001; src.connect(filter); filter.connect(gain); gain.connect(this.masterFilter!); src.start();
     return gain;
   }
 
   public setCue(cue: string, balma = 20): void {
     this.currentCue = cue; this.currentBalma = balma;
-    if (!this.ctx || !this.rainGain || !this.droneGain || !this.hearthGain || !this.masterFilter) return;
+    if (!this.ctx || !this.rainGain || !this.droneGain || !this.cicadaGain || !this.hearthGain || !this.masterFilter) return;
     const now = this.ctx.currentTime, isHearth = cue === 'hearth_crackle';
-    const rainTarget = cue === 'monsoon_heavy' ? 0.28 : cue === 'ceb_power_cut' ? 0.05 : isHearth ? 0.08 : 0.14;
-    const droneTarget = cue === 'ceb_power_cut' || cue === 'yak_bera_ritual' || cue === 'arterial_pulse' ? 0.18 : 0.05;
-    const hearthTarget = isHearth ? 0.26 : cue === 'arterial_pulse' ? 0.12 : 0.0;
-    this.rainGain.gain.setTargetAtTime(rainTarget, now, 0.6);
-    this.droneGain.gain.setTargetAtTime(droneTarget + (balma / 100) * 0.12, now, 0.6);
-    this.hearthGain.gain.setTargetAtTime(hearthTarget, now, 0.5);
+    this.rainGain.gain.setTargetAtTime(cue === 'monsoon_heavy' ? 0.28 : cue === 'ceb_power_cut' ? 0.04 : isHearth ? 0.06 : 0.14, now, 0.6);
+    this.droneGain.gain.setTargetAtTime((cue === 'ceb_power_cut' || cue === 'yak_bera_ritual' || cue === 'arterial_pulse' ? 0.18 : 0.05) + (balma / 100) * 0.12, now, 0.6);
+    this.cicadaGain.gain.setTargetAtTime(cue === 'ceb_power_cut' || cue === 'monsoon_light' ? 0.12 : 0.02, now, 0.6);
+    this.hearthGain.gain.setTargetAtTime(isHearth ? 0.26 : cue === 'arterial_pulse' ? 0.12 : 0.0001, now, 0.5);
     const cutoff = this.anchorHeld ? 16000 : balma >= 55 ? 320 : 12000 - balma * 80;
     this.masterFilter.frequency.setTargetAtTime(Math.max(320, cutoff), now, 0.4);
     this.syncArterialLoop(cue === 'arterial_pulse' || balma >= 60);
@@ -71,24 +72,23 @@ class WebAudioMixer {
     this.anchorHeld = held;
     if (!this.ctx || !this.masterFilter) return;
     this.masterFilter.frequency.setTargetAtTime(held ? 16000 : this.currentBalma >= 55 ? 320 : 9500, this.ctx.currentTime, 0.2);
-    if (held) { this.playStrike(528, 176, 0.18, 0.12, 'sine'); this.syncArterialLoop(false); }
+    if (held) { triggerIronKeyTone(this.ctx, this.masterFilter); this.syncArterialLoop(false); }
     else { this.syncArterialLoop(this.currentCue === 'arterial_pulse' || this.currentBalma >= 60); }
   }
 
-  public playYakBeraPulse(intensity = 0.7): void { this.playStrike(138, 44, 0.24, intensity * 0.35, 'triangle'); }
+  public playYakBeraPulse(intensity = 0.7): void { if (this.ctx && this.masterFilter) triggerYakBera(this.ctx, this.masterFilter, intensity); }
+  public playMohiniWhimper(): void { if (this.ctx && this.masterFilter && !this.anchorHeld) playInfantWhimper(this.ctx, this.masterFilter); }
   public playArterialPulse(intensity = 0.75): void {
-    if (!this.ctx || this.anchorHeld) return;
+    if (!this.ctx || !this.masterFilter || this.anchorHeld) return;
     this.playStrike(96, 36, 0.14, intensity * 0.32, 'sine', 0);
     this.playStrike(78, 30, 0.18, intensity * 0.22, 'sine', 0.135);
   }
 
-  private playStrike(fStart: number, fEnd: number, dur: number, vol: number, type: OscillatorType, delay = 0): void {
-    if (!this.ctx || !this.masterFilter) return;
-    const t0 = this.ctx.currentTime + delay, osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
-    osc.type = type; osc.frequency.setValueAtTime(fStart, t0);
-    osc.frequency.exponentialRampToValueAtTime(fEnd, t0 + dur);
+  private playStrike(fStart: number, fEnd: number, dur: number, vol: number, type: OscillatorType = 'sine', delay = 0): void {
+    const t0 = this.ctx!.currentTime + delay, osc = this.ctx!.createOscillator(), gain = this.ctx!.createGain();
+    osc.type = type; osc.frequency.setValueAtTime(fStart, t0); osc.frequency.exponentialRampToValueAtTime(fEnd, t0 + dur);
     gain.gain.setValueAtTime(Math.max(0.001, vol), t0); gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
-    osc.connect(gain); gain.connect(this.masterFilter); osc.start(t0); osc.stop(t0 + dur + 0.02);
+    osc.connect(gain); gain.connect(this.masterFilter!); osc.start(t0); osc.stop(t0 + dur + 0.02);
   }
 
   private syncArterialLoop(active: boolean): void {
@@ -100,9 +100,7 @@ class WebAudioMixer {
   }
 
   public getAnalyser(): AnalyserNode | null { return this.analyser; }
-  public setMasterFilterFreq(hz: number): void {
-    if (this.ctx && this.masterFilter) this.masterFilter.frequency.setTargetAtTime(hz, this.ctx.currentTime, 0.1);
-  }
+  public setMasterFilterFreq(hz: number): void { if (this.ctx && this.masterFilter) this.masterFilter.frequency.setTargetAtTime(hz, this.ctx.currentTime, 0.1); }
   public init(): void { this.unlock(); }
   public previewCue(cue: string, balma = 20): void { this.unlock(); this.setCue(cue, balma); }
   public getCurrentCueId(): string { return this.currentCue; }

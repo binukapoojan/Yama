@@ -8,3 +8,4 @@ dist
 *.docx
 *.tmp
 ~*
+anthology_context.txt

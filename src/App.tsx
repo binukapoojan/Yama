@@ -23,6 +23,7 @@ export const App: React.FC = () => {
   const [casefile, setCasefile] = useState<CasefileId>(initial.casefile), [currentPassageId, setCurrentPassageId] = useState<string>(initial.passageId);
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(initial.runtimeState);
   const [compendiumOpen, setCompendiumOpen] = useState<boolean>(false), [discoveredIds, setDiscoveredIds] = useState<string[]>(() => loadDiscoveredCompendium());
+  const [sastraInspected, setSastraInspected] = useState<boolean>(false);
 
   const latestRef = useRef({ casefile, currentPassageId, runtimeState });
   latestRef.current = { casefile, currentPassageId, runtimeState };
@@ -44,6 +45,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (activePassage) {
+      setSastraInspected(false);
       juiceDirector.enterPassage(activePassage, Number(runtimeState.balma ?? 20));
       saveSessionSnapshot(casefile, currentPassageId, runtimeState);
       setDiscoveredIds(syncRuntimeToCompendium(runtimeState, casefile, currentPassageId));
@@ -82,8 +84,8 @@ export const App: React.FC = () => {
       </header>
       {sastraNext ? (
         <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
-          <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true }))} />
-          <button type="button" onClick={() => setCurrentPassageId(sastraNext)} className="mx-auto mt-6 cursor-pointer border-b border-[#C8963E]/50 pb-1 font-serif text-sm tracking-widest text-[#EAE3D2]/85 uppercase hover:text-[#C8963E]">Conclude Betel Divination →</button>
+          <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); setSastraInspected(true); }} />
+          <button type="button" disabled={!sastraInspected} onClick={() => setCurrentPassageId(sastraNext)} className={`mx-auto mt-6 border-b pb-1 font-serif text-sm tracking-widest uppercase transition-colors ${sastraInspected ? 'cursor-pointer border-[#C8963E]/50 text-[#EAE3D2]/85 hover:text-[#C8963E]' : 'cursor-not-allowed border-transparent text-[#EAE3D2]/30'}`}>{sastraInspected ? 'Conclude Betel Divination →' : 'Inspect Blemishes with Pahana to Conclude →'}</button>
         </div>
       ) : currentPassageId === 'Pideni_Altar_Preparation' ? (
         <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><PideniThattuwaCanvas expectedAvatar={bulath.payload.avatar === 'VATHA_KUMARA' ? 'VATHA_KUMARA' : 'HANDUN_KUMARA'} onConsecrated={() => setCurrentPassageId('Midnight_Samayama_Confrontation')} /></div>
@@ -96,7 +98,7 @@ export const App: React.FC = () => {
       ) : (
         <>
           {climaxMantra && <div className="relative z-20 pt-20"><MantraCadenceBar mantraKey={climaxMantra.key} onCompleted={(ok) => setCurrentPassageId(ok ? climaxMantra.win : climaxMantra.lose)} /></div>}
-          <ProseStream passage={activePassage} onSelectChoice={handleSelectChoice} />
+          <ProseStream passage={activePassage} onSelectChoice={handleSelectChoice} hideChoices={Boolean(climaxMantra)} />
         </>
       )}
       {POSSESSED_PASSAGES.has(currentPassageId) && (
