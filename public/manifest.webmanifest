@@ -1,0 +1,99 @@
+{
+  "id": "com.aftermonsoon.kalukumara",
+  "name": "After Monsoon · Kalu Kumara & The Samayam Anthology",
+  "short_name": "Kalu Kumara",
+  "description": "A four-casefile Sri Lankan folk-horror anthology of dusk taboos, betel-leaf divination, and midnight Thovil exorcism rituals.",
+  "lang": "en-LK",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["fullscreen", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#090807",
+  "theme_color": "#090807",
+  "categories": ["games", "entertainment", "books"],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.aftermonsoon.kalukumara",
+      "url": "https://play.google.com/store/apps/details?id=com.aftermonsoon.kalukumara"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-monochrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "monochrome"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "I · Kalu Kumara (Nugegoda)",
+      "short_name": "I · Kalu Kumara",
+      "description": "Enter the Nugegoda boarding house at the 6:00 PM dusk watch",
+      "url": "/?bulath=BH-HK-0014",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "II · Mala Mohini (Kandy)",
+      "short_name": "II · Mala Mohini",
+      "description": "Inspect the midnight bamboo culvert above Kandy Lake",
+      "url": "/?bulath=BH-MM-0014",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "III · Riri Yaka (Matara)",
+      "short_name": "III · Riri Yaka",
+      "description": "Triage the crimson hearth and unroll the Pan Pedura mat",
+      "url": "/?bulath=BH-MR-0014",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "IV · Mahasona (Anuradhapura)",
+      "short_name": "IV · Mahasona",
+      "description": "Stage the Thovil card duel at the three-way crossroads",
+      "url": "/?bulath=BH-MS-0014",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "text": "bulath",
+      "url": "bulath"
+    }
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "handle_links": "preferred"
+}

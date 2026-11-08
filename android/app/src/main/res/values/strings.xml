@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kalu Kumara</string>
+    <string name="title_activity_main">Kalu Kumara</string>
+    <string name="package_name">com.aftermonsoon.kalukumara</string>
+    <string name="custom_url_scheme">com.aftermonsoon.kalukumara</string>
+</resources>
