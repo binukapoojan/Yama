@@ -1,0 +1,157 @@
+:: Crossroads_Midnight_Start [#samayam:MADDHAMA_MIDNIGHT #flow:thummansala_banyan_wind #audio:monsoon_light #haptic:heartbeat_slow #vignette:0.55]
+The dynamo headlamp on your bicycle flickers and dies as the chain slips off the sprocket. You come to a halt at the Thummansala—the deserted three-way gravel junction where the Anuradhapura tank-bund track meets the old village cremation ground.
+
+It is 11:52 PM. Overhead, the aerial roots of an ancient banyan tree hang motionless in the dry, moonless air. Somewhere in the thorny scrub, a nightjar clicks once, and the silence presses against your eardrums like {mutate: "warm dry-zone wind" -> "a giant holding its breath six paces behind your back" @2500}.
+
+[[Whistle a loud tune to steady your nerves while fitting the greasy bicycle chain->Gravel_Meat_Parcel][$taboo_whistled_crossroads = true, $balma += 20]]
+[[Work in strict silence and keep one thumb on the iron Giraya cutter in your pocket->Banyan_Root_Culvert][$tanikama += 10]]
+
+
+:: Gravel_Meat_Parcel [#samayam:MADDHAMA_MIDNIGHT #flow:thummansala_banyan_wind #audio:ceb_power_cut #haptic:dread_throb #vignette:0.64 #balma:10]
+Your whistle dies flat against the banyan trunks—no echo returns from the tank water. Hanging from your handlebar is a newspaper-wrapped parcel of spiced wild boar curry from your uncle's almsgiving house.
+
+The paper has soaked through with warm fat. As you crouch over the rear wheel, a sudden gust of wind carrying the stench of {mutate: "dry palu leaves and tank mud" -> "wet grave-earth and scorched boar bristles" @2400} sweeps across the junction.
+
+[[Leave the meat parcel uncovered in the basket without tucking an iron nail inside->Shattered_Charnel_Pot][$taboo_carried_uncovered_meat = true, $balma += 15]]
+[[Slip your forged iron betel-cutter into the meat wrapper to seal the scent->Shattered_Charnel_Pot][@anchor_held $balma -= 5]]
+
+
+:: Banyan_Root_Culvert [#samayam:MADDHAMA_MIDNIGHT #flow:thummansala_banyan_wind #audio:monsoon_light #haptic:heartbeat_slow #vignette:0.58]
+You hook the chain back onto the teeth without making a sound, though your fingers come away black with axle grease. Tied to your carrier rack is a warm parcel of roasted meat from the village feast.
+
+Down inside the dry concrete culvert beneath the crossroads, dry leaves rustle violently—as if something far too broad to fit inside a pipe is {mutate: "a monitor lizard burrowing in the silt" -> "dragging a crushed shoulder along the concrete wall" @2500}.
+
+[[Pedal away fast without warding the meat parcel on your carrier->Shattered_Charnel_Pot][$taboo_carried_uncovered_meat = true, $balma += 15, $tanikama += 10]]
+[[Press the iron Giraya against the parcel and walk the bicycle past the culvert->Shattered_Charnel_Pot][@anchor_held $balma -= 5]]
+
+
+:: Shattered_Charnel_Pot [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.68]
+Right at the center of the three-way fork lies a shattered red-clay muttiya pot from a previous night's exorcism. White wood-ash, charred chicken bones, and tarnished copper coins form a pale barrier across the tire ruts.
+
+Beyond the pot, the gravel rises toward the Wewa tank bund. In the dim starlight, the spilled white ash on the road shifts into the shape of {mutate: "windblown lime dust" -> "a giant five-fingered handprint pointing toward the cemetery" @2300}.
+
+[[Kick the broken clay shards aside and roll straight through the ritual ash->Tank_Bund_Footsteps][$taboo_stepped_ash_pot = true, $balma += 25]]
+[[Steer wide into the thorny grass to avoid touching the crossroads ash->Tank_Bund_Footsteps][$tanikama += 10]]
+[[Hold the cold iron Giraya and trace a protective line in the gravel->Cemetery_Boundary_Stone][@anchor_held $balma -= 5]]
+
+
+:: Tank_Bund_Footsteps [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:ceb_power_cut #haptic:dread_throb #vignette:0.76 #balma:10]
+You push the bicycle up the steep earthen slope of the tank bund. To your left, black water laps against the sluice stones; to your right, the rusted barbed-wire fence of the village Susāna Bhūmiya cemetery leans into the tall grass.
+
+Five yards behind your rear fender, a dead palu branch as thick as a man's thigh snaps with a sound like a rifle shot. Heavy, uneven footsteps—one stride long, the next dragging—thud across the gravel, and a guttural grunt breathes down your neck: {mutate: "It is only a stray water buffalo on the bund" -> "Turn around and see whose head rests backwards on my shoulders" @2100}.
+
+[[Whip your head around to see what is following you on the bund->Boar_Tusk_Apparition][$taboo_looked_back_snap = true, $balma += 20]]
+[[Keep your eyes locked straight ahead on the bund path and grip the iron Giraya->Cemetery_Boundary_Stone][@anchor_held $balma -= 10]]
+
+
+:: Boar_Tusk_Apparition [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.82 #balma:10]
+The wild boar's tusked snout rears twelve cubits tall into the weeping banyan roots. Steam billows from flared nostrils, smelling of charred marrow and crushed areca husk. Its blood-red eyes reflect the distant temple lights, and a low, mocking chortle grates from its backwards-turned throat: {mutate: "A herd animal rooting in the tank mud" -> "Jayasena remembers the kick of Gothaimbara across your shoulder" @2100}.
+
+[[Pedal frantically through the gravel toward the boundary pillar->Charnel_Gassima_Jolt][$balma += 15]]
+[[Stand your ground, gripping the forged iron Giraya in your fist->Cemetery_Boundary_Stone][@anchor_held $balma -= 10]]
+
+
+:: Cemetery_Boundary_Stone [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.80]
+At the end of the cemetery fence stands the whitewashed boundary pillar. Perched atop the four-foot stone—yet rising twelve feet into the branches—crouches a colossal figure smeared in cremation ash, its left shoulder caved inward from Gothaimbara's ancient kick, topped by the bristling, tusked head of a wild boar.
+
+In its right fist it crushes a human-shaped gourd, drinking the pale sap. The air reeks of dummala smoke and wet fur as {mutate: "the wind shakes the banyan canopy" -> "the giant raises an open five-fingered palm above your spine" @2000}.
+
+[[Shout a curse and swing your bicycle pump at the boar-headed shadow->Charnel_Gassima_Jolt][$taboo_cursed_boar_shadow = true, $balma += 25]]
+[[Bow your chin, clamp your thumb on the iron Giraya, and step backward without turning->Charnel_Gassima_Jolt][@anchor_held $balma -= 15]]
+
+
+:: Charnel_Gassima_Jolt [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:arterial_pulse #haptic:dread_throb #vignette:0.84 #balma:10]
+A sudden, sickening shockwave—the Gassīma—ripples up your spine, unseating your balance on the pedals. The horizon tilts forty-five degrees to the west, and the sound of the crickets vanishes into total vacuum. Behind your left shoulder blade, the air turns to freezing grease: {mutate: "Your balance failed on the steep tank incline" -> "The cemetery king prepares his five-fingered seal" @2100}.
+
+[[Throw your arms out as the cold pressure locks your vertebrae->Shoulder_Ash_Strike][$balma += 20]]
+[[Press the cold-iron arecanut cutter into your chest and recite the protective formula->Shoulder_Ash_Strike][@anchor_held $balma -= 15]]
+
+
+:: Shoulder_Ash_Strike [#samayam:MADDHAMA_MIDNIGHT #flow:iron_betel_cutter_ash #audio:arterial_pulse #haptic:heartbeat_panic #vignette:0.86 #balma:15]
+The sky above the tank bund seems to drop like a granite slab. Before you can draw another breath, a freezing, concussive blow slams squarely between your shoulder blades—not like a fist, but like a sack of wet grave-ash dropped from the treetops.
+
+You pitch forward onto your knees in the gravel. Your spine locks rigid, your teeth chatter uncontrollably, and the towering shadow looms over the bicycle frame: {mutate: "You merely slipped on the loose tank gravel" -> "My five fingers are branded in black soot across your back" @2000}.
+
+[[Press the forged iron Giraya against your breastbone and spit three times onto the earth->Outcome_Athura_Mahasona_Survived][@anchor_held $balma -= 30]]
+[[Collapse across the bicycle frame as the freezing tremor paralyzes your lungs->Outcome_Athura_Mahasona_Struck][$balma += 40]]
+[[Turn on your back to stare up at the boar-headed titan in the dark->Outcome_Athura_Mahasona_Struck][$taboo_looked_back_snap = true, $balma += 35]]
+
+
+:: Outcome_Athura_Mahasona_Survived [#samayam:ALUYA_DAWN #flow:iron_betel_cutter_ash #audio:monsoon_light #haptic:iron_grip #vignette:0.34]
+The cold iron Giraya bites into your palm, anchoring your spirit against the shockwave. A furious, boar-like snort tears through the banyan leaves, showering the road with dry twigs, before receding into the cemetery mist as the temple bell rings for the dawn watch.
+
+When you stagger home at daybreak, your cotton shirt is scorched at the left shoulder, but the skin beneath is whole.
+
+[[Examine the crossroads case from the Kattadiya perspective->Kattadiya_Mahasona_Entry][$tanikama = 40]]
+[[Relive the midnight ride at the Thummansala crossroads->Crossroads_Midnight_Start][$balma = 20, $tanikama = 50]]
+
+
+:: Outcome_Athura_Mahasona_Struck [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.90]
+The shockwave extinguishes your sight. When woodcutters find you beside the three-way culvert at dawn, you are curled in the red gravel, shivering with a violent ague.
+
+When your elders peel back your torn shirt, a stark, five-fingered handprint of greasy black soot is stamped deep into the skin over your left shoulder blade. A runner is sent immediately with a Bulath Hurulla sheaf to summon a master of the Mahasona Samayama.
+
+[[Accept the Bulath Hurulla and step into the Kattadiya role->Kattadiya_Mahasona_Entry][$tanikama = 80]]
+[[Return to the Anuradhapura crossroads at midnight->Crossroads_Midnight_Start][$balma = 20, $tanikama = 50]]
+
+
+:: Kattadiya_Mahasona_Entry [#samayam:MADDHAMA_MIDNIGHT #flow:dummala_vidiya_cards #audio:monsoon_light #haptic:iron_grip #vignette:0.46]
+You arrive at the patient's compound in Anuradhapura as the bamboo Vidiya altar is erected in the sandy courtyard. Inside the house, the patient shakes with bone-rattling chills, unable to turn his stiffened neck to the left.
+
+The household head offers the Bulath Hurulla sheaf beside your brass lamp. Before donning the boar-tusked mask, you raise the top betel leaf against the Pahana flame to read the crossroads signature.
+
+[[Hold the Pahana behind the betel leaf to inspect the five crossroads Lakunu->Sastra_Mahasona_Leaf_Check][$tanikama -= 5]]
+[[Inspect the black five-fingered handprint on the patient's shoulder first->Patient_Handprint_Forensics][$tanikama -= 5]]
+
+
+:: Sastra_Mahasona_Leaf_Check [#samayam:MADDHAMA_MIDNIGHT #flow:iron_betel_cutter_ash #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.52]
+Through the translucent leaf blade, the charnel marks stand out starkly: a dark bruise at the tip from midnight whistling at the Thummansala, a knotted left vein from unwarded meat, and a central tear where the victim looked back on the tank bund.
+
+The diagnosis is certain: {mutate: "the chill is merely malaria from the tank reeds" -> "Mahasona has struck the spine at the three-way boundary" @2300}. Fear only feeds the Great Cemetery Demon—to shrink his towering size and lift the shock from the patient, you must stage the comic Kōlama card duel and blind him with Dummala fire.
+
+[[Verify the physical handprint on the patient's left scapula->Patient_Handprint_Forensics][$balma += 5]]
+[[Step into the torchlit arena to deal the rigged Thovil card game->Thovil_Card_Duel_Prep][$balma += 10]]
+
+
+:: Patient_Handprint_Forensics [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.58]
+You lift the patient's shawl. Across the left shoulder blade lies the unmistakable Anguru Atha—five splayed finger-marks of greasy charnel soot that refuse to wash off with soap or water.
+
+Whether struck by the headless duelist avatar Jayasena Yaka or the boar-headed Maha Sohona, solemn prayers alone will fail. In the therapeutic theatre of the Thovil, the patient must hear the audience laugh at the demon until his terror dissolves.
+
+[[Summon the drummer and spread the woven mat for the Thovil card duel->Thovil_Card_Duel_Prep][$tanikama -= 10]]
+[[Re-examine the betel leaf veins against the brass lamp->Sastra_Mahasona_Leaf_Check][$tanikama -= 5]]
+
+
+:: Thovil_Card_Duel_Prep [#samayam:MADDHAMA_MIDNIGHT #flow:dummala_vidiya_cards #audio:yak_bera_ritual #haptic:iron_grip #vignette:0.56]
+The yak bera drums shift from a dread march into a syncopated, mocking banter. Wearing the bristling boar-mask of Mahasona, your dancer squats on the sand opposite the drummer, demanding raw blood and a human life—only for the drummer to offer him a rigged game of cards (Kola Sellama) and stale rice-cakes instead.
+
+To break the demon's dignity and lift the patient's paralysis, you must win three consecutive comic tricks on the altar mat—trumping his Boar, Graveyard, and Ash cards with Gothaimbara's Toe, the Iron Giraya, and the Rooster's Crow—and then ignite the Dummala resin flare to shrink his shadow.
+
+[[Complete the three comic card trumps and hurl the Dummala fire-cloud->Midnight_Gothaimbara_Varama][$balma += 10]]
+
+
+:: Midnight_Gothaimbara_Varama [#samayam:MADDHAMA_MIDNIGHT #flow:dummala_vidiya_cards #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.82 #balma:15]
+A blinding fireball of powdered Dummala resin erupts across the courtyard! Outlined against the orange blaze, the giant boar-headed shadow stumbles backward over the card mat as the watching villagers and the patient burst into cathartic laughter.
+
+Enraged by the public derision, Mahasona makes one last lunge toward the verandah to reclaim his dignity: {mutate: "The giant will crush the roof beams if you mock him" -> "By the kick of the warrior Gothaimbara, your head sits backwards and your warrant is void" @2100}. Lock the iron ward and strike the final Gothaimbara Varama cadence!
+
+[[Hold the iron Giraya, recite the Gothaimbara Varama, and smash the ash pot->Outcome_Kattadiya_Mahasona_Banished][@anchor_held $balma = 0]]
+[[Strike the clay pot without anchoring the cold iron ward->Outcome_Kattadiya_Mahasona_Backfire][$balma += 35]]
+
+
+:: Outcome_Kattadiya_Mahasona_Banished [#samayam:ALUYA_DAWN #flow:iron_betel_cutter_ash #audio:monsoon_light #haptic:iron_grip #vignette:0.30]
+With the iron Giraya locked under your thumb, you recite the humiliating defeat of Jayasena at the hands of Gothaimbara and cleave the clay ash-pot in two. Stripped of his terror by the courtyard's laughter and bound by the ancient warrant, the boar-headed shadow shrinks into a harmless wisp of grey smoke that scatters over the tank bund.
+
+On the verandah, the black five-fingered handprint fades from the patient's shoulder, and he laughs aloud as the dawn breeze stirs the banyan leaves.
+
+[[Replay Casefile 04 from the midnight crossroads in Anuradhapura->Crossroads_Midnight_Start][$balma = 20, $tanikama = 50]]
+[[Examine a new Bulath Hurulla sheaf in Kattadiya Mode->Kattadiya_Mahasona_Entry][$balma = 25]]
+
+
+:: Outcome_Kattadiya_Mahasona_Backfire [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.88]
+Your thumb slips from the iron Giraya as you throw the Dummala resin. Instead of flaring outward, the resin backfires in a choking black cloud that extinguishes the altar torches, silencing the crowd's laughter in an instant.
+
+In the sudden dark, heavy footsteps thud across the courtyard sand. You must relight the torch and deal the comic card duel anew to restore the patient's courage.
+
+[[Reset the Vidiya mat and deal the Thovil card duel again->Thovil_Card_Duel_Prep][$balma = 40]]
+[[Return to the Sastra betel leaf inspection->Kattadiya_Mahasona_Entry][$balma = 30]]

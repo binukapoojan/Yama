@@ -1,97 +1,110 @@
+// src/components/debug/AudioMixerDebugPanel.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import { audioMixer, StemCueId } from '../../juice/audioMixer';
-import { juiceDirector } from '../../juice/JuiceDirector';
+import { AudioCueId, audioMixer } from '../../juice/audioMixer';
 
-const STEMS: ReadonlyArray<{ id: StemCueId; label: string }> = [
-  { id: 'monsoon_light', label: 'Light Rain' },
-  { id: 'monsoon_heavy', label: 'Heavy Rain' },
-  { id: 'ceb_power_cut', label: '50Hz Cut' },
-  { id: 'kandy_night_cicadas', label: 'Cicadas' },
-  { id: 'yak_bera_ritual', label: 'Yak Bera' },
+const CUES: ReadonlyArray<{ id: AudioCueId; label: string }> = [
+  { id: 'monsoon_light', label: 'CF01 · Monsoon Light' },
+  { id: 'monsoon_heavy', label: 'CF01/02 · Monsoon Heavy' },
+  { id: 'ceb_power_cut', label: 'All · CEB Power Cut (54Hz)' },
+  { id: 'yak_bera_ritual', label: 'All · Yak Bera Ritual' },
+  { id: 'hearth_crackle', label: 'CF03 · Matara Hearth Crackle' },
+  { id: 'arterial_pulse', label: 'CF03 · Riri Arterial Fever' },
 ];
 
 export const AudioMixerDebugPanel: React.FC = () => {
-  const [visible, setVisible] = useState<boolean>(true);
-  const [activeStem, setActiveStem] = useState<StemCueId>('monsoon_light');
-  const [cutoffHz, setCutoffHz] = useState<number>(18000);
-  const [resonanceQ, setResonanceQ] = useState<number>(1.8);
-  const [muffled, setMuffled] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [activeCue, setActiveCue] = useState<AudioCueId>('monsoon_light');
+  const [balma, setBalma] = useState<number>(20);
+  const [cutoffHz, setCutoffHz] = useState<number>(12000);
+  const [wardHeld, setWardHeld] = useState<boolean>(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.code === 'Backquote') setVisible((v) => !v); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.code === 'Backquote') {
+        e.preventDefault(); audioMixer.unlock(); setIsOpen((prev) => !prev);
+      }
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
   useEffect(() => {
-    if (!visible) return;
-    let raf = 0;
-    const data = new Uint8Array(128);
-    const draw = () => {
-      const cvs = canvasRef.current, analyser = audioMixer.getAnalyser();
-      if (cvs && analyser) {
-        const ctx = cvs.getContext('2d');
+    if (!isOpen) return;
+    let rafId = 0;
+    const freqData = new Uint8Array(128);
+    const renderFFT = () => {
+      const canvas = canvasRef.current, analyser = audioMixer.getAnalyser();
+      if (canvas && analyser) {
+        const ctx = canvas.getContext('2d');
         if (ctx) {
-          analyser.getByteFrequencyData(data);
+          analyser.getByteFrequencyData(freqData);
           ctx.fillStyle = '#090807';
-          ctx.fillRect(0, 0, cvs.width, cvs.height);
-          const barW = cvs.width / 64;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          const barW = canvas.width / 64;
           for (let i = 0; i < 64; i++) {
-            const val = data[i] / 255;
-            ctx.fillStyle = i < 8 ? '#8C1D24' : muffled ? '#3B4D7A' : '#C8963E';
-            ctx.fillRect(i * barW, cvs.height - val * cvs.height, barW - 1, val * cvs.height);
+            const val = freqData[i] / 255, h = val * canvas.height;
+            ctx.fillStyle = i < 9 ? '#8C1D24' : i < 32 ? '#C8963E' : '#D49B27';
+            ctx.fillRect(i * barW, canvas.height - h, barW - 1, h);
           }
         }
       }
-      raf = requestAnimationFrame(draw);
+      rafId = requestAnimationFrame(renderFFT);
     };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
-  }, [visible, muffled]);
+    rafId = requestAnimationFrame(renderFFT);
+    return () => cancelAnimationFrame(rafId);
+  }, [isOpen]);
 
-  if (!visible) return null;
+  if (!isOpen) return null;
+
+  const triggerCue = (cue: AudioCueId, nextBalma = balma) => {
+    audioMixer.unlock(); setActiveCue(cue); audioMixer.setCue(cue, nextBalma);
+  };
 
   return (
-    <aside className="fixed top-4 left-4 z-50 w-80 border border-[#C8963E]/40 bg-[#0D0B0A]/95 p-4 font-mono text-xs text-[#EAE3D2] shadow-2xl backdrop-blur-md">
-      <div className="mb-3 flex items-center justify-between border-b border-[#C8963E]/20 pb-2">
-        <span className="tracking-wider text-[#C8963E] uppercase">WebAudio DSP Workbench</span>
-        <span className="text-[10px] text-[#EAE3D2]/40">[~] Hide</span>
+    <aside className="fixed bottom-4 left-4 z-50 w-88 border border-[#C8963E]/45 bg-[#0D0B0A]/95 p-4 font-serif text-xs text-[#EAE3D2] shadow-2xl select-none">
+      <div className="mb-2.5 flex items-center justify-between border-b border-[#C8963E]/20 pb-1.5">
+        <span className="tracking-[0.18em] text-[#D49B27] uppercase">DSP Acoustic Workbench [~]</span>
+        <button type="button" onClick={() => setIsOpen(false)} className="cursor-pointer text-[#EAE3D2]/50 hover:text-[#EAE3D2]">[Close]</button>
       </div>
-      <canvas ref={canvasRef} width={288} height={64} className="mb-3 w-full border border-[#1C1813] bg-[#090807]" />
-      <div className="space-y-3">
-        <div className="grid grid-cols-3 gap-1.5">
-          {STEMS.map((s) => (
-            <button key={s.id} type="button" onClick={() => { setActiveStem(s.id); audioMixer.previewCue(s.id); }}
-              className={`cursor-pointer border px-1 py-1 text-[10px] transition-colors ${
-                activeStem === s.id ? 'border-[#C8963E] bg-[#C8963E]/20' : 'border-[#1C1813] bg-[#120F0C] opacity-60'
-              }`}>{s.label}</button>
-          ))}
-        </div>
-        <div>
-          <div className="flex justify-between text-[11px]"><span>Low-Pass Cutoff</span><span className="text-[#C8963E]">{cutoffHz} Hz</span></div>
-          <input type="range" min={120} max={18000} step={20} value={cutoffHz} onChange={(e) => {
-            const hz = Number(e.target.value); setCutoffHz(hz); audioMixer.setFilterParams(hz, resonanceQ);
-          }} className="mt-1 w-full accent-[#C8963E]" />
-        </div>
-        <div>
-          <div className="flex justify-between text-[11px]"><span>Filter Resonance (Q)</span><span className="text-[#C8963E]">{resonanceQ.toFixed(1)}</span></div>
-          <input type="range" min={0.5} max={8.0} step={0.1} value={resonanceQ} onChange={(e) => {
-            const q = Number(e.target.value); setResonanceQ(q); audioMixer.setFilterParams(cutoffHz, q);
-          }} className="mt-1 w-full accent-[#C8963E]" />
-        </div>
-        <div className="grid grid-cols-3 gap-1.5 pt-1">
-          <button type="button" onClick={() => {
-            const next = !muffled; setMuffled(next); setCutoffHz(next ? 320 : 18000); audioMixer.setDreamMuffle(next);
-          }} className="cursor-pointer border border-[#3B4D7A] bg-[#3B4D7A]/20 py-1.5 text-[10px]">
-            {muffled ? 'Unmuffle' : 'Dream (320Hz)'}
+
+      <canvas ref={canvasRef} width={320} height={68} className="mb-3 w-full border border-[#C8963E]/25 bg-[#090807]" />
+
+      {/* 6 Procedural Stem Presets */}
+      <div className="mb-3 grid grid-cols-2 gap-1.5">
+        {CUES.map((c) => (
+          <button
+            key={c.id}
+            type="button"
+            onClick={() => triggerCue(c.id)}
+            className={`cursor-pointer border px-2 py-1 text-left text-[11px] transition-colors ${
+              activeCue === c.id ? 'border-[#D49B27] bg-[#C8963E]/20 text-[#D49B27]' : 'border-[#C8963E]/20 text-[#EAE3D2]/70 hover:border-[#C8963E]/50'
+            }`}
+          >
+            {c.label}
           </button>
-          <button type="button" onClick={() => audioMixer.playYakBeraPulse(0.95)} className="cursor-pointer border border-[#8C1D24] bg-[#8C1D24]/20 py-1.5 text-[10px]">Yak Bera</button>
-          <button type="button" onClick={() => {
-            juiceDirector.setAnchorHeld(true); setMuffled(false); setCutoffHz(18000);
-            setTimeout(() => juiceDirector.setAnchorHeld(false), 600);
-          }} className="cursor-pointer border border-[#D49B27] bg-[#D49B27]/20 py-1.5 text-[10px]">Iron Key</button>
-        </div>
+        ))}
+      </div>
+
+      {/* Balma Dread & Master Low-Pass Sliders */}
+      <div className="mb-3 space-y-2 border-y border-[#C8963E]/15 py-2.5">
+        <label className="flex items-center justify-between text-[11px]">
+          <span>Balma Dread ({balma}% · {balma >= 60 ? 'Arterial Loop ON' : 'Idle'})</span>
+          <input type="range" min={0} max={100} value={balma} onChange={(e) => { const v = Number(e.target.value); setBalma(v); triggerCue(activeCue, v); }} className="w-28 accent-[#8C1D24]" />
+        </label>
+        <label className="flex items-center justify-between text-[11px]">
+          <span>LPF Cutoff ({cutoffHz} Hz)</span>
+          <input type="range" min={240} max={16000} step={80} value={cutoffHz} onChange={(e) => { const hz = Number(e.target.value); setCutoffHz(hz); audioMixer.setMasterFilterFreq(hz); }} className="w-28 accent-[#C8963E]" />
+        </label>
+      </div>
+
+      {/* One-Shot Transient & Cold-Iron Ward Triggers */}
+      <div className="grid grid-cols-3 gap-1.5 text-[10px] tracking-wider uppercase">
+        <button type="button" onClick={() => { audioMixer.unlock(); audioMixer.playYakBeraPulse(0.95); }} className="cursor-pointer border border-[#C8963E]/35 py-1.5 text-[#C8963E] hover:bg-[#C8963E]/15">Yak Bera</button>
+        <button type="button" onClick={() => { audioMixer.unlock(); audioMixer.playArterialPulse(0.95); }} className="cursor-pointer border border-[#8C1D24]/60 py-1.5 text-[#8C1D24] hover:bg-[#8C1D24]/15">Systole Pulse</button>
+        <button type="button" onClick={() => { const next = !wardHeld; setWardHeld(next); audioMixer.setAnchorState(next); }} className={`cursor-pointer border py-1.5 ${wardHeld ? 'border-[#D49B27] bg-[#D49B27]/20 text-[#D49B27]' : 'border-[#C8963E]/35 text-[#EAE3D2]/70'}`}>
+          {wardHeld ? 'Ward: 528Hz' : 'Ward: Off'}
+        </button>
       </div>
     </aside>
   );

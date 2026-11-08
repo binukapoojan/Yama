@@ -1,4 +1,6 @@
 import { FlowLoopId, HapticPatternId, TwinePassage } from '../core/schema';
+import { audioMixer } from './audioMixer';
+import { hapticEngine } from './hapticEngine';
 
 export type JuiceEventMap = {
   FLOW_CROSSFADE: { loopId: FlowLoopId; isProtectedOverride: boolean };
@@ -10,20 +12,6 @@ export type JuiceEventMap = {
 
 type Listener<K extends keyof JuiceEventMap> = (payload: JuiceEventMap[K]) => void;
 
-const HAPTIC_PATTERNS: Record<HapticPatternId, number[]> = {
-  heartbeat_slow: [40, 120, 60, 750],
-  heartbeat_panic: [50, 80, 70, 220, 50, 80, 70, 220],
-  dread_throb: [120, 90, 180],
-  iron_grip: [18, 35, 12],
-};
-
-const MOHINI_LOOPS: ReadonlySet<FlowLoopId> = new Set([
-  'mohini_saree_silhouette',
-  'kandy_mist_bamboo',
-  'kaduru_puddle_feet',
-  'sanni_mask_torch',
-]);
-
 class JuiceDirectorEngine {
   private listeners: { [K in keyof JuiceEventMap]?: Set<Listener<any>> } = {};
   private anchorHeld = false;
@@ -31,9 +19,7 @@ class JuiceDirectorEngine {
   private activeAudioCue = 'monsoon_light';
 
   public on<K extends keyof JuiceEventMap>(event: K, fn: Listener<K>): () => void {
-    if (!this.listeners[event]) {
-      this.listeners[event] = new Set();
-    }
+    if (!this.listeners[event]) this.listeners[event] = new Set();
     this.listeners[event]!.add(fn);
     return () => this.listeners[event]?.delete(fn);
   }
@@ -42,17 +28,25 @@ class JuiceDirectorEngine {
     this.listeners[event]?.forEach((fn) => fn(payload));
   }
 
-  public isAnchorHeld(): boolean {
-    return this.anchorHeld;
-  }
+  public isAnchorHeld(): boolean { return this.anchorHeld; }
+  public get baseLoop(): FlowLoopId { return this.activePassageLoop; }
 
   private getProtectedLoop(): FlowLoopId {
-    return MOHINI_LOOPS.has(this.activePassageLoop) ? 'kaduru_puddle_feet' : 'pahana_steady';
+    const loop = this.baseLoop;
+    if (loop.startsWith('thummansala_') || loop.startsWith('sohon_') || loop.startsWith('dummala_') || loop === 'iron_betel_cutter_ash') {
+      return 'iron_betel_cutter_ash';
+    }
+    if (loop.startsWith('matara_') || loop.startsWith('wadamal_') || loop.startsWith('peduru_') || loop === 'iron_sickle_ember') {
+      return 'iron_sickle_ember';
+    }
+    if (loop.startsWith('kandy_') || loop.startsWith('mohini_') || loop.startsWith('kaduru_') || loop === 'sanni_mask_torch') {
+      return 'kaduru_puddle_feet';
+    }
+    return 'pahana_steady';
   }
 
   public enterPassage(passage: TwinePassage, currentBalma: number): void {
     const { directives } = passage;
-
     if (directives.flow) {
       this.activePassageLoop = directives.flow;
       this.emit('FLOW_CROSSFADE', {
@@ -68,42 +62,33 @@ class JuiceDirectorEngine {
         muffleDreamFilter: !this.anchorHeld && currentBalma >= 50,
       });
     }
-
-    if (directives.haptic) {
-      this.triggerHaptic(directives.haptic);
-    }
+    audioMixer.setCue(this.activeAudioCue, currentBalma);
+    if (directives.haptic) this.triggerHaptic(directives.haptic);
 
     const calculatedVignette = directives.vignette ?? Math.min(0.88, 0.35 + currentBalma * 0.005);
     this.emit('VIGNETTE_SHIFT', {
       intensity: this.anchorHeld ? Math.max(0.25, calculatedVignette - 0.25) : calculatedVignette,
     });
-
     this.emit('PASSAGE_ENTERED', { passage });
   }
 
   public setAnchorHeld(held: boolean): void {
     if (this.anchorHeld === held) return;
     this.anchorHeld = held;
+    hapticEngine.setAnchorHoldLoop(held);
+    audioMixer.setAnchorState(held);
 
     if (held) {
-      this.triggerHaptic('iron_grip');
       this.emit('FLOW_CROSSFADE', { loopId: this.getProtectedLoop(), isProtectedOverride: true });
       this.emit('AUDIO_CUE', { cueId: this.activeAudioCue, muffleDreamFilter: false });
     } else {
       this.emit('FLOW_CROSSFADE', { loopId: this.activePassageLoop, isProtectedOverride: false });
     }
-
     this.emit('ANCHOR_STATE_CHANGE', { held });
   }
 
   public triggerHaptic(patternId: HapticPatternId): void {
-    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-      try {
-        navigator.vibrate(HAPTIC_PATTERNS[patternId]);
-      } catch {
-        // Ignore on desktop browsers blocking vibration API
-      }
-    }
+    hapticEngine.trigger(patternId);
   }
 }
 

@@ -2193,5 +2193,2204 @@
         }
       ]
     }
+  },
+  "CF03": {
+    "Crimson_Hearth_Start": {
+      "name": "Crimson_Hearth_Start",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "matara_hearth_smoke",
+        "audio": "hearth_crackle",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.52
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "A bruisingslash of crimson light—the Lē Irabatuwa sunset—bleeds through the clay smoke-tiles of your grandmother's outdoor firewood kitchen in Matara. The main house stands thirty yards away across the wet laterite courtyard."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "In the heavy iron pan over the dara lipa hearth, coconut oil hisses around pieces of salted seer fish. As you turn a fillet with the iron ladle, the sharp fin nicks the ball of your thumb. A single bead of blood swells against your skin, and the rising steam smells suddenly of "
+          },
+          {
+            "type": "mutate",
+            "id": "Crimson_Hearth_Start_p1_m0",
+            "wakingText": "fried onions and curry leaves",
+            "corruptedText": "scorched copper and raw slaughterhouse iron",
+            "delayMs": 2500
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Eat a hot piece of fried fish straight from the pan without offering the Agas pinch",
+          "targetPassage": "Hearth_Ember_Agas",
+          "mutations": [
+            {
+              "variable": "taboo_fried_pulutu",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "taboo_tasted_hearth_ash",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 20
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Drop a pinch of fish into the red coals and step out to wash your cut thumb at the well",
+          "targetPassage": "Wellside_Fish_Scales",
+          "mutations": [
+            {
+              "variable": "taboo_fried_pulutu",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Hearth_Ember_Agas": {
+      "name": "Hearth_Ember_Agas",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "matara_hearth_smoke",
+        "audio": "hearth_crackle",
+        "haptic": "dread_throb",
+        "vignette": 0.62,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The salted fish burns your tongue. Down in the clay firebox, the coconut-shell embers pop violently, turning from bright orange to a dull, clotted carmine."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Outside the low wooden doorway, something heavy scrapes across the gravel by the chopping block. In the red twilight, the puddle of fish-cleaning water you poured beside the threshold glints like "
+          },
+          {
+            "type": "mutate",
+            "id": "Hearth_Ember_Agas_p1_m0",
+            "wakingText": "muddy rainwater",
+            "corruptedText": "freshly spilled arterial blood",
+            "delayMs": 2400
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Wipe your bleeding thumb on your sarong and step outside without washing it",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "taboo_unwashed_blood",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Touch the cold iron sickle by the door and pour turmeric water over the threshold",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Wellside_Fish_Scales": {
+      "name": "Wellside_Fish_Scales",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "wadamal_blood_hedge",
+        "audio": "monsoon_light",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.56
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You walk out to the moss-ringed well behind the kitchen. The sky over the coconut palms is the color of rusted iron, and the evening crows have gone abruptly silent."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Before you can draw the bucket, you notice the silver seer-fish scales left on the cement apron have attracted a trail of large red ants. The cut on your thumb throbs in time with "
+          },
+          {
+            "type": "mutate",
+            "id": "Wellside_Fish_Scales_p1_m0",
+            "wakingText": "the distant surf at Polhena reef",
+            "corruptedText": "a wet, rhythmic panting behind the banana clump",
+            "delayMs": 2600
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Leave the bloody scales on the stone and hurry back toward the kitchen",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "taboo_unwashed_blood",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            },
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Scrub the stone clean with lime rind and hold your iron key",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Wadamal_Hedge_Breach": {
+      "name": "Wadamal_Hedge_Breach",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "wadamal_blood_hedge",
+        "audio": "monsoon_heavy",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.66
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Darkness drops fast over the southern coast. Along the boundary wall separating the garden from the old canal lane, the row of Wada Mal bushes hangs heavy with wet, blood-red hibiscus blossoms."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Even though there is no wind, a single branch sways violently at chest height. Two crimson blossoms hang directly over the path, their long stamens quivering like "
+          },
+          {
+            "type": "mutate",
+            "id": "Wadamal_Hedge_Breach_p1_m0",
+            "wakingText": "wet red petals in the drizzle",
+            "corruptedText": "slick tongues tasting the evening air",
+            "delayMs": 2300
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Tear the two red Wada Mal flowers off the branch to clear the path",
+          "targetPassage": "Termite_Mound_Shadow",
+          "mutations": [
+            {
+              "variable": "taboo_plucked_wadamal",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 20
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Step wide around the hibiscus hedge beside the red-clay termite mound",
+          "targetPassage": "Termite_Mound_Shadow",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Duck beneath the wet leaves without touching a single red petal",
+          "targetPassage": "Kitchen_Threshold_Retreat",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Termite_Mound_Shadow": {
+      "name": "Termite_Mound_Shadow",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "wadamal_blood_hedge",
+        "audio": "ceb_power_cut",
+        "haptic": "dread_throb",
+        "vignette": 0.74,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Beside the well rises an ancient red-earth Humbaha—a tall, chimney-like termite mound slick with rain. The narrow footpath back to the kitchen doorway is blocked by a fallen coconut frond."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "From the hollow vents of the clay mound comes a low, rasping hiss, followed by the unmistakable stench of "
+          },
+          {
+            "type": "mutate",
+            "id": "Termite_Mound_Shadow_p1_m0",
+            "wakingText": "wet laterite clay and decaying leaves",
+            "corruptedText": "clotted blood and singed monkey fur",
+            "delayMs": 2200
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Step directly over the red termite mound to reach the kitchen door faster",
+          "targetPassage": "Boiling_Pulse_Onset",
+          "mutations": [
+            {
+              "variable": "taboo_crossed_anthill",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 25
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Hold the cold iron ward and drag the coconut frond aside without crossing the mound",
+          "targetPassage": "Boiling_Pulse_Onset",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Kitchen_Threshold_Retreat": {
+      "name": "Kitchen_Threshold_Retreat",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "matara_hearth_smoke",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.68
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You slip back inside the low-roofed kitchen and pull the plank door shut. The brass pahana on the clay ledge burns with a sputtering, crimson-rimmed flame."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The fried fish in the iron pan has gone ice-cold, yet the air inside the smoky room feels unbearably hot. When you look down at your hands, the tiny nick on your thumb is "
+          },
+          {
+            "type": "mutate",
+            "id": "Kitchen_Threshold_Retreat_p1_m0",
+            "wakingText": "already clotting shut",
+            "corruptedText": "weeping a steady red thread down your wrist",
+            "delayMs": 2400
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Suck the blood from your thumb and swallow it in the dark",
+          "targetPassage": "Boiling_Pulse_Onset",
+          "mutations": [
+            {
+              "variable": "taboo_unwashed_blood",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "taboo_tasted_hearth_ash",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 25
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Press cold wood-ash and iron against the cut to seal the scent",
+          "targetPassage": "Boiling_Pulse_Onset",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Boiling_Pulse_Onset": {
+      "name": "Boiling_Pulse_Onset",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "iron_sickle_ember",
+        "audio": "arterial_pulse",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.8
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "By midnight, a sudden, violent heat surges behind your eyes. You sink onto the woven reed mat in the corner of the kitchen as your pulse hammers against your eardrums like a double-headed drum."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Through the smoke-vent grating near the roof tiles, two small, bloodshot eyes peer down through the soot. The voice that scrapes from the rafters is not human; it chatters with the wet, feral cadence of a macaque: "
+          },
+          {
+            "type": "mutate",
+            "id": "Boiling_Pulse_Onset_p1_m0",
+            "wakingText": "The rain is leaking through the old clay tiles",
+            "corruptedText": "You fried the pulutu at dusk and left the red flower for me",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Stare up into the red eyes in the smoke-vent and try to stand",
+          "targetPassage": "Red_Bull_Apparition",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 20
+            },
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Grip the forged iron sickle handle on the floor and look at the hearth embers",
+          "targetPassage": "Midnight_Arterial_Weight",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Red_Bull_Apparition": {
+      "name": "Red_Bull_Apparition",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "wadamal_blood_hedge",
+        "audio": "yak_bera_ritual",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.86,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The plank door shudders on its iron hinges. Outside in the courtyard mud, heavy cloven hooves circle the kitchen walls, snorting steam that smells of copper and graveyard ash."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "A squat, muscular figure smeared in vermilion lime crouches on the threshold stone, holding a torn red hibiscus blossom between its teeth. Every heartbeat in your chest feels as if "
+          },
+          {
+            "type": "mutate",
+            "id": "Red_Bull_Apparition_p1_m0",
+            "wakingText": "your fever is spiking from an infected cut",
+            "corruptedText": "invisible teeth are drawing the warmth straight out of your veins",
+            "delayMs": 2000
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Press the cold iron ward to your breastbone and refuse to look at the doorway",
+          "targetPassage": "Midnight_Arterial_Weight",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": true
+        },
+        {
+          "label": "Crawl toward the door to bolt the lower latch with your bare hands",
+          "targetPassage": "Midnight_Arterial_Weight",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 20
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Midnight_Arterial_Weight": {
+      "name": "Midnight_Arterial_Weight",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "iron_sickle_ember",
+        "audio": "yak_bera_ritual",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.88,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The brass pahana flame drops to a tiny crimson bead. Across the reed mat, a shadow with a simian jaw and matted red hair straddles your knees, pressing a burning palm over your ribcage."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The heat in your veins turns to freezing lead. In the roaring silence of your ears, the demon demands its warrant: "
+          },
+          {
+            "type": "mutate",
+            "id": "Midnight_Arterial_Weight_p1_m0",
+            "wakingText": "Give me the blood in the pan and the life on the mat",
+            "corruptedText": "By the Varama of the Sun God and the Iron Sickle, I claim only ash",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Lock your thumb on the cold iron ward and spit onto the dead hearth coals",
+          "targetPassage": "Outcome_Athura_Riri_Survived",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 30
+            }
+          ],
+          "requiresAnchorHeld": true
+        },
+        {
+          "label": "Release the iron handle as the crimson haze swallows your sight",
+          "targetPassage": "Outcome_Athura_Riri_Drained",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 40
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Strike out at the monkey-faced shadow with your bleeding hand",
+          "targetPassage": "Outcome_Athura_Riri_Drained",
+          "mutations": [
+            {
+              "variable": "taboo_unwashed_blood",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 35
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Athura_Riri_Survived": {
+      "name": "Outcome_Athura_Riri_Survived",
+      "directives": {
+        "samayam": "ALUYA_DAWN",
+        "flow": "iron_sickle_ember",
+        "audio": "monsoon_light",
+        "haptic": "iron_grip",
+        "vignette": 0.34
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The cold iron drinks the heat from your palm. With a furious, chattering shriek, the weight leaps backward through the smoke-vent as a rooster crows from the neighbor's cinnamon garden."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "When the grey dawn filters through the clay tiles, the iron frying pan is cracked clean in two—having taken the blow meant for your heart—while your own pulse beats steady and cool."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Inspect the forensic case from the Southern Kattadiya perspective",
+          "targetPassage": "Kattadiya_Riri_Entry",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 40
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Relive the crimson sunset in the Matara kitchen",
+          "targetPassage": "Crimson_Hearth_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 20
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 50
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Athura_Riri_Drained": {
+      "name": "Outcome_Athura_Riri_Drained",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "peduru_funeral_mat",
+        "audio": "yak_bera_ritual",
+        "haptic": "dread_throb",
+        "vignette": 0.9
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Your fingers open. The forged iron blade slides across the clay floor into the dark. A wave of blinding crimson heat bursts behind your eyes, leaving your limbs as cold and rigid as seasoned timber."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "At daybreak, your family finds you stretched motionless on the kitchen reed mat, your skin burning with a dry scarlet fever while your lips murmur toward the termite mound. An urgent Bulath Hurulla sheaf is dispatched to a Matara Yakadura master."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Accept the Bulath Hurulla and step into the Kattadiya role",
+          "targetPassage": "Kattadiya_Riri_Entry",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 80
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Return to the Matara kitchen at sunset",
+          "targetPassage": "Crimson_Hearth_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 20
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 50
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Kattadiya_Riri_Entry": {
+      "name": "Kattadiya_Riri_Entry",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "peduru_funeral_mat",
+        "audio": "monsoon_light",
+        "haptic": "iron_grip",
+        "vignette": 0.46
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You arrive at the Matara compound as the midnight watch begins. In the outer verandah, the patient lies rigid on a cot, his pulse racing like a trapped bird while his fingernails show a dark, bruised carmine tint."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The household elder places the Bulath Hurulla sheaf beside your brass lamp. Observing the strict silence of the Southern Sastra tradition, you hold the top betel leaf before the flame."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Pass the Pahana flame behind the betel leaf to read the blood Lakunu",
+          "targetPassage": "Sastra_Riri_Leaf_Check",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Inspect the outdoor firewood hearth and the patient's pulse first",
+          "targetPassage": "Patient_Hemorrhage_Check",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Sastra_Riri_Leaf_Check": {
+      "name": "Sastra_Riri_Leaf_Check",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "iron_sickle_ember",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.52
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The subsurface light reveals a violent signature inside the leaf blade: a dark crimson bruise at the apex from dusk frying oil, knotted left veins where raw blood went unwashed, and a central perforation where red Wada Mal flowers were plucked after six."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The diagnosis is unmistakable: "
+          },
+          {
+            "type": "mutate",
+            "id": "Sastra_Riri_Leaf_Check_p1_m0",
+            "wakingText": "the fever stems from tainted fish oil",
+            "corruptedText": "Riri Yaka has claimed a blood warrant over the patient's life",
+            "delayMs": 2300
+          },
+          {
+            "type": "plain",
+            "text": ". An ordinary offering tray will not suffice—when Riri Yaka demands a corpse, only the Peduru Dāne mock funeral can deceive him."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Verify the physical signs at the kitchen hearth and well",
+          "targetPassage": "Patient_Hemorrhage_Check",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Unroll the Pan Pedura funeral mat to stage the surrogate death",
+          "targetPassage": "Woven_Mat_Funeral_Prep",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Patient_Hemorrhage_Check": {
+      "name": "Patient_Hemorrhage_Check",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "wadamal_blood_hedge",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.6
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You examine the patient's tongue and wrists: the Pitta and Rakta humours are boiling. Out by the kitchen well, crushed red Wada Mal petals lie pressed into the mud beside the termite mound, and the iron frying pan still reeks of dusk pulutu."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Whether struck by the frenzied Maru Riri or the corpse-cold Sohon Riri, the demon will not depart until he witnesses a body wrapped and bound for the cremation ground."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Spread the woven rush mat in the courtyard for the Dara Haeva ritual",
+          "targetPassage": "Woven_Mat_Funeral_Prep",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Re-examine the betel leaf veins against the brass lamp",
+          "targetPassage": "Sastra_Riri_Leaf_Check",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Woven_Mat_Funeral_Prep": {
+      "name": "Woven_Mat_Funeral_Prep",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "peduru_funeral_mat",
+        "audio": "yak_bera_ritual",
+        "haptic": "iron_grip",
+        "vignette": 0.58
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "In the sandy courtyard between the kitchen and the well, flares of dummala resin turn the drizzle blood-red. You spread a fresh Pan Pedura rush mat upon the earth and mix turmeric with slaked lime until the water turns deep arterial crimson—Rathu Kaha Diya."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "To satisfy Riri Yaka's demand for a corpse, you must anoint the three vital chakras on the mat with crimson lime-water, fold the woven rush shroud over the surrogate form, and knot the three gokkola funeral bindings at the head, heart, and feet."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Seal the three gokkola funeral knots and chant the Riri Yak Varama",
+          "targetPassage": "Midnight_Peduru_Surrender",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Midnight_Peduru_Surrender": {
+      "name": "Midnight_Peduru_Surrender",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "peduru_funeral_mat",
+        "audio": "yak_bera_ritual",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.84,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The Southern yak bera drum hammers a funeral march. As the bound rush mat lies between the flaming torches, a squat shadow drops from the hibiscus hedge, sniffing the crimson turmeric-lime water spilled across the reeds."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The lamp flame flattens as Riri Yaka reaches for the living patient on the verandah instead of the mat: "
+          },
+          {
+            "type": "mutate",
+            "id": "Midnight_Peduru_Surrender_p1_m0",
+            "wakingText": "The boy on the cot still has warm blood in his throat",
+            "corruptedText": "Accept this bound corpse on the funeral mat and depart to the charnel ground",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": ". You must lock the iron ward and strike the final gatha cadence to transfer the warrant into the mat."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Hold the iron ward, recite the Riri Yak Varama, and cast the mat beyond the gate",
+          "targetPassage": "Outcome_Kattadiya_Riri_Banished",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 0
+            }
+          ],
+          "requiresAnchorHeld": true
+        },
+        {
+          "label": "Cut the gokkola funeral ties without anchoring the iron ward",
+          "targetPassage": "Outcome_Kattadiya_Riri_Backfire",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 35
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Kattadiya_Riri_Banished": {
+      "name": "Outcome_Kattadiya_Riri_Banished",
+      "directives": {
+        "samayam": "ALUYA_DAWN",
+        "flow": "iron_sickle_ember",
+        "audio": "monsoon_light",
+        "haptic": "iron_grip",
+        "vignette": 0.32
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "With the iron ward locked under your thumb, you slice the تین gokkola knots with a single downward stroke and hurl the red lime-water into the darkness beyond the boundary wall. Deceived by the funeral shroud and sated by the crimson tribute, the shadow vanishes into the canal mist."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "On the verandah, the scarlet flush fades from the patient's cheeks. He sits up and asks for cool water as the morning sun clears the Matara palms."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Replay Casefile 03 from the crimson sunset in Matara",
+          "targetPassage": "Crimson_Hearth_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 20
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 50
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Examine a new Bulath Hurulla sheaf in Kattadiya Mode",
+          "targetPassage": "Kattadiya_Riri_Entry",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 25
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Kattadiya_Riri_Backfire": {
+      "name": "Outcome_Kattadiya_Riri_Backfire",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "wadamal_blood_hedge",
+        "audio": "yak_bera_ritual",
+        "haptic": "dread_throb",
+        "vignette": 0.88
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Your thumb slips from the iron ward before the funeral transfer is sealed. The middle gokkola tie snaps prematurely, and the woven rush mat unrolls empty in the mud."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "A chattering laugh echoes from the kitchen roof tiles as the brass lamp tips over in a pool of red lime-water. You must re-anoint the rush mat and bind the funeral shroud anew before the patient's pulse gives out."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Spread the Pan Pedura mat again and repeat the funeral binding",
+          "targetPassage": "Woven_Mat_Funeral_Prep",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 40
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Return to the Sastra betel leaf inspection",
+          "targetPassage": "Kattadiya_Riri_Entry",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 30
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    }
+  },
+  "CF04": {
+    "Crossroads_Midnight_Start": {
+      "name": "Crossroads_Midnight_Start",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "thummansala_banyan_wind",
+        "audio": "monsoon_light",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.55
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The dynamo headlamp on your bicycle flickers and dies as the chain slips off the sprocket. You come to a halt at the Thummansala—the deserted three-way gravel junction where the Anuradhapura tank-bund track meets the old village cremation ground."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "It is 11:52 PM. Overhead, the aerial roots of an ancient banyan tree hang motionless in the dry, moonless air. Somewhere in the thorny scrub, a nightjar clicks once, and the silence presses against your eardrums like "
+          },
+          {
+            "type": "mutate",
+            "id": "Crossroads_Midnight_Start_p1_m0",
+            "wakingText": "warm dry-zone wind",
+            "corruptedText": "a giant holding its breath six paces behind your back",
+            "delayMs": 2500
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Whistle a loud tune to steady your nerves while fitting the greasy bicycle chain",
+          "targetPassage": "Gravel_Meat_Parcel",
+          "mutations": [
+            {
+              "variable": "taboo_whistled_crossroads",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 20
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Work in strict silence and keep one thumb on the iron Giraya cutter in your pocket",
+          "targetPassage": "Banyan_Root_Culvert",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Gravel_Meat_Parcel": {
+      "name": "Gravel_Meat_Parcel",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "thummansala_banyan_wind",
+        "audio": "ceb_power_cut",
+        "haptic": "dread_throb",
+        "vignette": 0.64,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Your whistle dies flat against the banyan trunks—no echo returns from the tank water. Hanging from your handlebar is a newspaper-wrapped parcel of spiced wild boar curry from your uncle's almsgiving house."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The paper has soaked through with warm fat. As you crouch over the rear wheel, a sudden gust of wind carrying the stench of "
+          },
+          {
+            "type": "mutate",
+            "id": "Gravel_Meat_Parcel_p1_m0",
+            "wakingText": "dry palu leaves and tank mud",
+            "corruptedText": "wet grave-earth and scorched boar bristles",
+            "delayMs": 2400
+          },
+          {
+            "type": "plain",
+            "text": " sweeps across the junction."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Leave the meat parcel uncovered in the basket without tucking an iron nail inside",
+          "targetPassage": "Shattered_Charnel_Pot",
+          "mutations": [
+            {
+              "variable": "taboo_carried_uncovered_meat",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Slip your forged iron betel-cutter into the meat wrapper to seal the scent",
+          "targetPassage": "Shattered_Charnel_Pot",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Banyan_Root_Culvert": {
+      "name": "Banyan_Root_Culvert",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "thummansala_banyan_wind",
+        "audio": "monsoon_light",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.58
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You hook the chain back onto the teeth without making a sound, though your fingers come away black with axle grease. Tied to your carrier rack is a warm parcel of roasted meat from the village feast."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Down inside the dry concrete culvert beneath the crossroads, dry leaves rustle violently—as if something far too broad to fit inside a pipe is "
+          },
+          {
+            "type": "mutate",
+            "id": "Banyan_Root_Culvert_p1_m0",
+            "wakingText": "a monitor lizard burrowing in the silt",
+            "corruptedText": "dragging a crushed shoulder along the concrete wall",
+            "delayMs": 2500
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Pedal away fast without warding the meat parcel on your carrier",
+          "targetPassage": "Shattered_Charnel_Pot",
+          "mutations": [
+            {
+              "variable": "taboo_carried_uncovered_meat",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            },
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Press the iron Giraya against the parcel and walk the bicycle past the culvert",
+          "targetPassage": "Shattered_Charnel_Pot",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Shattered_Charnel_Pot": {
+      "name": "Shattered_Charnel_Pot",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.68
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Right at the center of the three-way fork lies a shattered red-clay muttiya pot from a previous night's exorcism. White wood-ash, charred chicken bones, and tarnished copper coins form a pale barrier across the tire ruts."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Beyond the pot, the gravel rises toward the Wewa tank bund. In the dim starlight, the spilled white ash on the road shifts into the shape of "
+          },
+          {
+            "type": "mutate",
+            "id": "Shattered_Charnel_Pot_p1_m0",
+            "wakingText": "windblown lime dust",
+            "corruptedText": "a giant five-fingered handprint pointing toward the cemetery",
+            "delayMs": 2300
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Kick the broken clay shards aside and roll straight through the ritual ash",
+          "targetPassage": "Tank_Bund_Footsteps",
+          "mutations": [
+            {
+              "variable": "taboo_stepped_ash_pot",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 25
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Steer wide into the thorny grass to avoid touching the crossroads ash",
+          "targetPassage": "Tank_Bund_Footsteps",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Hold the cold iron Giraya and trace a protective line in the gravel",
+          "targetPassage": "Cemetery_Boundary_Stone",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Tank_Bund_Footsteps": {
+      "name": "Tank_Bund_Footsteps",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "ceb_power_cut",
+        "haptic": "dread_throb",
+        "vignette": 0.76,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You push the bicycle up the steep earthen slope of the tank bund. To your left, black water laps against the sluice stones; to your right, the rusted barbed-wire fence of the village Susāna Bhūmiya cemetery leans into the tall grass."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Five yards behind your rear fender, a dead palu branch as thick as a man's thigh snaps with a sound like a rifle shot. Heavy, uneven footsteps—one stride long, the next dragging—thud across the gravel, and a guttural grunt breathes down your neck: "
+          },
+          {
+            "type": "mutate",
+            "id": "Tank_Bund_Footsteps_p1_m0",
+            "wakingText": "It is only a stray water buffalo on the bund",
+            "corruptedText": "Turn around and see whose head rests backwards on my shoulders",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Whip your head around to see what is following you on the bund",
+          "targetPassage": "Boar_Tusk_Apparition",
+          "mutations": [
+            {
+              "variable": "taboo_looked_back_snap",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 20
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Keep your eyes locked straight ahead on the bund path and grip the iron Giraya",
+          "targetPassage": "Cemetery_Boundary_Stone",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Boar_Tusk_Apparition": {
+      "name": "Boar_Tusk_Apparition",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "yak_bera_ritual",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.82,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The wild boar's tusked snout rears twelve cubits tall into the weeping banyan roots. Steam billows from flared nostrils, smelling of charred marrow and crushed areca husk. Its blood-red eyes reflect the distant temple lights, and a low, mocking chortle grates from its backwards-turned throat: "
+          },
+          {
+            "type": "mutate",
+            "id": "Boar_Tusk_Apparition_p0_m0",
+            "wakingText": "A herd animal rooting in the tank mud",
+            "corruptedText": "Jayasena remembers the kick of Gothaimbara across your shoulder",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Pedal frantically through the gravel toward the boundary pillar",
+          "targetPassage": "Charnel_Gassima_Jolt",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Stand your ground, gripping the forged iron Giraya in your fist",
+          "targetPassage": "Cemetery_Boundary_Stone",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Cemetery_Boundary_Stone": {
+      "name": "Cemetery_Boundary_Stone",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "yak_bera_ritual",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.8
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "At the end of the cemetery fence stands the whitewashed boundary pillar. Perched atop the four-foot stone—yet rising twelve feet into the branches—crouches a colossal figure smeared in cremation ash, its left shoulder caved inward from Gothaimbara's ancient kick, topped by the bristling, tusked head of a wild boar."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "In its right fist it crushes a human-shaped gourd, drinking the pale sap. The air reeks of dummala smoke and wet fur as "
+          },
+          {
+            "type": "mutate",
+            "id": "Cemetery_Boundary_Stone_p1_m0",
+            "wakingText": "the wind shakes the banyan canopy",
+            "corruptedText": "the giant raises an open five-fingered palm above your spine",
+            "delayMs": 2000
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Shout a curse and swing your bicycle pump at the boar-headed shadow",
+          "targetPassage": "Charnel_Gassima_Jolt",
+          "mutations": [
+            {
+              "variable": "taboo_cursed_boar_shadow",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 25
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Bow your chin, clamp your thumb on the iron Giraya, and step backward without turning",
+          "targetPassage": "Charnel_Gassima_Jolt",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Charnel_Gassima_Jolt": {
+      "name": "Charnel_Gassima_Jolt",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "arterial_pulse",
+        "haptic": "dread_throb",
+        "vignette": 0.84,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "A sudden, sickening shockwave—the Gassīma—ripples up your spine, unseating your balance on the pedals. The horizon tilts forty-five degrees to the west, and the sound of the crickets vanishes into total vacuum. Behind your left shoulder blade, the air turns to freezing grease: "
+          },
+          {
+            "type": "mutate",
+            "id": "Charnel_Gassima_Jolt_p0_m0",
+            "wakingText": "Your balance failed on the steep tank incline",
+            "corruptedText": "The cemetery king prepares his five-fingered seal",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Throw your arms out as the cold pressure locks your vertebrae",
+          "targetPassage": "Shoulder_Ash_Strike",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 20
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Press the cold-iron arecanut cutter into your chest and recite the protective formula",
+          "targetPassage": "Shoulder_Ash_Strike",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Shoulder_Ash_Strike": {
+      "name": "Shoulder_Ash_Strike",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "iron_betel_cutter_ash",
+        "audio": "arterial_pulse",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.86,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The sky above the tank bund seems to drop like a granite slab. Before you can draw another breath, a freezing, concussive blow slams squarely between your shoulder blades—not like a fist, but like a sack of wet grave-ash dropped from the treetops."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "You pitch forward onto your knees in the gravel. Your spine locks rigid, your teeth chatter uncontrollably, and the towering shadow looms over the bicycle frame: "
+          },
+          {
+            "type": "mutate",
+            "id": "Shoulder_Ash_Strike_p1_m0",
+            "wakingText": "You merely slipped on the loose tank gravel",
+            "corruptedText": "My five fingers are branded in black soot across your back",
+            "delayMs": 2000
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Press the forged iron Giraya against your breastbone and spit three times onto the earth",
+          "targetPassage": "Outcome_Athura_Mahasona_Survived",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 30
+            }
+          ],
+          "requiresAnchorHeld": true
+        },
+        {
+          "label": "Collapse across the bicycle frame as the freezing tremor paralyzes your lungs",
+          "targetPassage": "Outcome_Athura_Mahasona_Struck",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 40
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Turn on your back to stare up at the boar-headed titan in the dark",
+          "targetPassage": "Outcome_Athura_Mahasona_Struck",
+          "mutations": [
+            {
+              "variable": "taboo_looked_back_snap",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 35
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Athura_Mahasona_Survived": {
+      "name": "Outcome_Athura_Mahasona_Survived",
+      "directives": {
+        "samayam": "ALUYA_DAWN",
+        "flow": "iron_betel_cutter_ash",
+        "audio": "monsoon_light",
+        "haptic": "iron_grip",
+        "vignette": 0.34
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The cold iron Giraya bites into your palm, anchoring your spirit against the shockwave. A furious, boar-like snort tears through the banyan leaves, showering the road with dry twigs, before receding into the cemetery mist as the temple bell rings for the dawn watch."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "When you stagger home at daybreak, your cotton shirt is scorched at the left shoulder, but the skin beneath is whole."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Examine the crossroads case from the Kattadiya perspective",
+          "targetPassage": "Kattadiya_Mahasona_Entry",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 40
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Relive the midnight ride at the Thummansala crossroads",
+          "targetPassage": "Crossroads_Midnight_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 20
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 50
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Athura_Mahasona_Struck": {
+      "name": "Outcome_Athura_Mahasona_Struck",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "yak_bera_ritual",
+        "haptic": "dread_throb",
+        "vignette": 0.9
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The shockwave extinguishes your sight. When woodcutters find you beside the three-way culvert at dawn, you are curled in the red gravel, shivering with a violent ague."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "When your elders peel back your torn shirt, a stark, five-fingered handprint of greasy black soot is stamped deep into the skin over your left shoulder blade. A runner is sent immediately with a Bulath Hurulla sheaf to summon a master of the Mahasona Samayama."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Accept the Bulath Hurulla and step into the Kattadiya role",
+          "targetPassage": "Kattadiya_Mahasona_Entry",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 80
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Return to the Anuradhapura crossroads at midnight",
+          "targetPassage": "Crossroads_Midnight_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 20
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 50
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Kattadiya_Mahasona_Entry": {
+      "name": "Kattadiya_Mahasona_Entry",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "dummala_vidiya_cards",
+        "audio": "monsoon_light",
+        "haptic": "iron_grip",
+        "vignette": 0.46
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You arrive at the patient's compound in Anuradhapura as the bamboo Vidiya altar is erected in the sandy courtyard. Inside the house, the patient shakes with bone-rattling chills, unable to turn his stiffened neck to the left."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The household head offers the Bulath Hurulla sheaf beside your brass lamp. Before donning the boar-tusked mask, you raise the top betel leaf against the Pahana flame to read the crossroads signature."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Hold the Pahana behind the betel leaf to inspect the five crossroads Lakunu",
+          "targetPassage": "Sastra_Mahasona_Leaf_Check",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Inspect the black five-fingered handprint on the patient's shoulder first",
+          "targetPassage": "Patient_Handprint_Forensics",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Sastra_Mahasona_Leaf_Check": {
+      "name": "Sastra_Mahasona_Leaf_Check",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "iron_betel_cutter_ash",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.52
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Through the translucent leaf blade, the charnel marks stand out starkly: a dark bruise at the tip from midnight whistling at the Thummansala, a knotted left vein from unwarded meat, and a central tear where the victim looked back on the tank bund."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The diagnosis is certain: "
+          },
+          {
+            "type": "mutate",
+            "id": "Sastra_Mahasona_Leaf_Check_p1_m0",
+            "wakingText": "the chill is merely malaria from the tank reeds",
+            "corruptedText": "Mahasona has struck the spine at the three-way boundary",
+            "delayMs": 2300
+          },
+          {
+            "type": "plain",
+            "text": ". Fear only feeds the Great Cemetery Demon—to shrink his towering size and lift the shock from the patient, you must stage the comic Kōlama card duel and blind him with Dummala fire."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Verify the physical handprint on the patient's left scapula",
+          "targetPassage": "Patient_Handprint_Forensics",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Step into the torchlit arena to deal the rigged Thovil card game",
+          "targetPassage": "Thovil_Card_Duel_Prep",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Patient_Handprint_Forensics": {
+      "name": "Patient_Handprint_Forensics",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.58
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You lift the patient's shawl. Across the left shoulder blade lies the unmistakable Anguru Atha—five splayed finger-marks of greasy charnel soot that refuse to wash off with soap or water."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Whether struck by the headless duelist avatar Jayasena Yaka or the boar-headed Maha Sohona, solemn prayers alone will fail. In the therapeutic theatre of the Thovil, the patient must hear the audience laugh at the demon until his terror dissolves."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Summon the drummer and spread the woven mat for the Thovil card duel",
+          "targetPassage": "Thovil_Card_Duel_Prep",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Re-examine the betel leaf veins against the brass lamp",
+          "targetPassage": "Sastra_Mahasona_Leaf_Check",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Thovil_Card_Duel_Prep": {
+      "name": "Thovil_Card_Duel_Prep",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "dummala_vidiya_cards",
+        "audio": "yak_bera_ritual",
+        "haptic": "iron_grip",
+        "vignette": 0.56
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The yak bera drums shift from a dread march into a syncopated, mocking banter. Wearing the bristling boar-mask of Mahasona, your dancer squats on the sand opposite the drummer, demanding raw blood and a human life—only for the drummer to offer him a rigged game of cards (Kola Sellama) and stale rice-cakes instead."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "To break the demon's dignity and lift the patient's paralysis, you must win three consecutive comic tricks on the altar mat—trumping his Boar, Graveyard, and Ash cards with Gothaimbara's Toe, the Iron Giraya, and the Rooster's Crow—and then ignite the Dummala resin flare to shrink his shadow."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Complete the three comic card trumps and hurl the Dummala fire-cloud",
+          "targetPassage": "Midnight_Gothaimbara_Varama",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Midnight_Gothaimbara_Varama": {
+      "name": "Midnight_Gothaimbara_Varama",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "dummala_vidiya_cards",
+        "audio": "yak_bera_ritual",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.82,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "A blinding fireball of powdered Dummala resin erupts across the courtyard! Outlined against the orange blaze, the giant boar-headed shadow stumbles backward over the card mat as the watching villagers and the patient burst into cathartic laughter."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Enraged by the public derision, Mahasona makes one last lunge toward the verandah to reclaim his dignity: "
+          },
+          {
+            "type": "mutate",
+            "id": "Midnight_Gothaimbara_Varama_p1_m0",
+            "wakingText": "The giant will crush the roof beams if you mock him",
+            "corruptedText": "By the kick of the warrior Gothaimbara, your head sits backwards and your warrant is void",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": ". Lock the iron ward and strike the final Gothaimbara Varama cadence!"
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Hold the iron Giraya, recite the Gothaimbara Varama, and smash the ash pot",
+          "targetPassage": "Outcome_Kattadiya_Mahasona_Banished",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 0
+            }
+          ],
+          "requiresAnchorHeld": true
+        },
+        {
+          "label": "Strike the clay pot without anchoring the cold iron ward",
+          "targetPassage": "Outcome_Kattadiya_Mahasona_Backfire",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 35
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Kattadiya_Mahasona_Banished": {
+      "name": "Outcome_Kattadiya_Mahasona_Banished",
+      "directives": {
+        "samayam": "ALUYA_DAWN",
+        "flow": "iron_betel_cutter_ash",
+        "audio": "monsoon_light",
+        "haptic": "iron_grip",
+        "vignette": 0.3
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "With the iron Giraya locked under your thumb, you recite the humiliating defeat of Jayasena at the hands of Gothaimbara and cleave the clay ash-pot in two. Stripped of his terror by the courtyard's laughter and bound by the ancient warrant, the boar-headed shadow shrinks into a harmless wisp of grey smoke that scatters over the tank bund."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "On the verandah, the black five-fingered handprint fades from the patient's shoulder, and he laughs aloud as the dawn breeze stirs the banyan leaves."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Replay Casefile 04 from the midnight crossroads in Anuradhapura",
+          "targetPassage": "Crossroads_Midnight_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 20
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 50
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Examine a new Bulath Hurulla sheaf in Kattadiya Mode",
+          "targetPassage": "Kattadiya_Mahasona_Entry",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 25
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Kattadiya_Mahasona_Backfire": {
+      "name": "Outcome_Kattadiya_Mahasona_Backfire",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "yak_bera_ritual",
+        "haptic": "dread_throb",
+        "vignette": 0.88
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Your thumb slips from the iron Giraya as you throw the Dummala resin. Instead of flaring outward, the resin backfires in a choking black cloud that extinguishes the altar torches, silencing the crowd's laughter in an instant."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "In the sudden dark, heavy footsteps thud across the courtyard sand. You must relight the torch and deal the comic card duel anew to restore the patient's courage."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Reset the Vidiya mat and deal the Thovil card duel again",
+          "targetPassage": "Thovil_Card_Duel_Prep",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 40
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Return to the Sastra betel leaf inspection",
+          "targetPassage": "Kattadiya_Mahasona_Entry",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 30
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    }
   }
 }

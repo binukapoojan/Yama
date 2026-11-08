@@ -1,0 +1,161 @@
+:: Crimson_Hearth_Start [#samayam:SANDHYA_DUSK #flow:matara_hearth_smoke #audio:hearth_crackle #haptic:heartbeat_slow #vignette:0.52]
+A bruisingslash of crimson light—the Lē Irabatuwa sunset—bleeds through the clay smoke-tiles of your grandmother's outdoor firewood kitchen in Matara. The main house stands thirty yards away across the wet laterite courtyard.
+
+In the heavy iron pan over the dara lipa hearth, coconut oil hisses around pieces of salted seer fish. As you turn a fillet with the iron ladle, the sharp fin nicks the ball of your thumb. A single bead of blood swells against your skin, and the rising steam smells suddenly of {mutate: "fried onions and curry leaves" -> "scorched copper and raw slaughterhouse iron" @2500}.
+
+[[Eat a hot piece of fried fish straight from the pan without offering the Agas pinch->Hearth_Ember_Agas][$taboo_fried_pulutu = true, $taboo_tasted_hearth_ash = true, $balma += 20]]
+[[Drop a pinch of fish into the red coals and step out to wash your cut thumb at the well->Wellside_Fish_Scales][$taboo_fried_pulutu = true, $tanikama += 10]]
+
+
+:: Hearth_Ember_Agas [#samayam:SANDHYA_DUSK #flow:matara_hearth_smoke #audio:hearth_crackle #haptic:dread_throb #vignette:0.62 #balma:10]
+The salted fish burns your tongue. Down in the clay firebox, the coconut-shell embers pop violently, turning from bright orange to a dull, clotted carmine.
+
+Outside the low wooden doorway, something heavy scrapes across the gravel by the chopping block. In the red twilight, the puddle of fish-cleaning water you poured beside the threshold glints like {mutate: "muddy rainwater" -> "freshly spilled arterial blood" @2400}.
+
+[[Wipe your bleeding thumb on your sarong and step outside without washing it->Wadamal_Hedge_Breach][$taboo_unwashed_blood = true, $balma += 15]]
+[[Touch the cold iron sickle by the door and pour turmeric water over the threshold->Wadamal_Hedge_Breach][@anchor_held $balma -= 5]]
+
+
+:: Wellside_Fish_Scales [#samayam:SANDHYA_DUSK #flow:wadamal_blood_hedge #audio:monsoon_light #haptic:heartbeat_slow #vignette:0.56]
+You walk out to the moss-ringed well behind the kitchen. The sky over the coconut palms is the color of rusted iron, and the evening crows have gone abruptly silent.
+
+Before you can draw the bucket, you notice the silver seer-fish scales left on the cement apron have attracted a trail of large red ants. The cut on your thumb throbs in time with {mutate: "the distant surf at Polhena reef" -> "a wet, rhythmic panting behind the banana clump" @2600}.
+
+[[Leave the bloody scales on the stone and hurry back toward the kitchen->Wadamal_Hedge_Breach][$taboo_unwashed_blood = true, $balma += 15, $tanikama += 10]]
+[[Scrub the stone clean with lime rind and hold your iron key->Wadamal_Hedge_Breach][@anchor_held $balma -= 5]]
+
+
+:: Wadamal_Hedge_Breach [#samayam:SANDHYA_DUSK #flow:wadamal_blood_hedge #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.66]
+Darkness drops fast over the southern coast. Along the boundary wall separating the garden from the old canal lane, the row of Wada Mal bushes hangs heavy with wet, blood-red hibiscus blossoms.
+
+Even though there is no wind, a single branch sways violently at chest height. Two crimson blossoms hang directly over the path, their long stamens quivering like {mutate: "wet red petals in the drizzle" -> "slick tongues tasting the evening air" @2300}.
+
+[[Tear the two red Wada Mal flowers off the branch to clear the path->Termite_Mound_Shadow][$taboo_plucked_wadamal = true, $balma += 20]]
+[[Step wide around the hibiscus hedge beside the red-clay termite mound->Termite_Mound_Shadow][$tanikama += 10]]
+[[Duck beneath the wet leaves without touching a single red petal->Kitchen_Threshold_Retreat][$tanikama += 5]]
+
+
+:: Termite_Mound_Shadow [#samayam:MADDHAMA_MIDNIGHT #flow:wadamal_blood_hedge #audio:ceb_power_cut #haptic:dread_throb #vignette:0.74 #balma:10]
+Beside the well rises an ancient red-earth Humbaha—a tall, chimney-like termite mound slick with rain. The narrow footpath back to the kitchen doorway is blocked by a fallen coconut frond.
+
+From the hollow vents of the clay mound comes a low, rasping hiss, followed by the unmistakable stench of {mutate: "wet laterite clay and decaying leaves" -> "clotted blood and singed monkey fur" @2200}.
+
+[[Step directly over the red termite mound to reach the kitchen door faster->Boiling_Pulse_Onset][$taboo_crossed_anthill = true, $balma += 25]]
+[[Hold the cold iron ward and drag the coconut frond aside without crossing the mound->Boiling_Pulse_Onset][@anchor_held $balma -= 10]]
+
+
+:: Kitchen_Threshold_Retreat [#samayam:MADDHAMA_MIDNIGHT #flow:matara_hearth_smoke #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.68]
+You slip back inside the low-roofed kitchen and pull the plank door shut. The brass pahana on the clay ledge burns with a sputtering, crimson-rimmed flame.
+
+The fried fish in the iron pan has gone ice-cold, yet the air inside the smoky room feels unbearably hot. When you look down at your hands, the tiny nick on your thumb is {mutate: "already clotting shut" -> "weeping a steady red thread down your wrist" @2400}.
+
+[[Suck the blood from your thumb and swallow it in the dark->Boiling_Pulse_Onset][$taboo_unwashed_blood = true, $taboo_tasted_hearth_ash = true, $balma += 25]]
+[[Press cold wood-ash and iron against the cut to seal the scent->Boiling_Pulse_Onset][@anchor_held $balma -= 5]]
+
+
+:: Boiling_Pulse_Onset [#samayam:MADDHAMA_MIDNIGHT #flow:iron_sickle_ember #audio:arterial_pulse #haptic:heartbeat_panic #vignette:0.80]
+By midnight, a sudden, violent heat surges behind your eyes. You sink onto the woven reed mat in the corner of the kitchen as your pulse hammers against your eardrums like a double-headed drum.
+
+Through the smoke-vent grating near the roof tiles, two small, bloodshot eyes peer down through the soot. The voice that scrapes from the rafters is not human; it chatters with the wet, feral cadence of a macaque: {mutate: "The rain is leaking through the old clay tiles" -> "You fried the pulutu at dusk and left the red flower for me" @2100}.
+
+[[Stare up into the red eyes in the smoke-vent and try to stand->Red_Bull_Apparition][$balma += 20, $tanikama += 15]]
+[[Grip the forged iron sickle handle on the floor and look at the hearth embers->Midnight_Arterial_Weight][@anchor_held $balma -= 10]]
+
+
+:: Red_Bull_Apparition [#samayam:MADDHAMA_MIDNIGHT #flow:wadamal_blood_hedge #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.86 #balma:15]
+The plank door shudders on its iron hinges. Outside in the courtyard mud, heavy cloven hooves circle the kitchen walls, snorting steam that smells of copper and graveyard ash.
+
+A squat, muscular figure smeared in vermilion lime crouches on the threshold stone, holding a torn red hibiscus blossom between its teeth. Every heartbeat in your chest feels as if {mutate: "your fever is spiking from an infected cut" -> "invisible teeth are drawing the warmth straight out of your veins" @2000}.
+
+[[Press the cold iron ward to your breastbone and refuse to look at the doorway->Midnight_Arterial_Weight][@anchor_held $balma -= 15]]
+[[Crawl toward the door to bolt the lower latch with your bare hands->Midnight_Arterial_Weight][$balma += 20]]
+
+
+:: Midnight_Arterial_Weight [#samayam:MADDHAMA_MIDNIGHT #flow:iron_sickle_ember #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.88 #balma:15]
+The brass pahana flame drops to a tiny crimson bead. Across the reed mat, a shadow with a simian jaw and matted red hair straddles your knees, pressing a burning palm over your ribcage.
+
+The heat in your veins turns to freezing lead. In the roaring silence of your ears, the demon demands its warrant: {mutate: "Give me the blood in the pan and the life on the mat" -> "By the Varama of the Sun God and the Iron Sickle, I claim only ash" @2100}.
+
+[[Lock your thumb on the cold iron ward and spit onto the dead hearth coals->Outcome_Athura_Riri_Survived][@anchor_held $balma -= 30]]
+[[Release the iron handle as the crimson haze swallows your sight->Outcome_Athura_Riri_Drained][$balma += 40]]
+[[Strike out at the monkey-faced shadow with your bleeding hand->Outcome_Athura_Riri_Drained][$taboo_unwashed_blood = true, $balma += 35]]
+
+
+:: Outcome_Athura_Riri_Survived [#samayam:ALUYA_DAWN #flow:iron_sickle_ember #audio:monsoon_light #haptic:iron_grip #vignette:0.34]
+The cold iron drinks the heat from your palm. With a furious, chattering shriek, the weight leaps backward through the smoke-vent as a rooster crows from the neighbor's cinnamon garden.
+
+When the grey dawn filters through the clay tiles, the iron frying pan is cracked clean in two—having taken the blow meant for your heart—while your own pulse beats steady and cool.
+
+[[Inspect the forensic case from the Southern Kattadiya perspective->Kattadiya_Riri_Entry][$tanikama = 40]]
+[[Relive the crimson sunset in the Matara kitchen->Crimson_Hearth_Start][$balma = 20, $tanikama = 50]]
+
+
+:: Outcome_Athura_Riri_Drained [#samayam:MADDHAMA_MIDNIGHT #flow:peduru_funeral_mat #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.90]
+Your fingers open. The forged iron blade slides across the clay floor into the dark. A wave of blinding crimson heat bursts behind your eyes, leaving your limbs as cold and rigid as seasoned timber.
+
+At daybreak, your family finds you stretched motionless on the kitchen reed mat, your skin burning with a dry scarlet fever while your lips murmur toward the termite mound. An urgent Bulath Hurulla sheaf is dispatched to a Matara Yakadura master.
+
+[[Accept the Bulath Hurulla and step into the Kattadiya role->Kattadiya_Riri_Entry][$tanikama = 80]]
+[[Return to the Matara kitchen at sunset->Crimson_Hearth_Start][$balma = 20, $tanikama = 50]]
+
+
+:: Kattadiya_Riri_Entry [#samayam:MADDHAMA_MIDNIGHT #flow:peduru_funeral_mat #audio:monsoon_light #haptic:iron_grip #vignette:0.46]
+You arrive at the Matara compound as the midnight watch begins. In the outer verandah, the patient lies rigid on a cot, his pulse racing like a trapped bird while his fingernails show a dark, bruised carmine tint.
+
+The household elder places the Bulath Hurulla sheaf beside your brass lamp. Observing the strict silence of the Southern Sastra tradition, you hold the top betel leaf before the flame.
+
+[[Pass the Pahana flame behind the betel leaf to read the blood Lakunu->Sastra_Riri_Leaf_Check][$tanikama -= 5]]
+[[Inspect the outdoor firewood hearth and the patient's pulse first->Patient_Hemorrhage_Check][$tanikama -= 5]]
+
+
+:: Sastra_Riri_Leaf_Check [#samayam:MADDHAMA_MIDNIGHT #flow:iron_sickle_ember #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.52]
+The subsurface light reveals a violent signature inside the leaf blade: a dark crimson bruise at the apex from dusk frying oil, knotted left veins where raw blood went unwashed, and a central perforation where red Wada Mal flowers were plucked after six.
+
+The diagnosis is unmistakable: {mutate: "the fever stems from tainted fish oil" -> "Riri Yaka has claimed a blood warrant over the patient's life" @2300}. An ordinary offering tray will not suffice—when Riri Yaka demands a corpse, only the Peduru Dāne mock funeral can deceive him.
+
+[[Verify the physical signs at the kitchen hearth and well->Patient_Hemorrhage_Check][$balma += 5]]
+[[Unroll the Pan Pedura funeral mat to stage the surrogate death->Woven_Mat_Funeral_Prep][$balma += 10]]
+
+
+:: Patient_Hemorrhage_Check [#samayam:MADDHAMA_MIDNIGHT #flow:wadamal_blood_hedge #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.60]
+You examine the patient's tongue and wrists: the Pitta and Rakta humours are boiling. Out by the kitchen well, crushed red Wada Mal petals lie pressed into the mud beside the termite mound, and the iron frying pan still reeks of dusk pulutu.
+
+Whether struck by the frenzied Maru Riri or the corpse-cold Sohon Riri, the demon will not depart until he witnesses a body wrapped and bound for the cremation ground.
+
+[[Spread the woven rush mat in the courtyard for the Dara Haeva ritual->Woven_Mat_Funeral_Prep][$tanikama -= 10]]
+[[Re-examine the betel leaf veins against the brass lamp->Sastra_Riri_Leaf_Check][$tanikama -= 5]]
+
+
+:: Woven_Mat_Funeral_Prep [#samayam:MADDHAMA_MIDNIGHT #flow:peduru_funeral_mat #audio:yak_bera_ritual #haptic:iron_grip #vignette:0.58]
+In the sandy courtyard between the kitchen and the well, flares of dummala resin turn the drizzle blood-red. You spread a fresh Pan Pedura rush mat upon the earth and mix turmeric with slaked lime until the water turns deep arterial crimson—Rathu Kaha Diya.
+
+To satisfy Riri Yaka's demand for a corpse, you must anoint the three vital chakras on the mat with crimson lime-water, fold the woven rush shroud over the surrogate form, and knot the three gokkola funeral bindings at the head, heart, and feet.
+
+[[Seal the three gokkola funeral knots and chant the Riri Yak Varama->Midnight_Peduru_Surrender][$balma += 10]]
+
+
+:: Midnight_Peduru_Surrender [#samayam:MADDHAMA_MIDNIGHT #flow:peduru_funeral_mat #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.84 #balma:15]
+The Southern yak bera drum hammers a funeral march. As the bound rush mat lies between the flaming torches, a squat shadow drops from the hibiscus hedge, sniffing the crimson turmeric-lime water spilled across the reeds.
+
+The lamp flame flattens as Riri Yaka reaches for the living patient on the verandah instead of the mat: {mutate: "The boy on the cot still has warm blood in his throat" -> "Accept this bound corpse on the funeral mat and depart to the charnel ground" @2100}. You must lock the iron ward and strike the final gatha cadence to transfer the warrant into the mat.
+
+[[Hold the iron ward, recite the Riri Yak Varama, and cast the mat beyond the gate->Outcome_Kattadiya_Riri_Banished][@anchor_held $balma = 0]]
+[[Cut the gokkola funeral ties without anchoring the iron ward->Outcome_Kattadiya_Riri_Backfire][$balma += 35]]
+
+
+:: Outcome_Kattadiya_Riri_Banished [#samayam:ALUYA_DAWN #flow:iron_sickle_ember #audio:monsoon_light #haptic:iron_grip #vignette:0.32]
+With the iron ward locked under your thumb, you slice the تین gokkola knots with a single downward stroke and hurl the red lime-water into the darkness beyond the boundary wall. Deceived by the funeral shroud and sated by the crimson tribute, the shadow vanishes into the canal mist.
+
+On the verandah, the scarlet flush fades from the patient's cheeks. He sits up and asks for cool water as the morning sun clears the Matara palms.
+
+[[Replay Casefile 03 from the crimson sunset in Matara->Crimson_Hearth_Start][$balma = 20, $tanikama = 50]]
+[[Examine a new Bulath Hurulla sheaf in Kattadiya Mode->Kattadiya_Riri_Entry][$balma = 25]]
+
+
+:: Outcome_Kattadiya_Riri_Backfire [#samayam:MADDHAMA_MIDNIGHT #flow:wadamal_blood_hedge #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.88]
+Your thumb slips from the iron ward before the funeral transfer is sealed. The middle gokkola tie snaps prematurely, and the woven rush mat unrolls empty in the mud.
+
+A chattering laugh echoes from the kitchen roof tiles as the brass lamp tips over in a pool of red lime-water. You must re-anoint the rush mat and bind the funeral shroud anew before the patient's pulse gives out.
+
+[[Spread the Pan Pedura mat again and repeat the funeral binding->Woven_Mat_Funeral_Prep][$balma = 40]]
+[[Return to the Sastra betel leaf inspection->Kattadiya_Riri_Entry][$balma = 30]]

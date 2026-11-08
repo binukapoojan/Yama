@@ -1,16 +1,37 @@
-export type SamayamVelava = 'ALUYA_DAWN' | 'IRA_MUDUN_MIDDAY' | 'SANDHYA_DUSK' | 'MADDHAMA_MIDNIGHT';
+// src/core/schema.ts
+export type SamayamVelava =
+  | 'ALUYA_DAWN'
+  | 'IRA_MUDUN_MIDDAY'
+  | 'SANDHYA_DUSK'
+  | 'MADDHAMA_MIDNIGHT';
 
 export type FlowLoopId =
+  // Casefile 01: Kalu Kumara (Nugegoda)
   | 'bodima_rain_window'
   | 'pahana_steady'
   | 'pahana_nil_manel'
   | 'mirror_dark_idle'
+  // Casefile 02: Mala Mohini (Kandy)
   | 'kandy_mist_bamboo'
   | 'mohini_saree_silhouette'
   | 'kaduru_puddle_feet'
-  | 'sanni_mask_torch';
+  | 'sanni_mask_torch'
+  // Casefile 03: Riri Yaka (Matara)
+  | 'matara_hearth_smoke'
+  | 'wadamal_blood_hedge'
+  | 'iron_sickle_ember'
+  | 'peduru_funeral_mat'
+  // Casefile 04: Mahasona (Anuradhapura)
+  | 'thummansala_banyan_wind'
+  | 'sohon_boar_silhouette'
+  | 'iron_betel_cutter_ash'
+  | 'dummala_vidiya_cards';
 
-export type HapticPatternId = 'heartbeat_slow' | 'heartbeat_panic' | 'dread_throb' | 'iron_grip';
+export type HapticPatternId =
+  | 'heartbeat_slow'
+  | 'heartbeat_panic'
+  | 'dread_throb'
+  | 'iron_grip';
 
 export interface JuiceDirective {
   samayam?: SamayamVelava;
@@ -22,6 +43,12 @@ export interface JuiceDirective {
   tanikamaDelta?: number;
 }
 
+export interface StateMutation {
+  variable: string;
+  operator: '=' | '+=' | '-=';
+  value: string | number | boolean;
+}
+
 export type TextSegment =
   | { type: 'plain'; text: string }
   | {
@@ -31,12 +58,6 @@ export type TextSegment =
       corruptedText: string;
       delayMs: number;
     };
-
-export interface StateMutation {
-  variable: string;
-  operator: '=' | '+=' | '-=';
-  value: boolean | number | string;
-}
 
 export interface TwineChoice {
   label: string;
@@ -54,9 +75,4 @@ export interface TwinePassage {
 
 export type StoryGraph = Record<string, TwinePassage>;
 
-export interface RuntimeVariables {
-  tanikama: number;
-  balma: number;
-  samayam_velava: SamayamVelava;
-  [key: string]: boolean | number | string;
-}
+export type RuntimeVariables = Record<string, string | number | boolean>;

@@ -9,26 +9,32 @@ export interface MutatedTokenState {
 }
 
 type MutationSubscriber = (snapshot: Record<string, MutatedTokenState>) => void;
+type MutateToken = Extract<TextSegment, { type: 'mutate' }>;
+
 const MORPH_GLYPHS = '·:;~*+=÷';
-const MORPH_DURATION_MS = 420, MORPH_STEPS = 7;
+const MORPH_STEPS = 7;
+const STEP_MS = 60;
 
 export class TextMutationController {
   private states: Record<string, MutatedTokenState> = {};
-  private tokens: Map<string, Extract<TextSegment, { type: 'mutate' }>> = new Map();
+  private tokens: Map<string, MutateToken> = new Map();
   private timers: Set<ReturnType<typeof setTimeout>> = new Set();
   private subscribers: Set<MutationSubscriber> = new Set();
-  private unsubscribeAnchor: () => void;
 
   constructor() {
-    this.unsubscribeAnchor = juiceDirector.on('ANCHOR_STATE_CHANGE', ({ held }) => {
-      if (held) { this.clearAllTimers(); this.revertAllToWaking(); }
-      else { this.scheduleAllPending(); }
+    juiceDirector.on('ANCHOR_STATE_CHANGE', ({ held }) => {
+      if (held) {
+        this.clearAllTimers();
+        this.revertAllToWaking();
+      } else {
+        this.scheduleAllPending();
+      }
     });
   }
 
   public subscribe(fn: MutationSubscriber): () => void {
     this.subscribers.add(fn);
-    fn(this.getSnapshot());
+    fn({ ...this.states });
     return () => this.subscribers.delete(fn);
   }
 
@@ -40,9 +46,8 @@ export class TextMutationController {
     this.clearAllTimers();
     this.tokens.clear();
     this.states = {};
-
-    for (const paragraph of passage.paragraphs) {
-      for (const seg of paragraph) {
+    for (const para of passage.paragraphs) {
+      for (const seg of para) {
         if (seg.type === 'mutate') {
           this.tokens.set(seg.id, seg);
           this.states[seg.id] = { id: seg.id, currentText: seg.wakingText, isCorrupted: false, isMorphing: false };
@@ -55,59 +60,46 @@ export class TextMutationController {
 
   private scheduleAllPending(): void {
     this.tokens.forEach((token) => {
-      if (this.states[token.id]?.isCorrupted) return;
-      this.timers.add(setTimeout(() => this.morphToken(token), token.delayMs));
+      if (!this.states[token.id]?.isCorrupted) {
+        this.timers.add(setTimeout(() => this.morphToken(token, 0), token.delayMs));
+      }
     });
   }
 
-  private morphToken(token: Extract<TextSegment, { type: 'mutate' }>): void {
-    if (juiceDirector.isAnchorHeld()) return;
-    const stepTime = Math.floor(MORPH_DURATION_MS / MORPH_STEPS);
-    let step = 0;
+  private morphToken(token: MutateToken, step: number): void {
+    if (juiceDirector.isAnchorHeld()) return this.revertAllToWaking();
+    const nextStep = step + 1;
+    if (nextStep >= MORPH_STEPS) {
+      this.states[token.id] = { id: token.id, currentText: token.corruptedText, isCorrupted: true, isMorphing: false };
+      return this.notify();
+    }
+    const ratio = nextStep / MORPH_STEPS;
+    const len = Math.round(token.wakingText.length + (token.corruptedText.length - token.wakingText.length) * ratio);
+    const rev = Math.floor(len * ratio);
+    const scramble = Array.from({ length: Math.max(0, len - rev) }, (_, i) =>
+      token.corruptedText[rev + i] === ' ' ? ' ' : MORPH_GLYPHS[(nextStep + i) % MORPH_GLYPHS.length]
+    ).join('');
 
-    const runStep = () => {
-      if (juiceDirector.isAnchorHeld()) { this.revertAllToWaking(); return; }
-      if (++step >= MORPH_STEPS) {
-        this.states[token.id] = { id: token.id, currentText: token.corruptedText, isCorrupted: true, isMorphing: false };
-        this.notify();
-        return;
-      }
-      const ratio = step / MORPH_STEPS;
-      const targetLen = Math.round(token.wakingText.length + (token.corruptedText.length - token.wakingText.length) * ratio);
-      const revealCount = Math.floor(targetLen * ratio);
-      const prefix = token.corruptedText.slice(0, revealCount);
-      const scramble = Array.from({ length: Math.max(0, targetLen - revealCount) }, (_, i) =>
-        token.corruptedText[revealCount + i] === ' ' ? ' ' : MORPH_GLYPHS[(step + i) % MORPH_GLYPHS.length]
-      ).join('');
-
-      this.states[token.id] = { id: token.id, currentText: prefix + scramble, isCorrupted: false, isMorphing: true };
-      this.notify();
-      this.timers.add(setTimeout(runStep, stepTime));
-    };
-
-    runStep();
+    this.states[token.id] = { id: token.id, currentText: token.corruptedText.slice(0, rev) + scramble, isCorrupted: false, isMorphing: true };
+    this.notify();
+    this.timers.add(setTimeout(() => this.morphToken(token, nextStep), STEP_MS));
   }
 
   private revertAllToWaking(): void {
-    this.tokens.forEach((token) => {
-      this.states[token.id] = { id: token.id, currentText: token.wakingText, isCorrupted: false, isMorphing: false };
+    this.tokens.forEach((t) => {
+      this.states[t.id] = { id: t.id, currentText: t.wakingText, isCorrupted: false, isMorphing: false };
     });
     this.notify();
   }
 
   private clearAllTimers(): void {
-    this.timers.forEach((t) => clearTimeout(t));
+    this.timers.forEach(clearTimeout);
     this.timers.clear();
   }
 
   private notify(): void {
-    const snap = this.getSnapshot();
+    const snap = { ...this.states };
     this.subscribers.forEach((fn) => fn(snap));
-  }
-
-  public dispose(): void {
-    this.clearAllTimers();
-    this.unsubscribeAnchor();
   }
 }
 

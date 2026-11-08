@@ -6,11 +6,8 @@ import { CasefileId } from '../../src/core/bulathCodec';
 import { FlowLoopId, HapticPatternId, SamayamVelava, StoryGraph } from '../../src/core/schema';
 import { parseTweeStory } from '../../src/core/twineParser';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT_DIR = path.resolve(__dirname, '../..');
-const TWINE_DIR = path.join(ROOT_DIR, 'story-twine');
-const OUT_JSON_PATH = path.join(ROOT_DIR, 'src/core/compiledStory.json');
-const FLOW_DIR = path.join(ROOT_DIR, 'public/flow-loops');
+const __dirname = path.dirname(fileURLToPath(import.meta.url)), ROOT_DIR = path.resolve(__dirname, '../..');
+const TWINE_DIR = path.join(ROOT_DIR, 'story-twine'), OUT_JSON_PATH = path.join(ROOT_DIR, 'src/core/compiledStory.json'), FLOW_DIR = path.join(ROOT_DIR, 'public/flow-loops');
 
 const CASEFILE_MANIFEST: ReadonlyArray<{
   id: CasefileId;
@@ -19,19 +16,21 @@ const CASEFILE_MANIFEST: ReadonlyArray<{
 }> = [
   { id: 'CF01', file: 'casefile01_kalu_kumara.twee', entries: ['Dusk_Balcony_Check', 'Kattadiya_Sastra_Entry'] },
   { id: 'CF02', file: 'casefile02_mohini.twee', entries: ['Upper_Lake_Mist_Start', 'Kattadiya_Mohini_Entry'] },
+  { id: 'CF03', file: 'casefile03_riri_yaka.twee', entries: ['Crimson_Hearth_Start', 'Kattadiya_Riri_Entry'] },
+  { id: 'CF04', file: 'casefile04_mahasona.twee', entries: ['Crossroads_Midnight_Start', 'Kattadiya_Mahasona_Entry'] },
 ];
 
 const VALID_FLOWS = new Set<FlowLoopId>([
   'bodima_rain_window', 'pahana_steady', 'pahana_nil_manel', 'mirror_dark_idle',
   'kandy_mist_bamboo', 'mohini_saree_silhouette', 'kaduru_puddle_feet', 'sanni_mask_torch',
+  'matara_hearth_smoke', 'wadamal_blood_hedge', 'iron_sickle_ember', 'peduru_funeral_mat',
+  'thummansala_banyan_wind', 'sohon_boar_silhouette', 'iron_betel_cutter_ash', 'dummala_vidiya_cards',
 ]);
 const VALID_SAMAYAM = new Set<SamayamVelava>(['ALUYA_DAWN', 'IRA_MUDUN_MIDDAY', 'SANDHYA_DUSK', 'MADDHAMA_MIDNIGHT']);
 const VALID_HAPTICS = new Set<HapticPatternId>(['heartbeat_slow', 'heartbeat_panic', 'dread_throb', 'iron_grip']);
 
 function compileAnthology(): void {
-  const compiledAnthology: Partial<Record<CasefileId, StoryGraph>> = {};
-  const errors: string[] = [];
-  const warnings: string[] = [];
+  const compiledAnthology: Partial<Record<CasefileId, StoryGraph>> = {}, errors: string[] = [], warnings: string[] = [];
   let totalPassages = 0;
 
   for (const spec of CASEFILE_MANIFEST) {
@@ -49,9 +48,7 @@ function compileAnthology(): void {
     const reachable = new Set<string>(spec.entries);
 
     for (const entry of spec.entries) {
-      if (!passageIds.has(entry)) {
-        errors.push(`[${spec.id}] Required entry passage ":: ${entry}" is missing in ${spec.file}.`);
-      }
+      if (!passageIds.has(entry)) errors.push(`[${spec.id}] Required entry passage ":: ${entry}" is missing in ${spec.file}.`);
     }
 
     for (const [name, passage] of Object.entries(graph)) {

@@ -1,17 +1,44 @@
+// src/components/viewport/FlowBackdrop.tsx
 import React, { useEffect, useState } from 'react';
 import { FlowLoopId } from '../../core/schema';
 import { juiceDirector } from '../../juice/JuiceDirector';
 
-const FLOW_LOOPS: FlowLoopId[] = [
+const FLOW_LOOPS: ReadonlyArray<FlowLoopId> = [
+  // CF01 · Nugegoda
   'bodima_rain_window',
   'pahana_steady',
   'pahana_nil_manel',
   'mirror_dark_idle',
+  // CF02 · Kandy
   'kandy_mist_bamboo',
   'mohini_saree_silhouette',
   'kaduru_puddle_feet',
   'sanni_mask_torch',
+  // CF03 · Matara
+  'matara_hearth_smoke',
+  'wadamal_blood_hedge',
+  'iron_sickle_ember',
+  'peduru_funeral_mat',
+  // CF04 · Anuradhapura
+  'thummansala_banyan_wind',
+  'sohon_boar_silhouette',
+  'iron_betel_cutter_ash',
+  'dummala_vidiya_cards',
 ];
+
+const RIRI_LOOPS = new Set<FlowLoopId>([
+  'matara_hearth_smoke',
+  'wadamal_blood_hedge',
+  'iron_sickle_ember',
+  'peduru_funeral_mat',
+]);
+
+const MAHASONA_LOOPS = new Set<FlowLoopId>([
+  'thummansala_banyan_wind',
+  'sohon_boar_silhouette',
+  'iron_betel_cutter_ash',
+  'dummala_vidiya_cards',
+]);
 
 export const FlowBackdrop: React.FC = () => {
   const [activeLoop, setActiveLoop] = useState<FlowLoopId>('bodima_rain_window');
@@ -23,11 +50,9 @@ export const FlowBackdrop: React.FC = () => {
       setActiveLoop(loopId);
       setIsProtected(isProtectedOverride);
     });
-
     const unsubVignette = juiceDirector.on('VIGNETTE_SHIFT', ({ intensity }) => {
       setVignetteIntensity(intensity);
     });
-
     return () => {
       unsubFlow();
       unsubVignette();
@@ -35,12 +60,12 @@ export const FlowBackdrop: React.FC = () => {
   }, []);
 
   const radialStop = Math.round((1 - vignetteIntensity * 0.55) * 100);
+  const isRiri = RIRI_LOOPS.has(activeLoop);
+  const isMahasona = MAHASONA_LOOPS.has(activeLoop);
+  const tintColor = isProtected ? '#C8963E' : isRiri ? '#8C1D24' : isMahasona ? '#6E5A3B' : '#3B4D7A';
 
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#090807] select-none"
-    >
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#090807] select-none">
       <div className="relative h-[48vh] w-full overflow-hidden">
         {FLOW_LOOPS.map((loopId) => {
           const isCurrent = activeLoop === loopId;
@@ -52,35 +77,26 @@ export const FlowBackdrop: React.FC = () => {
               loop
               muted
               playsInline
+              preload={isCurrent ? 'auto' : 'metadata'}
               className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1200 ease-in-out ${
                 isCurrent ? 'opacity-85 scale-100' : 'opacity-0 scale-[1.02]'
               }`}
               style={{
-                filter: isProtected
-                  ? 'sepia(0.18) contrast(1.08) brightness(0.92)'
-                  : 'contrast(1.15) brightness(0.78)',
+                filter: isProtected ? 'sepia(0.18) contrast(1.08) brightness(0.92)' : 'contrast(1.15) brightness(0.78)',
                 transitionProperty: 'opacity, transform, filter',
               }}
             />
           );
         })}
-
         <div
           className="absolute inset-0 transition-all duration-1000"
           style={{
-            background: `
-              radial-gradient(circle at 50% 38%, transparent 12%, rgba(9, 8, 7, ${vignetteIntensity}) ${radialStop}%, #090807 92%),
-              linear-gradient(to bottom, rgba(9, 8, 7, 0.25) 0%, transparent 25%, rgba(9, 8, 7, 0.88) 78%, #090807 100%)
-            `,
+            background: `radial-gradient(circle at 50% 38%, transparent 12%, rgba(9, 8, 7, ${vignetteIntensity}) ${radialStop}%, #090807 92%), linear-gradient(to bottom, rgba(9, 8, 7, 0.25) 0%, transparent 25%, rgba(9, 8, 7, 0.88) 78%, #090807 100%)`,
           }}
         />
-
         <div
-          className="absolute inset-0 mix-blend-color transition-opacity duration-1000"
-          style={{
-            opacity: isProtected ? 0.22 : 0.14,
-            backgroundColor: isProtected ? '#C8963E' : '#3B4D7A',
-          }}
+          className="absolute inset-0 mix-blend-color transition-all duration-1000"
+          style={{ opacity: isProtected ? 0.22 : isRiri ? 0.20 : 0.16, backgroundColor: tintColor }}
         />
       </div>
     </div>

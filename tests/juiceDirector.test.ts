@@ -52,6 +52,44 @@ describe('JuiceDirector protected loop & flow crossfades', () => {
     unsub();
   });
 
+  it('emits iron_sickle_ember when anchor held for matara_hearth_smoke (CF03)', () => {
+    const flowSpy = vi.fn();
+    const unsub = juiceDirector.on('FLOW_CROSSFADE', flowSpy);
+
+    juiceDirector.enterPassage(createMockPassage('matara_hearth_smoke'), 20);
+    expect(flowSpy).toHaveBeenLastCalledWith({
+      loopId: 'matara_hearth_smoke',
+      isProtectedOverride: false,
+    });
+
+    juiceDirector.setAnchorHeld(true);
+    expect(flowSpy).toHaveBeenLastCalledWith({
+      loopId: 'iron_sickle_ember',
+      isProtectedOverride: true,
+    });
+
+    unsub();
+  });
+
+  it('emits iron_betel_cutter_ash when anchor held for thummansala_banyan_wind (CF04)', () => {
+    const flowSpy = vi.fn();
+    const unsub = juiceDirector.on('FLOW_CROSSFADE', flowSpy);
+
+    juiceDirector.enterPassage(createMockPassage('thummansala_banyan_wind'), 20);
+    expect(flowSpy).toHaveBeenLastCalledWith({
+      loopId: 'thummansala_banyan_wind',
+      isProtectedOverride: false,
+    });
+
+    juiceDirector.setAnchorHeld(true);
+    expect(flowSpy).toHaveBeenLastCalledWith({
+      loopId: 'iron_betel_cutter_ash',
+      isProtectedOverride: true,
+    });
+
+    unsub();
+  });
+
   it('restores the active passage loop when anchor is released', () => {
     const flowSpy = vi.fn();
     const unsub = juiceDirector.on('FLOW_CROSSFADE', flowSpy);

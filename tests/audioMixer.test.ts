@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
 import { audioMixer, StemCueId } from '../src/juice/audioMixer';
 import { juiceDirector } from '../src/juice/JuiceDirector';
-import * as audioStems from '../src/juice/audioStems';
 
 class MockAudioParam {
   public value: number;
@@ -27,7 +26,7 @@ class MockGainNode extends MockAudioNode {
 
 class MockBiquadFilterNode extends MockAudioNode {
   public type = 'lowpass';
-  public frequency = new MockAudioParam(18000);
+  public frequency = new MockAudioParam(14000);
   public Q = new MockAudioParam(1.8);
 }
 
@@ -72,72 +71,79 @@ class MockAudioContext {
   public createStereoPanner = vi.fn(() => new MockStereoPannerNode());
 }
 
-describe('audioMixer & audioStems acoustic cues', () => {
+describe('audioMixer & audioStems acoustic cues (Casefile 03 WebAudioMixer)', () => {
   beforeAll(() => {
     (globalThis as unknown as { AudioContext: unknown }).AudioContext = MockAudioContext;
   });
 
   beforeEach(() => {
-    audioMixer.init();
+    audioMixer.unlock();
   });
 
-  it('verifies StemCueId union includes Casefile 02 cues', () => {
+  it('verifies AudioCueId and StemCueId unions include Casefile 03 cues', () => {
     const validCues: StemCueId[] = [
       'monsoon_light',
       'monsoon_heavy',
       'ceb_power_cut',
-      'kandy_night_cicadas',
-      'infant_cry_dissonant',
       'yak_bera_ritual',
+      'hearth_crackle',
+      'arterial_pulse',
     ];
-    expect(validCues).toContain('kandy_night_cicadas');
-    expect(validCues).toContain('infant_cry_dissonant');
+    expect(validCues).toContain('hearth_crackle');
+    expect(validCues).toContain('arterial_pulse');
     expect(validCues).toContain('yak_bera_ritual');
   });
 
-  it('accepts and activates kandy_night_cicadas cue', () => {
-    audioMixer.previewCue('kandy_night_cicadas');
-    expect(audioMixer.getCurrentCueId()).toBe('kandy_night_cicadas');
+  it('accepts and activates hearth_crackle cue', () => {
+    audioMixer.setCue('hearth_crackle', 20);
+    expect(audioMixer.getCurrentCueId()).toBe('hearth_crackle');
   });
 
-  it('triggers 320 Hz dream muffle and infant whimper cue when muffled', () => {
-    const whimperSpy = vi.spyOn(audioStems, 'playInfantWhimper');
-    audioMixer.setDreamMuffle(true);
-
+  it('engages 320 Hz dream muffle when balma exceeds 55', () => {
+    audioMixer.setCue('monsoon_light', 60);
     const filter = audioMixer.getDreamFilter();
     expect(filter).not.toBeNull();
-    expect(filter?.frequency.exponentialRampToValueAtTime).toHaveBeenCalledWith(320, expect.any(Number));
+    expect(filter?.frequency.setTargetAtTime).toHaveBeenCalledWith(320, expect.any(Number), 0.4);
     expect(filter?.frequency.value).toBe(320);
-    expect(whimperSpy).toHaveBeenCalled();
-    whimperSpy.mockRestore();
   });
 
-  it('restores 18,000 Hz cutoff when unmuffled', () => {
-    audioMixer.setDreamMuffle(true);
-    expect(audioMixer.getDreamFilter()?.frequency.value).toBe(320);
+  it('restores 16,000 Hz cutoff and silences arterial pulse when anchor is held', () => {
+    const arterialSpy = vi.spyOn(audioMixer, 'playArterialPulse');
+    audioMixer.setCue('arterial_pulse', 70);
+    audioMixer.setAnchorState(true);
 
-    audioMixer.setDreamMuffle(false);
     const filter = audioMixer.getDreamFilter();
-    expect(filter?.frequency.exponentialRampToValueAtTime).toHaveBeenCalledWith(18000, expect.any(Number));
-    expect(filter?.frequency.value).toBe(18000);
+    expect(filter?.frequency.setTargetAtTime).toHaveBeenCalledWith(16000, expect.any(Number), 0.2);
+    expect(filter?.frequency.value).toBe(16000);
+
+    audioMixer.playArterialPulse(0.8);
+    audioMixer.setAnchorState(false);
+    arterialSpy.mockRestore();
   });
 
-  it('responds to JuiceDirector AUDIO_CUE and ANCHOR_STATE_CHANGE events', () => {
+  it('executes playArterialPulse dual-stroke systolic and diastolic pulse', () => {
+    const strikeSpy = vi.spyOn(audioMixer as any, 'playStrike');
+    audioMixer.playArterialPulse(0.75);
+    expect(strikeSpy).toHaveBeenCalledWith(96, 36, 0.14, expect.any(Number), 'sine', 0);
+    expect(strikeSpy).toHaveBeenCalledWith(78, 30, 0.18, expect.any(Number), 'sine', 0.135);
+    strikeSpy.mockRestore();
+  });
+
+  it('responds to JuiceDirector enterPassage and setAnchorHeld', () => {
     juiceDirector.enterPassage(
       {
-        name: 'The_Infant_Drop_Trap',
-        directives: { audio: 'kandy_night_cicadas' },
+        name: 'Crimson_Hearth_Start',
+        directives: { audio: 'hearth_crackle' },
         paragraphs: [],
         choices: [],
       },
-      60
+      30
     );
 
-    expect(audioMixer.getCurrentCueId()).toBe('kandy_night_cicadas');
-    expect(audioMixer.getDreamFilter()?.frequency.value).toBe(320);
+    expect(audioMixer.getCurrentCueId()).toBe('hearth_crackle');
 
     juiceDirector.setAnchorHeld(true);
-    expect(audioMixer.getDreamFilter()?.frequency.value).toBe(18000);
+    expect(audioMixer.getDreamFilter()?.frequency.value).toBe(16000);
     juiceDirector.setAnchorHeld(false);
   });
 });
