@@ -72,7 +72,6 @@ export const FlowBackdrop: React.FC = () => {
           return (
             <video
               key={loopId}
-              src={`/flow-loops/${loopId}.webm`}
               autoPlay
               loop
               muted
@@ -85,7 +84,10 @@ export const FlowBackdrop: React.FC = () => {
                 filter: isProtected ? 'sepia(0.18) contrast(1.08) brightness(0.92)' : 'contrast(1.15) brightness(0.78)',
                 transitionProperty: 'opacity, transform, filter',
               }}
-            />
+            >
+              <source src={`/flow-loops/${loopId}.mp4`} type="video/mp4" />
+              <source src={`/flow-loops/${loopId}.webm`} type="video/webm" />
+            </video>
           );
         })}
         <div
