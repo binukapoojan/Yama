@@ -10,20 +10,16 @@ interface AnthologyHeaderProps {
   onSwitchCasefile: (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA') => void;
   onOpenCompendium: () => void;
   onApplySummons: (payload: BulathHurullaPayload) => void;
+  onOpenMenu: () => void;
 }
 
 const SAMPLE_CODES = [
-  { label: 'CF01·HK', code: 'BH-HK-1541' },
-  { label: 'CF02·RM', code: 'BH-RM-1848' },
-  { label: 'CF03·MR', code: 'BH-MR-0758' },
-  { label: 'CF04·MS', code: 'BH-MS-185C' },
+  { label: 'CF01·HK', code: 'BH-HK-1541' }, { label: 'CF02·RM', code: 'BH-RM-1848' },
+  { label: 'CF03·MR', code: 'BH-MR-0758' }, { label: 'CF04·MS', code: 'BH-MS-185C' },
 ] as const;
 
 export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
-  activeCasefile,
-  onSwitchCasefile,
-  onOpenCompendium,
-  onApplySummons,
+  activeCasefile, onSwitchCasefile, onOpenCompendium, onApplySummons, onOpenMenu,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [codeInput, setCodeInput] = useState<string>('');
@@ -32,14 +28,10 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
   const applyCodeString = (raw: string) => {
     const decoded = decodeBulathPayload(raw);
     if (decoded) {
-      setInvalidPulse(false);
-      setDrawerOpen(false);
-      setCodeInput('');
-      audioMixer.playYakBeraPulse(0.85);
-      onApplySummons(decoded);
+      setInvalidPulse(false); setDrawerOpen(false); setCodeInput('');
+      audioMixer.playYakBeraPulse(0.85); onApplySummons(decoded);
     } else {
-      setInvalidPulse(true);
-      juiceDirector.triggerHaptic('dread_throb');
+      setInvalidPulse(true); juiceDirector.triggerHaptic('dread_throb');
     }
   };
 
@@ -48,25 +40,15 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap gap-x-4 gap-y-1">
           {(['CF01', 'CF02', 'CF03', 'CF04'] as CasefileId[]).map((id) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => { setDrawerOpen(false); onSwitchCasefile(id, 'ATHURA'); }}
-              className={`cursor-pointer transition-colors ${activeCasefile === id ? 'text-[#C8963E]' : 'hover:text-[#EAE3D2]'}`}
-            >
+            <button key={id} type="button" onClick={() => { setDrawerOpen(false); onSwitchCasefile(id, 'ATHURA'); }} className={`cursor-pointer transition-colors ${activeCasefile === id ? 'text-[#C8963E]' : 'hover:text-[#EAE3D2]'}`}>
               {CASEFILE_META[id].title}
             </button>
           ))}
         </div>
         <div className="flex shrink-0 space-x-3 text-[11px]">
-          <button type="button" onClick={onOpenCompendium} className="cursor-pointer text-[#C8963E]/80 hover:text-[#D49B27]">
-            [Puskola]
-          </button>
-          <button
-            type="button"
-            onClick={() => setDrawerOpen((prev) => !prev)}
-            className={`cursor-pointer transition-colors ${drawerOpen ? 'text-[#D49B27]' : 'text-[#EAE3D2]/45 hover:text-[#C8963E]'}`}
-          >
+          <button type="button" onClick={onOpenMenu} className="cursor-pointer text-[#EAE3D2]/60 hover:text-[#D49B27]">[Menu]</button>
+          <button type="button" onClick={onOpenCompendium} className="cursor-pointer text-[#C8963E]/80 hover:text-[#D49B27]">[Puskola]</button>
+          <button type="button" onClick={() => setDrawerOpen((prev) => !prev)} className={`cursor-pointer transition-colors ${drawerOpen ? 'text-[#D49B27]' : 'text-[#EAE3D2]/45 hover:text-[#C8963E]'}`}>
             [Triage]
           </button>
         </div>
@@ -78,24 +60,16 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
             <div className="flex items-center gap-2">
               <span className="text-[#D49B27]">ශාස්ත්ර කේතය · Code:</span>
               <input
-                type="text"
-                value={codeInput}
+                type="text" value={codeInput}
                 onChange={(e) => { setCodeInput(e.target.value.toUpperCase()); setInvalidPulse(false); }}
-                placeholder="BH-MR-0758"
-                aria-label="Bulath Hurulla Share Code"
+                placeholder="BH-MR-0758" aria-label="Bulath Hurulla Share Code"
                 className={`w-36 border bg-[#14100C] px-2.5 py-1 font-serif text-xs tracking-widest text-[#EAE3D2] uppercase focus:outline-none ${
                   invalidPulse ? 'border-[#8C1D24] text-[#8C1D24]' : 'border-[#C8963E]/40 focus:border-[#D49B27]'
                 }`}
               />
-              <button type="submit" className="cursor-pointer border border-[#C8963E]/45 bg-[#1C1611] px-2.5 py-1 text-[#D49B27] hover:border-[#D49B27]">
-                [Unfold Leaf]
-              </button>
+              <button type="submit" className="cursor-pointer border border-[#C8963E]/45 bg-[#1C1611] px-2.5 py-1 text-[#D49B27] hover:border-[#D49B27]">[Unfold Leaf]</button>
             </div>
-            <button
-              type="button"
-              onClick={() => { setDrawerOpen(false); onSwitchCasefile(activeCasefile, 'KATTADIYA'); }}
-              className="cursor-pointer text-[10px] tracking-widest text-[#EAE3D2]/50 hover:text-[#C8963E]"
-            >
+            <button type="button" onClick={() => { setDrawerOpen(false); onSwitchCasefile(activeCasefile, 'KATTADIYA'); }} className="cursor-pointer text-[10px] tracking-widest text-[#EAE3D2]/50 hover:text-[#C8963E]">
               [Fresh Local Triage →]
             </button>
           </div>

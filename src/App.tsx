@@ -1,9 +1,9 @@
 // src/App.tsx
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw'; import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw';
-import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas';
+import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate';
 import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { FlowBackdrop } from './components/viewport/FlowBackdrop';
-import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter'; import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
+import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { getInitialWebBulath, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter'; import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
 import { RuntimeVariables, TwineChoice } from './core/schema'; import { applyStateMutations, parseTweeStory } from './core/twineParser'; import { audioMixer } from './juice/audioMixer'; import { juiceDirector } from './juice/JuiceDirector';
 
 export { resolveCasefileConfig };
@@ -24,6 +24,7 @@ export const App: React.FC = () => {
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(initial.runtimeState);
   const [compendiumOpen, setCompendiumOpen] = useState<boolean>(false), [discoveredIds, setDiscoveredIds] = useState<string[]>(() => loadDiscoveredCompendium());
   const [leafInspected, setLeafInspected] = useState<boolean>(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(() => !getInitialWebBulath());
 
   const latestRef = useRef({ casefile, currentPassageId, runtimeState });
   latestRef.current = { casefile, currentPassageId, runtimeState };
@@ -31,7 +32,7 @@ export const App: React.FC = () => {
 
   const applySummonsPayload = useCallback((payload: BulathHurullaPayload) => {
     const nextState = buildStateFromBulath(payload), nextPassage = CASEFILE_META[payload.casefile].kattadiyaStart;
-    setCasefile(payload.casefile); setRuntimeState(nextState); setCurrentPassageId(nextPassage);
+    setCasefile(payload.casefile); setRuntimeState(nextState); setCurrentPassageId(nextPassage); setMenuOpen(false);
     saveSessionSnapshot(payload.casefile, nextPassage, nextState); juiceDirector.triggerHaptic('iron_grip');
   }, []);
 
@@ -53,7 +54,7 @@ export const App: React.FC = () => {
   }, [activePassage, casefile, currentPassageId, runtimeState]);
 
   const switchCasefile = (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA' = 'ATHURA') => {
-    setCasefile(nextId);
+    setCasefile(nextId); setMenuOpen(false);
     setRuntimeState({ tanikama: 50, balma: 20, samayam_velava: role === 'ATHURA' ? (nextId === 'CF04' || nextId === 'CF02' ? 'MADDHAMA_MIDNIGHT' : 'SANDHYA_DUSK') : 'MADDHAMA_MIDNIGHT' });
     setCurrentPassageId(role === 'ATHURA' ? CASEFILE_META[nextId].athuraStart : CASEFILE_META[nextId].kattadiyaStart);
   };
@@ -72,7 +73,14 @@ export const App: React.FC = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#090807] selection:bg-[#C8963E]/20 selection:text-[#EAE3D2]">
       <FlowBackdrop /><ChiaroscuroMask />
-      <AnthologyHeader activeCasefile={casefile} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} />
+      <AnthologyHeader activeCasefile={casefile} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setMenuOpen(true)} />
+      {menuOpen && (
+        <SamayamTitleGate
+          activeCasefile={casefile} activePassageId={currentPassageId} discoveredCount={discoveredIds.length}
+          onResumeWatch={() => setMenuOpen(false)} onStartCasefile={switchCasefile}
+          onApplySummons={applySummonsPayload} onOpenCompendium={() => setCompendiumOpen(true)}
+        />
+      )}
       {sastraNext ? (
         <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
           <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
