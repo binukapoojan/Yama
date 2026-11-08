@@ -1,9 +1,9 @@
 // src/App.tsx
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw'; import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw';
-import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas';
+import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas';
 import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { FlowBackdrop } from './components/viewport/FlowBackdrop';
-import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { buildWhatsAppSummonLink, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter'; import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
+import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter'; import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
 import { RuntimeVariables, TwineChoice } from './core/schema'; import { applyStateMutations, parseTweeStory } from './core/twineParser'; import { audioMixer } from './juice/audioMixer'; import { juiceDirector } from './juice/JuiceDirector';
 
 export { resolveCasefileConfig };
@@ -23,7 +23,7 @@ export const App: React.FC = () => {
   const [casefile, setCasefile] = useState<CasefileId>(initial.casefile), [currentPassageId, setCurrentPassageId] = useState<string>(initial.passageId);
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(initial.runtimeState);
   const [compendiumOpen, setCompendiumOpen] = useState<boolean>(false), [discoveredIds, setDiscoveredIds] = useState<string[]>(() => loadDiscoveredCompendium());
-  const [sastraInspected, setSastraInspected] = useState<boolean>(false);
+  const [leafInspected, setLeafInspected] = useState<boolean>(false);
 
   const latestRef = useRef({ casefile, currentPassageId, runtimeState });
   latestRef.current = { casefile, currentPassageId, runtimeState };
@@ -44,8 +44,8 @@ export const App: React.FC = () => {
   }, [applySummonsPayload]);
 
   useEffect(() => {
+    setLeafInspected(false);
     if (activePassage) {
-      setSastraInspected(false);
       juiceDirector.enterPassage(activePassage, Number(runtimeState.balma ?? 20));
       saveSessionSnapshot(casefile, currentPassageId, runtimeState);
       setDiscoveredIds(syncRuntimeToCompendium(runtimeState, casefile, currentPassageId));
@@ -67,6 +67,7 @@ export const App: React.FC = () => {
 
   if (!activePassage) return null;
   const bulath = encodeBulathPayload(runtimeState, casefile), sastraNext = SASTRA_NEXT[currentPassageId], climaxMantra = CLIMAX_MANTRAS[currentPassageId];
+  const canConcludeDivination = leafInspected || bulath.payload.blemishes.length === 0;
 
   return (
     <div className="relative min-h-screen w-full bg-[#090807] selection:bg-[#C8963E]/20 selection:text-[#EAE3D2]">
@@ -84,8 +85,10 @@ export const App: React.FC = () => {
       </header>
       {sastraNext ? (
         <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
-          <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); setSastraInspected(true); }} />
-          <button type="button" disabled={!sastraInspected} onClick={() => setCurrentPassageId(sastraNext)} className={`mx-auto mt-6 border-b pb-1 font-serif text-sm tracking-widest uppercase transition-colors ${sastraInspected ? 'cursor-pointer border-[#C8963E]/50 text-[#EAE3D2]/85 hover:text-[#C8963E]' : 'cursor-not-allowed border-transparent text-[#EAE3D2]/30'}`}>{sastraInspected ? 'Conclude Betel Divination →' : 'Inspect Blemishes with Pahana to Conclude →'}</button>
+          <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
+          <button type="button" disabled={!canConcludeDivination} onClick={() => setCurrentPassageId(sastraNext)} className={`mx-auto mt-6 border-b pb-1 font-serif text-sm tracking-widest uppercase transition-colors ${canConcludeDivination ? 'cursor-pointer border-[#C8963E]/50 text-[#EAE3D2]/85 hover:text-[#C8963E]' : 'cursor-not-allowed border-[#C8963E]/15 text-[#EAE3D2]/25'}`}>
+            {canConcludeDivination ? 'Conclude Betel Divination →' : 'Inspect Leaf Veins with Pahana to Proceed'}
+          </button>
         </div>
       ) : currentPassageId === 'Pideni_Altar_Preparation' ? (
         <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><PideniThattuwaCanvas expectedAvatar={bulath.payload.avatar === 'VATHA_KUMARA' ? 'VATHA_KUMARA' : 'HANDUN_KUMARA'} onConsecrated={() => setCurrentPassageId('Midnight_Samayama_Confrontation')} /></div>
@@ -101,12 +104,7 @@ export const App: React.FC = () => {
           <ProseStream passage={activePassage} onSelectChoice={handleSelectChoice} hideChoices={Boolean(climaxMantra)} />
         </>
       )}
-      {POSSESSED_PASSAGES.has(currentPassageId) && (
-        <aside className="fixed top-16 right-6 z-40 border-l border-[#8C1D24] bg-[#0D0B0A]/90 px-4 py-3 font-serif">
-          <div className="text-[11px] tracking-widest text-[#8C1D24] uppercase">Bulath Hurulla · {bulath.payload.shareCode}</div>
-          <a href={buildWhatsAppSummonLink(bulath.urlParam, bulath.payload.shareCode)} target="_blank" rel="noreferrer" className="mt-1.5 block text-xs text-[#C8963E] underline underline-offset-4">Dispatch Summons via WhatsApp →</a>
-        </aside>
-      )}
+      {POSSESSED_PASSAGES.has(currentPassageId) && <BulathSummonCard payload={bulath.payload} urlParam={bulath.urlParam} />}
       <PuskolaCompendium isOpen={compendiumOpen} initialCasefile={casefile} discoveredIds={discoveredIds} onClose={() => setCompendiumOpen(false)} />
       <IronKeyAnchor />
     </div>
