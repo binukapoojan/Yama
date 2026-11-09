@@ -73,38 +73,41 @@ export const App: React.FC = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#090807] selection:bg-[#C8963E]/20 selection:text-[#EAE3D2]">
       <FlowBackdrop /><ChiaroscuroMask />
-      <AnthologyHeader activeCasefile={casefile} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setMenuOpen(true)} />
-      {menuOpen && (
+      {menuOpen ? (
         <SamayamTitleGate
           activeCasefile={casefile} activePassageId={currentPassageId} discoveredCount={discoveredIds.length}
           onResumeWatch={() => setMenuOpen(false)} onStartCasefile={switchCasefile}
           onApplySummons={applySummonsPayload} onOpenCompendium={() => setCompendiumOpen(true)}
         />
-      )}
-      {sastraNext ? (
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
-          <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
-          <button type="button" disabled={!canConcludeDivination} onClick={() => setCurrentPassageId(sastraNext)} className={`mx-auto mt-6 border-b pb-1 font-serif text-sm tracking-widest uppercase transition-colors ${canConcludeDivination ? 'cursor-pointer border-[#C8963E]/50 text-[#EAE3D2]/85 hover:text-[#C8963E]' : 'cursor-not-allowed border-[#C8963E]/15 text-[#EAE3D2]/25'}`}>
-            {canConcludeDivination ? 'Conclude Betel Divination →' : 'Inspect Leaf Veins with Pahana to Proceed'}
-          </button>
-        </div>
-      ) : currentPassageId === 'Pideni_Altar_Preparation' ? (
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><PideniThattuwaCanvas expectedAvatar={bulath.payload.avatar === 'VATHA_KUMARA' ? 'VATHA_KUMARA' : 'HANDUN_KUMARA'} onConsecrated={() => setCurrentPassageId('Midnight_Samayama_Confrontation')} /></div>
-      ) : currentPassageId === 'Three_Mask_Paliya_Prep' ? (
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><MohiniMaskPaliyaCanvas onSevered={() => setCurrentPassageId('Midnight_Kesel_Kanda_Severance')} /></div>
-      ) : currentPassageId === 'Woven_Mat_Funeral_Prep' ? (
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><RiriMatFuneralCanvas onFuneralSealed={() => setCurrentPassageId('Midnight_Peduru_Surrender')} /></div>
-      ) : currentPassageId === 'Thovil_Card_Duel_Prep' ? (
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><MahasonaCardDuelCanvas onDerisionComplete={() => setCurrentPassageId('Midnight_Gothaimbara_Varama')} /></div>
       ) : (
         <>
-          {climaxMantra && <div className="relative z-20 pt-20"><MantraCadenceBar mantraKey={climaxMantra.key} onCompleted={(ok) => setCurrentPassageId(ok ? climaxMantra.win : climaxMantra.lose)} /></div>}
-          <ProseStream passage={activePassage} onSelectChoice={handleSelectChoice} hideChoices={Boolean(climaxMantra)} />
+          <AnthologyHeader activeCasefile={casefile} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setMenuOpen(true)} />
+          {sastraNext ? (
+            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
+              <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
+              <button type="button" disabled={!canConcludeDivination} onClick={() => setCurrentPassageId(sastraNext)} className={`mx-auto mt-6 border-b pb-1 font-serif text-sm tracking-widest uppercase transition-colors ${canConcludeDivination ? 'cursor-pointer border-[#C8963E]/50 text-[#EAE3D2]/85 hover:text-[#C8963E]' : 'cursor-not-allowed border-[#C8963E]/15 text-[#EAE3D2]/25'}`}>
+                {canConcludeDivination ? 'Conclude Betel Divination →' : 'Inspect Leaf Veins with Pahana to Proceed'}
+              </button>
+            </div>
+          ) : currentPassageId === 'Pideni_Altar_Preparation' ? (
+            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><PideniThattuwaCanvas expectedAvatar={bulath.payload.avatar === 'VATHA_KUMARA' ? 'VATHA_KUMARA' : 'HANDUN_KUMARA'} onConsecrated={() => setCurrentPassageId('Midnight_Samayama_Confrontation')} /></div>
+          ) : currentPassageId === 'Three_Mask_Paliya_Prep' ? (
+            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><MohiniMaskPaliyaCanvas onSevered={() => setCurrentPassageId('Midnight_Kesel_Kanda_Severance')} /></div>
+          ) : currentPassageId === 'Woven_Mat_Funeral_Prep' ? (
+            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><RiriMatFuneralCanvas onFuneralSealed={() => setCurrentPassageId('Midnight_Peduru_Surrender')} /></div>
+          ) : currentPassageId === 'Thovil_Card_Duel_Prep' ? (
+            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><MahasonaCardDuelCanvas onDerisionComplete={() => setCurrentPassageId('Midnight_Gothaimbara_Varama')} /></div>
+          ) : (
+            <>
+              {climaxMantra && <div className="relative z-20 pt-20"><MantraCadenceBar mantraKey={climaxMantra.key} onCompleted={(ok) => setCurrentPassageId(ok ? climaxMantra.win : climaxMantra.lose)} /></div>}
+              <ProseStream passage={activePassage} onSelectChoice={handleSelectChoice} hideChoices={Boolean(climaxMantra)} />
+            </>
+          )}
+          {POSSESSED_PASSAGES.has(currentPassageId) && <BulathSummonCard payload={bulath.payload} urlParam={bulath.urlParam} />}
+          <IronKeyAnchor />
         </>
       )}
-      {POSSESSED_PASSAGES.has(currentPassageId) && <BulathSummonCard payload={bulath.payload} urlParam={bulath.urlParam} />}
       <PuskolaCompendium isOpen={compendiumOpen} initialCasefile={casefile} discoveredIds={discoveredIds} onClose={() => setCompendiumOpen(false)} />
-      <IronKeyAnchor />
     </div>
   );
 };
