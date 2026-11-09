@@ -1,7 +1,8 @@
 // src/juice/audioMixer.ts
 import {
   createCebHumStem, createCicadaStem, createNoiseStem, createPinkNoiseBuffer,
-  playInfantWhimper, playIronKeyTone as triggerIronKeyTone, playYakBeraPulse as triggerYakBera,
+  playInfantWhimper, playIronKeyTone as triggerIronKeyTone,
+  playMohiniWeeping as triggerMohiniWeeping, playYakBeraClimaxRoll, playYakBeraPulse as triggerYakBera,
 } from './audioStems';
 
 export type AudioCueId =
@@ -77,7 +78,9 @@ class WebAudioMixer {
   }
 
   public playYakBeraPulse(intensity = 0.7): void { if (this.ctx && this.masterFilter) triggerYakBera(this.ctx, this.masterFilter, intensity); }
+  public playYakBeraClimax(): void { if (this.ctx && this.masterFilter) playYakBeraClimaxRoll(this.ctx, this.masterFilter); }
   public playMohiniWhimper(): void { if (this.ctx && this.masterFilter && !this.anchorHeld) playInfantWhimper(this.ctx, this.masterFilter); }
+  public playMohiniWeeping(): void { if (this.ctx && this.masterFilter && !this.anchorHeld) triggerMohiniWeeping(this.ctx, this.masterFilter); }
   public playArterialPulse(intensity = 0.75): void {
     if (!this.ctx || !this.masterFilter || this.anchorHeld) return;
     this.playStrike(96, 36, 0.14, intensity * 0.32, 'sine', 0);
