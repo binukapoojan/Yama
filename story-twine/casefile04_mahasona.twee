@@ -12,7 +12,7 @@ Your whistle dies flat against the banyan trunks—no echo returns from the tank
 
 The paper has soaked through with warm fat. As you crouch over the rear wheel, a sudden gust of wind carrying the stench of {mutate: "dry palu leaves and tank mud" -> "wet grave-earth and scorched boar bristles" @2400} sweeps across the junction.
 
-[[Leave the meat parcel uncovered in the basket without tucking an iron nail inside->Shattered_Charnel_Pot][$taboo_carried_uncovered_meat = true, $balma += 15]]
+[[Leave the meat parcel uncovered in the basket and look toward the approaching lantern->Culvert_Pilgrim_Lantern][$taboo_carried_uncovered_meat = true, $balma += 15]]
 [[Slip your forged iron betel-cutter into the meat wrapper to seal the scent->Shattered_Charnel_Pot][@anchor_held $balma -= 5]]
 
 
@@ -21,8 +21,26 @@ You hook the chain back onto the teeth without making a sound, though your finge
 
 Down inside the dry concrete culvert beneath the crossroads, dry leaves rustle violently—as if something far too broad to fit inside a pipe is {mutate: "a monitor lizard burrowing in the silt" -> "dragging a crushed shoulder along the concrete wall" @2500}.
 
+[[Call out to the dim lantern light approaching from the temple track->Culvert_Pilgrim_Lantern][$taboo_whistled_crossroads = true, $balma += 15]]
 [[Pedal away fast without warding the meat parcel on your carrier->Shattered_Charnel_Pot][$taboo_carried_uncovered_meat = true, $balma += 15, $tanikama += 10]]
 [[Press the iron Giraya against the parcel and walk the bicycle past the culvert->Shattered_Charnel_Pot][@anchor_held $balma -= 5]]
+
+
+:: Culvert_Pilgrim_Lantern [#samayam:MADDHAMA_MIDNIGHT #flow:thummansala_banyan_wind #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.66]
+Along the third fork of the junction, a tall man in a white pilgrim's sarong approaches carrying an unshielded kuppi-lamp. The flame burns with a sputtering green-yellow smoke that smells of rancid margosa oil.
+
+He does not look at your face; instead, his nostrils flare toward the meat parcel on your handlebar: {mutate: "Are you riding toward the tank village, malli?" -> "Give me the wild boar flesh wrapped on your iron frame." @2100}.
+
+[[Walk beside the lantern-bearer toward the center of the junction->Backwards_Shadow_Stride][$balma += 15]]
+[[Hold the iron Giraya and veer away from him toward the fork->Shattered_Charnel_Pot][@anchor_held $balma -= 5]]
+
+
+:: Backwards_Shadow_Stride [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.76 #balma:15]
+As the kuppi-lamp swings near the red gravel, you glance down at the pilgrim's bare feet in the dust. His heels point forward while his splayed, ash-crusted toes point backward toward the cremation ground.
+
+At that exact moment, the lamp flame goes out. Above your head, the shadow cast against the banyan trunk stretches {mutate: "six feet tall in the starlight" -> "thirty feet into the canopy with the bristling snout of a boar" @1900}.
+
+[[wrench your handlebars away and sprint toward the junction center->Shattered_Charnel_Pot][$tanikama += 15]]
 
 
 :: Shattered_Charnel_Pot [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.68]
@@ -31,8 +49,17 @@ Right at the center of the three-way fork lies a shattered red-clay muttiya pot 
 Beyond the pot, the gravel rises toward the Wewa tank bund. In the dim starlight, the spilled white ash on the road shifts into the shape of {mutate: "windblown lime dust" -> "a giant five-fingered handprint pointing toward the cemetery" @2300}.
 
 [[Kick the broken clay shards aside and roll straight through the ritual ash->Tank_Bund_Footsteps][$taboo_stepped_ash_pot = true, $balma += 25]]
-[[Steer wide into the thorny grass to avoid touching the crossroads ash->Tank_Bund_Footsteps][$tanikama += 10]]
+[[Duck under the low-hanging banyan roots on the verge to bypass the ash->Banyan_Root_Noose][$tanikama += 10]]
 [[Hold the cold iron Giraya and trace a protective line in the gravel->Cemetery_Boundary_Stone][@anchor_held $balma -= 5]]
+
+
+:: Banyan_Root_Noose [#samayam:MADDHAMA_MIDNIGHT #flow:thummansala_banyan_wind #audio:ceb_power_cut #haptic:dread_throb #vignette:0.74 #balma:10]
+You push the bicycle beneath the curtain of aerial banyan roots on the road shoulder. Instead of dry wood, the hanging tendrils feel cold, sinewy, and slick with charnel grease.
+
+A thick root loops across your throat like a noose, tightening as {mutate: "your collar catches on a twig" -> "five unseen fingers twist the bark against your windpipe" @2100}.
+
+[[Slash at the hanging root with your bare hands and break free onto the bund->Tank_Bund_Footsteps][$balma += 15]]
+[[Press the sharp iron Giraya blade against the root until it recoils->Tank_Bund_Footsteps][@anchor_held $balma -= 10]]
 
 
 :: Tank_Bund_Footsteps [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:ceb_power_cut #haptic:dread_throb #vignette:0.76 #balma:10]
@@ -41,7 +68,16 @@ You push the bicycle up the steep earthen slope of the tank bund. To your left, 
 Five yards behind your rear fender, a dead palu branch as thick as a man's thigh snaps with a sound like a rifle shot. Heavy, uneven footsteps—one stride long, the next dragging—thud across the gravel, and a guttural grunt breathes down your neck: {mutate: "It is only a stray water buffalo on the bund" -> "Turn around and see whose head rests backwards on my shoulders" @2100}.
 
 [[Whip your head around to see what is following you on the bund->Boar_Tusk_Apparition][$taboo_looked_back_snap = true, $balma += 20]]
+[[Look down toward the black water of the stone sluice gate instead->Sluice_Gate_Splash][$tanikama += 10]]
 [[Keep your eyes locked straight ahead on the bund path and grip the iron Giraya->Cemetery_Boundary_Stone][@anchor_held $balma -= 10]]
+
+
+:: Sluice_Gate_Splash [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:arterial_pulse #haptic:dread_throb #vignette:0.78 #balma:10]
+Down by the ancient granite sluice culvert, the tank water parts with a heavy, churning splash—as if a boulder the size of a bull was just heaved into the shallows.
+
+Rising up the embankment through the iluk reeds is the reek of wet cemetery ash and {mutate: "rotting water-hyacinth" -> "a giant shadow climbing the bund on all fours" @2100}.
+
+[[Hurry toward the whitewashed cemetery boundary pillar ahead->Cemetery_Boundary_Stone][$balma += 10]]
 
 
 :: Boar_Tusk_Apparition [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.82 #balma:10]

@@ -12,8 +12,17 @@ The salted fish burns your tongue. Down in the clay firebox, the coconut-shell e
 
 Outside the low wooden doorway, something heavy scrapes across the gravel by the chopping block. In the red twilight, the puddle of fish-cleaning water you poured beside the threshold glints like {mutate: "muddy rainwater" -> "freshly spilled arterial blood" @2400}.
 
-[[Wipe your bleeding thumb on your sarong and step outside without washing it->Wadamal_Hedge_Breach][$taboo_unwashed_blood = true, $balma += 15]]
-[[Touch the cold iron sickle by the door and pour turmeric water over the threshold->Wadamal_Hedge_Breach][@anchor_held $balma -= 5]]
+[[Wipe your bleeding thumb on your sarong and step out to the chopping block->Chopping_Block_Cleaver][$taboo_unwashed_blood = true, $balma += 15]]
+[[Touch the cold iron sickle by the door and pour turmeric water over the threshold->Courtyard_Grandmother_Call][@anchor_held $balma -= 5]]
+
+
+:: Chopping_Block_Cleaver [#samayam:SANDHYA_DUSK #flow:iron_sickle_ember #audio:arterial_pulse #haptic:dread_throb #vignette:0.70 #balma:10]
+Beside the kitchen door stands the scarred jak-wood chopping block where you gutted the seer fish at 5:45 PM. You left the heavy iron cleaver wedged upright in the wood.
+
+Now the cleaver is lying flat in the mud, and crouched over the stump is a hairless, red-skinned form the size of a macaque—{mutate: "a stray village dog licking the fish scales" -> "pressing its flat simian tongue against the bloody edge of the iron blade" @2000}.
+
+[[Snatch up a firewood stick to drive the creature away from the block->Wadamal_Hedge_Breach][$taboo_unwashed_blood = true, $balma += 15]]
+[[Back away slowly while pressing your thumb against the iron sickle->Wadamal_Hedge_Breach][@anchor_held $balma -= 5]]
 
 
 :: Wellside_Fish_Scales [#samayam:SANDHYA_DUSK #flow:wadamal_blood_hedge #audio:monsoon_light #haptic:heartbeat_slow #vignette:0.56]
@@ -21,8 +30,27 @@ You walk out to the moss-ringed well behind the kitchen. The sky over the coconu
 
 Before you can draw the bucket, you notice the silver seer-fish scales left on the cement apron have attracted a trail of large red ants. The cut on your thumb throbs in time with {mutate: "the distant surf at Polhena reef" -> "a wet, rhythmic panting behind the banana clump" @2600}.
 
-[[Leave the bloody scales on the stone and hurry back toward the kitchen->Wadamal_Hedge_Breach][$taboo_unwashed_blood = true, $balma += 15, $tanikama += 10]]
+[[Lean over the low masonry wall to draw a bucket of water from the well->Well_Bucket_Reflection][$balma += 10]]
+[[Leave the bloody scales on the stone and hurry back toward the courtyard->Courtyard_Grandmother_Call][$taboo_unwashed_blood = true, $balma += 15, $tanikama += 10]]
 [[Scrub the stone clean with lime rind and hold your iron key->Wadamal_Hedge_Breach][@anchor_held $balma -= 5]]
+
+
+:: Well_Bucket_Reflection [#samayam:SANDHYA_DUSK #flow:wadamal_blood_hedge #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.72 #balma:10]
+You peer down into the black cylinder of the well. Twenty feet below, the crimson sunset reflects off the still water like a disk of clotted blood.
+
+As your nicked thumb drips a single red bead over the parapet, the water ripples—and staring up beside your reflection is {mutate: "an overhanging papaya frond" -> "a wide, monkey-jawed face with a red hibiscus clenched between its teeth" @2000}.
+
+[[Drop the well rope and stumble back toward the hibiscus hedge->Wadamal_Hedge_Breach][$balma += 15]]
+[[Hold the cold iron key over the well mouth to shatter the reflection->Wadamal_Hedge_Breach][@anchor_held $balma -= 10]]
+
+
+:: Courtyard_Grandmother_Call [#samayam:SANDHYA_DUSK #flow:wadamal_blood_hedge #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.64]
+From the far side of the dark courtyard, a frail voice calls out through the drizzle: {mutate: "Putha, bring the fried fish into the main house before it gets cold!" -> "Bring the raw pan and the bleeding thumb out into the open dark!" @2200}.
+
+Yet the back verandah of the main house is locked and shuttered for the night, and the voice came from directly behind the overgrown red hibiscus hedge.
+
+[[Carry the hot pan toward the hibiscus hedge to answer the call->Wadamal_Hedge_Breach][$taboo_fried_pulutu = true, $balma += 15]]
+[[Ignore the voice and stay close to the kitchen wall->Wadamal_Hedge_Breach][$tanikama += 5]]
 
 
 :: Wadamal_Hedge_Breach [#samayam:SANDHYA_DUSK #flow:wadamal_blood_hedge #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.66]
@@ -40,7 +68,7 @@ Beside the well rises an ancient red-earth Humbaha—a tall, chimney-like termit
 
 From the hollow vents of the clay mound comes a low, rasping hiss, followed by the unmistakable stench of {mutate: "wet laterite clay and decaying leaves" -> "clotted blood and singed monkey fur" @2200}.
 
-[[Step directly over the red termite mound to reach the kitchen door faster->Boiling_Pulse_Onset][$taboo_crossed_anthill = true, $balma += 25]]
+[[Step directly over the red termite mound to reach the kitchen door faster->Rafters_Simian_Chatter][$taboo_crossed_anthill = true, $balma += 25]]
 [[Hold the cold iron ward and drag the coconut frond aside without crossing the mound->Boiling_Pulse_Onset][@anchor_held $balma -= 10]]
 
 
@@ -49,8 +77,16 @@ You slip back inside the low-roofed kitchen and pull the plank door shut. The br
 
 The fried fish in the iron pan has gone ice-cold, yet the air inside the smoky room feels unbearably hot. When you look down at your hands, the tiny nick on your thumb is {mutate: "already clotting shut" -> "weeping a steady red thread down your wrist" @2400}.
 
-[[Suck the blood from your thumb and swallow it in the dark->Boiling_Pulse_Onset][$taboo_unwashed_blood = true, $taboo_tasted_hearth_ash = true, $balma += 25]]
+[[Suck the blood from your thumb and swallow it in the dark->Rafters_Simian_Chatter][$taboo_unwashed_blood = true, $taboo_tasted_hearth_ash = true, $balma += 25]]
 [[Press cold wood-ash and iron against the cut to seal the scent->Boiling_Pulse_Onset][@anchor_held $balma -= 5]]
+
+
+:: Rafters_Simian_Chatter [#samayam:MADDHAMA_MIDNIGHT #flow:iron_sickle_ember #audio:arterial_pulse #haptic:heartbeat_panic #vignette:0.78 #balma:10]
+Overhead, the soot-blackened kitul rafters creak under a sudden, shifting weight. Dry clay tile dust rains down into the cold frying pan with a soft patter.
+
+Something with four gripping hands scrambles upside-down along the ridge beam directly above your crown, chattering in a wet, rhythmic cadence that matches {mutate: "a palm civet hunting rats in the roof" -> "the exact systolic throb of the blood inside your carotid artery" @2000}.
+
+[[Back into the corner reed mat as the heat surges behind your eyes->Boiling_Pulse_Onset][$balma += 10]]
 
 
 :: Boiling_Pulse_Onset [#samayam:MADDHAMA_MIDNIGHT #flow:iron_sickle_ember #audio:arterial_pulse #haptic:heartbeat_panic #vignette:0.80]

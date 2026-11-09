@@ -6,10 +6,10 @@ import { parseTweeStory } from '../src/core/twineParser';
 describe('Casefile 02 (Mala Mohini) Twine Parser', () => {
   const tweePath = path.resolve(__dirname, '../story-twine/casefile02_mohini.twee');
 
-  it('parses exactly 18 passages with zero missing passages', () => {
+  it('parses exactly 22 passages with zero missing passages', () => {
     const tweeContent = fs.readFileSync(tweePath, 'utf-8');
     const story = parseTweeStory(tweeContent);
-    expect(Object.keys(story)).toHaveLength(18);
+    expect(Object.keys(story)).toHaveLength(22);
 
     const expectedPassages = [
       'Upper_Lake_Mist_Start',
@@ -30,6 +30,10 @@ describe('Casefile 02 (Mala Mohini) Twine Parser', () => {
       'Midnight_Kesel_Kanda_Severance',
       'Outcome_Kattadiya_Mohini_Cured',
       'Outcome_Kattadiya_Mohini_Failed',
+      'Culvert_Whisper_Echo',
+      'False_Tuk_Headlight',
+      'Backseat_Wet_Saree',
+      'Sanctuary_Stone_Steps',
     ];
 
     for (const name of expectedPassages) {

@@ -114,7 +114,7 @@
       "choices": [
         {
           "label": "Shake the damp clothes out three times over the rail before stepping back",
-          "targetPassage": "Evening_Hair_And_Hearth",
+          "targetPassage": "Bathroom_Bucket_Overflow",
           "mutations": [
             {
               "variable": "tanikama",
@@ -126,7 +126,7 @@
         },
         {
           "label": "Clutch the cold bundle tight against your chest and hurry inside",
-          "targetPassage": "Evening_Hair_And_Hearth",
+          "targetPassage": "Bathroom_Bucket_Overflow",
           "mutations": [
             {
               "variable": "balma",
@@ -179,7 +179,7 @@
       "choices": [
         {
           "label": "Strike a match and light the brass pahana on the shelf",
-          "targetPassage": "Evening_Hair_And_Hearth",
+          "targetPassage": "Bathroom_Bucket_Overflow",
           "mutations": [
             {
               "variable": "balma",
@@ -191,7 +191,7 @@
         },
         {
           "label": "Save the oil and use your phone screen to see in the dark",
-          "targetPassage": "Evening_Hair_And_Hearth",
+          "targetPassage": "Bathroom_Bucket_Overflow",
           "mutations": [
             {
               "variable": "tanikama",
@@ -205,6 +205,72 @@
             }
           ],
           "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Bathroom_Bucket_Overflow": {
+      "name": "Bathroom_Bucket_Overflow",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "bodima_rain_window",
+        "audio": "monsoon_heavy",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.6
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "From behind the ajar plastic door of the attached bathroom comes the sudden, violent hiss of the brass tap turning full-bore on its own. Water slap-splashes over the rim of the plastic bucket onto the concrete drain."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "When you shine a sliver of light across the wet tiles, floating in the overflowing bucket is a long, tangled skein of "
+          },
+          {
+            "type": "mutate",
+            "id": "Bathroom_Bucket_Overflow_p1_m0",
+            "wakingText": "your own shed hair from the shower",
+            "corruptedText": "coarse black hair knotted around a bruised blue lotus stem",
+            "delayMs": 2300
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Reach into the dark bathroom and wrench the brass tap shut",
+          "targetPassage": "Evening_Hair_And_Hearth",
+          "mutations": [
+            {
+              "variable": "taboo_bathed_dusk",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Hold the cold iron key and kick the bathroom door shut from outside",
+          "targetPassage": "Evening_Hair_And_Hearth",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
         }
       ]
     },
@@ -233,7 +299,7 @@
             "type": "mutate",
             "id": "Evening_Hair_And_Hearth_p1_m0",
             "wakingText": "water dripping into the plastic bucket",
-            "corruptedText": "soft, bare footsteps pausing outside your bathroom door",
+            "corruptedText": "soft, bare footsteps climbing the outer concrete stairs",
             "delayMs": 2600
           },
           {
@@ -245,7 +311,7 @@
       "choices": [
         {
           "label": "Leave your damp hair loose and eat a sweet kevum in the dark",
-          "targetPassage": "Vanity_Mirror_Threshold",
+          "targetPassage": "False_Roommate_Knock",
           "mutations": [
             {
               "variable": "taboo_hair_unbound",
@@ -267,7 +333,7 @@
         },
         {
           "label": "Twist your wet hair up with a brass pin and close the sweetmeat tin",
-          "targetPassage": "Vanity_Mirror_Threshold",
+          "targetPassage": "False_Roommate_Knock",
           "mutations": [
             {
               "variable": "tanikama",
@@ -279,7 +345,7 @@
         },
         {
           "label": "Leave your hair unbound to dry, but push the oil-cakes away",
-          "targetPassage": "Vanity_Mirror_Threshold",
+          "targetPassage": "False_Roommate_Knock",
           "mutations": [
             {
               "variable": "taboo_hair_unbound",
@@ -288,6 +354,202 @@
             },
             {
               "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "False_Roommate_Knock": {
+      "name": "False_Roommate_Knock",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "pahana_nil_manel",
+        "audio": "ceb_power_cut",
+        "haptic": "dread_throb",
+        "vignette": 0.66,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Three urgent raps sound against the outer stairwell door. A muffled voice—pitched almost exactly like your roommate's—calls through the wet timber: "
+          },
+          {
+            "type": "mutate",
+            "id": "False_Roommate_Knock_p0_m0",
+            "wakingText": "Malli, the Kandy train was cancelled! Open the bolt, I'm soaked!",
+            "corruptedText": "Open the threshold of your own free will and let the dark water in.",
+            "delayMs": 2200
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Yet no footsteps splashed through the puddle at the bottom of the stairs, and the brass latch is freezing to the touch."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Unbolt the stairwell door to let your roommate inside",
+          "targetPassage": "Wardrobe_Silk_Rustle",
+          "mutations": [
+            {
+              "variable": "taboo_laundry",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 25
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Stoop down and peer through the brass keyhole first",
+          "targetPassage": "Corridor_Keyhole_Eye",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Touch the iron ward to the bolt and stay dead silent",
+          "targetPassage": "Vanity_Mirror_Threshold",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Corridor_Keyhole_Eye": {
+      "name": "Corridor_Keyhole_Eye",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "mirror_dark_idle",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.76,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You bring your right eye within an inch of the brass keyhole, expecting to see the rain-swept landing. Instead, the slot is completely blocked from the outside."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Pressed flush against the metal is "
+          },
+          {
+            "type": "mutate",
+            "id": "Corridor_Keyhole_Eye_p1_m0",
+            "wakingText": "a wet fold of umbrella cloth",
+            "corruptedText": "an unblinking, yellow-sclera eye staring straight back into yours",
+            "delayMs": 1900
+          },
+          {
+            "type": "plain",
+            "text": ". A wet tongue tastes the outer lock plate, and the scent of frying oil and crushed Nil Manel blows straight through the keyhole onto your eyelashes."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Recoil backward into the room as the door handle rattles violently",
+          "targetPassage": "Vanity_Mirror_Threshold",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            },
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Jam the cold iron key straight into the lock to burn the intruder",
+          "targetPassage": "Vanity_Mirror_Threshold",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Wardrobe_Silk_Rustle": {
+      "name": "Wardrobe_Silk_Rustle",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "mirror_dark_idle",
+        "audio": "ceb_power_cut",
+        "haptic": "dread_throb",
+        "vignette": 0.74,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "When you crack the door half an inch, the landing is completely empty—only wet blue lotus petals lie scattered on the concrete step. You slam the bolt back in place, your heart hammering against your ribs."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Behind you, inside the room, the tall teak wardrobe creaks open on its own. Your hanging clothes sway violently as if "
+          },
+          {
+            "type": "mutate",
+            "id": "Wardrobe_Silk_Rustle_p1_m0",
+            "wakingText": "a draft caught the open door",
+            "corruptedText": "someone broad-shouldered just stepped inside among your damp shirts",
+            "delayMs": 2200
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Retreat toward your mattress facing the dressing table",
+          "targetPassage": "Vanity_Mirror_Threshold",
+          "mutations": [
+            {
+              "variable": "tanikama",
               "operator": "+=",
               "value": 10
             }
@@ -1130,7 +1392,7 @@
       "choices": [
         {
           "label": "Walk briskly down the hill through the bamboo shadow",
-          "targetPassage": "Bamboo_Culvert_Approach",
+          "targetPassage": "False_Tuk_Headlight",
           "mutations": [
             {
               "variable": "taboo_walked_samayam",
@@ -1201,7 +1463,7 @@
       "choices": [
         {
           "label": "Call back into the mist to ask who is there",
-          "targetPassage": "Bamboo_Culvert_Approach",
+          "targetPassage": "Culvert_Whisper_Echo",
           "mutations": [
             {
               "variable": "taboo_answered_call",
@@ -1218,6 +1480,68 @@
         },
         {
           "label": "Keep your mouth shut, touch your Pirith Nula, and start walking down",
+          "targetPassage": "False_Tuk_Headlight",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Culvert_Whisper_Echo": {
+      "name": "Culvert_Whisper_Echo",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "mohini_saree_silhouette",
+        "audio": "ceb_power_cut",
+        "haptic": "dread_throb",
+        "vignette": 0.68,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The moment your voice leaves your lips, the echo does not bounce off the hillside—it answers from directly beneath your boots inside the storm drain."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Water sloshes against the stone grate, and pale fingers stained with milky tree-sap reach up through the iron bars, whispering: "
+          },
+          {
+            "type": "mutate",
+            "id": "Culvert_Whisper_Echo_p1_m0",
+            "wakingText": "Help me lift my child out of the drain",
+            "corruptedText": "You gave me your voice at midnight; now lend me your arms",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Wrench your heel back from the drain grate and run down the road",
+          "targetPassage": "Bamboo_Culvert_Approach",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Hold the Pirith Nula tight and spit once onto the iron grate",
           "targetPassage": "Bamboo_Culvert_Approach",
           "mutations": [
             {
@@ -1227,6 +1551,195 @@
             }
           ],
           "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "False_Tuk_Headlight": {
+      "name": "False_Tuk_Headlight",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "kandy_mist_bamboo",
+        "audio": "monsoon_heavy",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.6
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Through the swirling fog behind you, a single yellow headlight sweeps around the bend. A black three-wheeler coasts slowly down the incline with its two-stroke engine strangely silent, rolling to a stop beside the bamboo wall."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Rain sheets off the canvas hood. From the shadowed passenger bench comes the faint rustle of wet white silk and "
+          },
+          {
+            "type": "mutate",
+            "id": "False_Tuk_Headlight_p1_m0",
+            "wakingText": "the squeak of a vinyl seat",
+            "corruptedText": "a soft, rhythmic lullaby hummed through clenched teeth",
+            "delayMs": 2300
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Wave the three-wheeler down and climb into the dry backseat",
+          "targetPassage": "Backseat_Wet_Saree",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 20
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Ignore the silent three-wheeler and climb the stone steps toward the forest edge",
+          "targetPassage": "Sanctuary_Stone_Steps",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Keep walking along the asphalt road with your thumb on the Pirith Nula",
+          "targetPassage": "Bamboo_Culvert_Approach",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Backseat_Wet_Saree": {
+      "name": "Backseat_Wet_Saree",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "mohini_saree_silhouette",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.78,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You duck under the canvas flap onto the vinyl bench—and freeze. The driver's seat in front of you is completely empty; the handlebars are rusted solid and wrapped in dead creeper vines."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Beside your left thigh, the seat cushion is soaking wet. A woman in a drenched white saree sits pressed against your shoulder in the dark cab, turning her pupil-less face toward your neck: "
+          },
+          {
+            "type": "mutate",
+            "id": "Backseat_Wet_Saree_p1_m0",
+            "wakingText": "You climbed in out of the rain on your own",
+            "corruptedText": "Hold the child while I pin my border, malli",
+            "delayMs": 2000
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Throw yourself backward out of the cab onto the wet asphalt",
+          "targetPassage": "Bamboo_Culvert_Approach",
+          "mutations": [
+            {
+              "variable": "taboo_met_eyes",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Clamp your thumb onto the Pirith Nula and kick out through the canvas",
+          "targetPassage": "Bamboo_Culvert_Approach",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Sanctuary_Stone_Steps": {
+      "name": "Sanctuary_Stone_Steps",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "kaduru_puddle_feet",
+        "audio": "monsoon_heavy",
+        "haptic": "dread_throb",
+        "vignette": 0.66
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You scramble up five mossy stone steps toward the locked iron gate of Udawattakele. Overhanging Kaduru trees drip thick, acrid white sap onto the stone."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "When you look back down at the road, the three-wheeler is gone—only a rotting green banana trunk lies in the middle of the lane, while the weeping sound rises directly ahead of you at the culvert bend: "
+          },
+          {
+            "type": "mutate",
+            "id": "Sanctuary_Stone_Steps_p1_m0",
+            "wakingText": "wind whistling through the sanctuary wire",
+            "corruptedText": "a mother sobbing for someone to carry her cold bundle",
+            "delayMs": 2300
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Descend back to the road edge and approach the culvert bend",
+          "targetPassage": "Bamboo_Culvert_Approach",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
         }
       ]
     },
@@ -2308,8 +2821,8 @@
       ],
       "choices": [
         {
-          "label": "Wipe your bleeding thumb on your sarong and step outside without washing it",
-          "targetPassage": "Wadamal_Hedge_Breach",
+          "label": "Wipe your bleeding thumb on your sarong and step out to the chopping block",
+          "targetPassage": "Chopping_Block_Cleaver",
           "mutations": [
             {
               "variable": "taboo_unwashed_blood",
@@ -2326,6 +2839,73 @@
         },
         {
           "label": "Touch the cold iron sickle by the door and pour turmeric water over the threshold",
+          "targetPassage": "Courtyard_Grandmother_Call",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Chopping_Block_Cleaver": {
+      "name": "Chopping_Block_Cleaver",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "iron_sickle_ember",
+        "audio": "arterial_pulse",
+        "haptic": "dread_throb",
+        "vignette": 0.7,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Beside the kitchen door stands the scarred jak-wood chopping block where you gutted the seer fish at 5:45 PM. You left the heavy iron cleaver wedged upright in the wood."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Now the cleaver is lying flat in the mud, and crouched over the stump is a hairless, red-skinned form the size of a macaque—"
+          },
+          {
+            "type": "mutate",
+            "id": "Chopping_Block_Cleaver_p1_m0",
+            "wakingText": "a stray village dog licking the fish scales",
+            "corruptedText": "pressing its flat simian tongue against the bloody edge of the iron blade",
+            "delayMs": 2000
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Snatch up a firewood stick to drive the creature away from the block",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "taboo_unwashed_blood",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Back away slowly while pressing your thumb against the iron sickle",
           "targetPassage": "Wadamal_Hedge_Breach",
           "mutations": [
             {
@@ -2374,8 +2954,20 @@
       ],
       "choices": [
         {
-          "label": "Leave the bloody scales on the stone and hurry back toward the kitchen",
-          "targetPassage": "Wadamal_Hedge_Breach",
+          "label": "Lean over the low masonry wall to draw a bucket of water from the well",
+          "targetPassage": "Well_Bucket_Reflection",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Leave the bloody scales on the stone and hurry back toward the courtyard",
+          "targetPassage": "Courtyard_Grandmother_Call",
           "mutations": [
             {
               "variable": "taboo_unwashed_blood",
@@ -2406,6 +2998,134 @@
             }
           ],
           "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Well_Bucket_Reflection": {
+      "name": "Well_Bucket_Reflection",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "wadamal_blood_hedge",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.72,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You peer down into the black cylinder of the well. Twenty feet below, the crimson sunset reflects off the still water like a disk of clotted blood."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "As your nicked thumb drips a single red bead over the parapet, the water ripples—and staring up beside your reflection is "
+          },
+          {
+            "type": "mutate",
+            "id": "Well_Bucket_Reflection_p1_m0",
+            "wakingText": "an overhanging papaya frond",
+            "corruptedText": "a wide, monkey-jawed face with a red hibiscus clenched between its teeth",
+            "delayMs": 2000
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Drop the well rope and stumble back toward the hibiscus hedge",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Hold the cold iron key over the well mouth to shatter the reflection",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Courtyard_Grandmother_Call": {
+      "name": "Courtyard_Grandmother_Call",
+      "directives": {
+        "samayam": "SANDHYA_DUSK",
+        "flow": "wadamal_blood_hedge",
+        "audio": "monsoon_heavy",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.64
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "From the far side of the dark courtyard, a frail voice calls out through the drizzle: "
+          },
+          {
+            "type": "mutate",
+            "id": "Courtyard_Grandmother_Call_p0_m0",
+            "wakingText": "Putha, bring the fried fish into the main house before it gets cold!",
+            "corruptedText": "Bring the raw pan and the bleeding thumb out into the open dark!",
+            "delayMs": 2200
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Yet the back verandah of the main house is locked and shuttered for the night, and the voice came from directly behind the overgrown red hibiscus hedge."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Carry the hot pan toward the hibiscus hedge to answer the call",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "taboo_fried_pulutu",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Ignore the voice and stay close to the kitchen wall",
+          "targetPassage": "Wadamal_Hedge_Breach",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": false
         }
       ]
     },
@@ -2525,7 +3245,7 @@
       "choices": [
         {
           "label": "Step directly over the red termite mound to reach the kitchen door faster",
-          "targetPassage": "Boiling_Pulse_Onset",
+          "targetPassage": "Rafters_Simian_Chatter",
           "mutations": [
             {
               "variable": "taboo_crossed_anthill",
@@ -2591,7 +3311,7 @@
       "choices": [
         {
           "label": "Suck the blood from your thumb and swallow it in the dark",
-          "targetPassage": "Boiling_Pulse_Onset",
+          "targetPassage": "Rafters_Simian_Chatter",
           "mutations": [
             {
               "variable": "taboo_unwashed_blood",
@@ -2622,6 +3342,56 @@
             }
           ],
           "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Rafters_Simian_Chatter": {
+      "name": "Rafters_Simian_Chatter",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "iron_sickle_ember",
+        "audio": "arterial_pulse",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.78,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Overhead, the soot-blackened kitul rafters creak under a sudden, shifting weight. Dry clay tile dust rains down into the cold frying pan with a soft patter."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Something with four gripping hands scrambles upside-down along the ridge beam directly above your crown, chattering in a wet, rhythmic cadence that matches "
+          },
+          {
+            "type": "mutate",
+            "id": "Rafters_Simian_Chatter_p1_m0",
+            "wakingText": "a palm civet hunting rats in the roof",
+            "corruptedText": "the exact systolic throb of the blood inside your carotid artery",
+            "delayMs": 2000
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Back into the corner reed mat as the heat surges behind your eyes",
+          "targetPassage": "Boiling_Pulse_Onset",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
         }
       ]
     },
@@ -3413,8 +4183,8 @@
       ],
       "choices": [
         {
-          "label": "Leave the meat parcel uncovered in the basket without tucking an iron nail inside",
-          "targetPassage": "Shattered_Charnel_Pot",
+          "label": "Leave the meat parcel uncovered in the basket and look toward the approaching lantern",
+          "targetPassage": "Culvert_Pilgrim_Lantern",
           "mutations": [
             {
               "variable": "taboo_carried_uncovered_meat",
@@ -3479,6 +4249,23 @@
       ],
       "choices": [
         {
+          "label": "Call out to the dim lantern light approaching from the temple track",
+          "targetPassage": "Culvert_Pilgrim_Lantern",
+          "mutations": [
+            {
+              "variable": "taboo_whistled_crossroads",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
           "label": "Pedal away fast without warding the meat parcel on your carrier",
           "targetPassage": "Shattered_Charnel_Pot",
           "mutations": [
@@ -3511,6 +4298,117 @@
             }
           ],
           "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Culvert_Pilgrim_Lantern": {
+      "name": "Culvert_Pilgrim_Lantern",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "thummansala_banyan_wind",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.66
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Along the third fork of the junction, a tall man in a white pilgrim's sarong approaches carrying an unshielded kuppi-lamp. The flame burns with a sputtering green-yellow smoke that smells of rancid margosa oil."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "He does not look at your face; instead, his nostrils flare toward the meat parcel on your handlebar: "
+          },
+          {
+            "type": "mutate",
+            "id": "Culvert_Pilgrim_Lantern_p1_m0",
+            "wakingText": "Are you riding toward the tank village, malli?",
+            "corruptedText": "Give me the wild boar flesh wrapped on your iron frame.",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Walk beside the lantern-bearer toward the center of the junction",
+          "targetPassage": "Backwards_Shadow_Stride",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Hold the iron Giraya and veer away from him toward the fork",
+          "targetPassage": "Shattered_Charnel_Pot",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Backwards_Shadow_Stride": {
+      "name": "Backwards_Shadow_Stride",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.76,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "As the kuppi-lamp swings near the red gravel, you glance down at the pilgrim's bare feet in the dust. His heels point forward while his splayed, ash-crusted toes point backward toward the cremation ground."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "At that exact moment, the lamp flame goes out. Above your head, the shadow cast against the banyan trunk stretches "
+          },
+          {
+            "type": "mutate",
+            "id": "Backwards_Shadow_Stride_p1_m0",
+            "wakingText": "six feet tall in the starlight",
+            "corruptedText": "thirty feet into the canopy with the bristling snout of a boar",
+            "delayMs": 1900
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "wrench your handlebars away and sprint toward the junction center",
+          "targetPassage": "Shattered_Charnel_Pot",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
         }
       ]
     },
@@ -3567,8 +4465,8 @@
           "requiresAnchorHeld": false
         },
         {
-          "label": "Steer wide into the thorny grass to avoid touching the crossroads ash",
-          "targetPassage": "Tank_Bund_Footsteps",
+          "label": "Duck under the low-hanging banyan roots on the verge to bypass the ash",
+          "targetPassage": "Banyan_Root_Noose",
           "mutations": [
             {
               "variable": "tanikama",
@@ -3586,6 +4484,68 @@
               "variable": "balma",
               "operator": "-=",
               "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Banyan_Root_Noose": {
+      "name": "Banyan_Root_Noose",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "thummansala_banyan_wind",
+        "audio": "ceb_power_cut",
+        "haptic": "dread_throb",
+        "vignette": 0.74,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You push the bicycle beneath the curtain of aerial banyan roots on the road shoulder. Instead of dry wood, the hanging tendrils feel cold, sinewy, and slick with charnel grease."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "A thick root loops across your throat like a noose, tightening as "
+          },
+          {
+            "type": "mutate",
+            "id": "Banyan_Root_Noose_p1_m0",
+            "wakingText": "your collar catches on a twig",
+            "corruptedText": "five unseen fingers twist the bark against your windpipe",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Slash at the hanging root with your bare hands and break free onto the bund",
+          "targetPassage": "Tank_Bund_Footsteps",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Press the sharp iron Giraya blade against the root until it recoils",
+          "targetPassage": "Tank_Bund_Footsteps",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
             }
           ],
           "requiresAnchorHeld": true
@@ -3646,6 +4606,18 @@
           "requiresAnchorHeld": false
         },
         {
+          "label": "Look down toward the black water of the stone sluice gate instead",
+          "targetPassage": "Sluice_Gate_Splash",
+          "mutations": [
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
           "label": "Keep your eyes locked straight ahead on the bund path and grip the iron Giraya",
           "targetPassage": "Cemetery_Boundary_Stone",
           "mutations": [
@@ -3656,6 +4628,56 @@
             }
           ],
           "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Sluice_Gate_Splash": {
+      "name": "Sluice_Gate_Splash",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "arterial_pulse",
+        "haptic": "dread_throb",
+        "vignette": 0.78,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Down by the ancient granite sluice culvert, the tank water parts with a heavy, churning splash—as if a boulder the size of a bull was just heaved into the shallows."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Rising up the embankment through the iluk reeds is the reek of wet cemetery ash and "
+          },
+          {
+            "type": "mutate",
+            "id": "Sluice_Gate_Splash_p1_m0",
+            "wakingText": "rotting water-hyacinth",
+            "corruptedText": "a giant shadow climbing the bund on all fours",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Hurry toward the whitewashed cemetery boundary pillar ahead",
+          "targetPassage": "Cemetery_Boundary_Stone",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
         }
       ]
     },

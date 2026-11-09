@@ -6,10 +6,10 @@ import { parseTweeStory } from '../src/core/twineParser';
 describe('Casefile 04 (Mahasona) Twine Parser', () => {
   const tweePath = path.resolve(__dirname, '../story-twine/casefile04_mahasona.twee');
 
-  it('parses all 18 passages with zero missing passages', () => {
+  it('parses all 22 passages with zero missing passages', () => {
     const tweeContent = fs.readFileSync(tweePath, 'utf-8');
     const story = parseTweeStory(tweeContent);
-    expect(Object.keys(story)).toHaveLength(18);
+    expect(Object.keys(story)).toHaveLength(22);
 
     const expectedPassages = [
       'Crossroads_Midnight_Start',
@@ -30,6 +30,10 @@ describe('Casefile 04 (Mahasona) Twine Parser', () => {
       'Midnight_Gothaimbara_Varama',
       'Outcome_Kattadiya_Mahasona_Banished',
       'Outcome_Kattadiya_Mahasona_Backfire',
+      'Culvert_Pilgrim_Lantern',
+      'Backwards_Shadow_Stride',
+      'Banyan_Root_Noose',
+      'Sluice_Gate_Splash',
     ];
 
     for (const name of expectedPassages) {

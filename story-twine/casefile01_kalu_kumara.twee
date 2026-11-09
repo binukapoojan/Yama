@@ -12,8 +12,8 @@ You unlatch the balcony door and step onto the slick cement. The streetlights al
 
 The rain does not smell like wet tar or diesel exhaust anymore. Clinging to the damp sleeves in your arms is the heavy, sweet stench of {mutate: "laundry soap and rain" -> "bruised Nil Manel water-lilies and crushed sandalwood" @2400}. Down in the banana grove by the boundary wall, something tall stands motionless between the wet leaves.
 
-[[Shake the damp clothes out three times over the rail before stepping back->Evening_Hair_And_Hearth][$tanikama += 5]]
-[[Clutch the cold bundle tight against your chest and hurry inside->Evening_Hair_And_Hearth][$balma += 15, $tanikama += 10]]
+[[Shake the damp clothes out three times over the rail before stepping back->Bathroom_Bucket_Overflow][$tanikama += 5]]
+[[Clutch the cold bundle tight against your chest and hurry inside->Bathroom_Bucket_Overflow][$balma += 15, $tanikama += 10]]
 
 
 :: Louver_Latch_Safe [#samayam:SANDHYA_DUSK #flow:pahana_steady #audio:monsoon_heavy #vignette:0.48]
@@ -21,18 +21,54 @@ You slide the brass bolt across the wooden door without stepping outside. Throug
 
 A thin draft leaks through the frame, carrying a trace of {mutate: "wet garden soil" -> "cold river mud and dark musk" @3000}. On the narrow shelf beside your study table sits a small brass pahana lamp with a cotton wick and a bottle of coconut oil left by your mother.
 
-[[Strike a match and light the brass pahana on the shelf->Evening_Hair_And_Hearth][$balma -= 5]]
-[[Save the oil and use your phone screen to see in the dark->Evening_Hair_And_Hearth][$tanikama += 15, $balma += 10]]
+[[Strike a match and light the brass pahana on the shelf->Bathroom_Bucket_Overflow][$balma -= 5]]
+[[Save the oil and use your phone screen to see in the dark->Bathroom_Bucket_Overflow][$tanikama += 15, $balma += 10]]
+
+
+:: Bathroom_Bucket_Overflow [#samayam:SANDHYA_DUSK #flow:bodima_rain_window #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.60]
+From behind the ajar plastic door of the attached bathroom comes the sudden, violent hiss of the brass tap turning full-bore on its own. Water slap-splashes over the rim of the plastic bucket onto the concrete drain.
+
+When you shine a sliver of light across the wet tiles, floating in the overflowing bucket is a long, tangled skein of {mutate: "your own shed hair from the shower" -> "coarse black hair knotted around a bruised blue lotus stem" @2300}.
+
+[[Reach into the dark bathroom and wrench the brass tap shut->Evening_Hair_And_Hearth][$taboo_bathed_dusk = true, $balma += 10]]
+[[Hold the cold iron key and kick the bathroom door shut from outside->Evening_Hair_And_Hearth][@anchor_held $balma -= 5]]
 
 
 :: Evening_Hair_And_Hearth [#samayam:SANDHYA_DUSK #flow:bodima_rain_window #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.58]
 Your roommate will not be back from Kandy until Sunday evening. The annex feels smaller in the blackout, cut off from the main house below by an external concrete staircase.
 
-Your wet hair hangs heavy and cold against the nape of your neck. On the corner of your desk sits an open tin of sweet oil-fried kevum and aggala you bought near the railway station at sunset. In the quiet between thunderclaps, you hear {mutate: "water dripping into the plastic bucket" -> "soft, bare footsteps pausing outside your bathroom door" @2600}.
+Your wet hair hangs heavy and cold against the nape of your neck. On the corner of your desk sits an open tin of sweet oil-fried kevum and aggala you bought near the railway station at sunset. In the quiet between thunderclaps, you hear {mutate: "water dripping into the plastic bucket" -> "soft, bare footsteps climbing the outer concrete stairs" @2600}.
 
-[[Leave your damp hair loose and eat a sweet kevum in the dark->Vanity_Mirror_Threshold][$taboo_hair_unbound = true, $taboo_sweet_snacks = true, $balma += 20]]
-[[Twist your wet hair up with a brass pin and close the sweetmeat tin->Vanity_Mirror_Threshold][$tanikama += 5]]
-[[Leave your hair unbound to dry, but push the oil-cakes away->Vanity_Mirror_Threshold][$taboo_hair_unbound = true, $balma += 10]]
+[[Leave your damp hair loose and eat a sweet kevum in the dark->False_Roommate_Knock][$taboo_hair_unbound = true, $taboo_sweet_snacks = true, $balma += 20]]
+[[Twist your wet hair up with a brass pin and close the sweetmeat tin->False_Roommate_Knock][$tanikama += 5]]
+[[Leave your hair unbound to dry, but push the oil-cakes away->False_Roommate_Knock][$taboo_hair_unbound = true, $balma += 10]]
+
+
+:: False_Roommate_Knock [#samayam:SANDHYA_DUSK #flow:pahana_nil_manel #audio:ceb_power_cut #haptic:dread_throb #vignette:0.66 #balma:10]
+Three urgent raps sound against the outer stairwell door. A muffled voice—pitched almost exactly like your roommate's—calls through the wet timber: {mutate: "Malli, the Kandy train was cancelled! Open the bolt, I'm soaked!" -> "Open the threshold of your own free will and let the dark water in." @2200}.
+
+Yet no footsteps splashed through the puddle at the bottom of the stairs, and the brass latch is freezing to the touch.
+
+[[Unbolt the stairwell door to let your roommate inside->Wardrobe_Silk_Rustle][$taboo_laundry = true, $balma += 25]]
+[[Stoop down and peer through the brass keyhole first->Corridor_Keyhole_Eye][$balma += 10]]
+[[Touch the iron ward to the bolt and stay dead silent->Vanity_Mirror_Threshold][@anchor_held $balma -= 10]]
+
+
+:: Corridor_Keyhole_Eye [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.76 #balma:15]
+You bring your right eye within an inch of the brass keyhole, expecting to see the rain-swept landing. Instead, the slot is completely blocked from the outside.
+
+Pressed flush against the metal is {mutate: "a wet fold of umbrella cloth" -> "an unblinking, yellow-sclera eye staring straight back into yours" @1900}. A wet tongue tastes the outer lock plate, and the scent of frying oil and crushed Nil Manel blows straight through the keyhole onto your eyelashes.
+
+[[Recoil backward into the room as the door handle rattles violently->Vanity_Mirror_Threshold][$balma += 15, $tanikama += 10]]
+[[Jam the cold iron key straight into the lock to burn the intruder->Vanity_Mirror_Threshold][@anchor_held $balma -= 10]]
+
+
+:: Wardrobe_Silk_Rustle [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:ceb_power_cut #haptic:dread_throb #vignette:0.74 #balma:10]
+When you crack the door half an inch, the landing is completely empty—only wet blue lotus petals lie scattered on the concrete step. You slam the bolt back in place, your heart hammering against your ribs.
+
+Behind you, inside the room, the tall teak wardrobe creaks open on its own. Your hanging clothes sway violently as if {mutate: "a draft caught the open door" -> "someone broad-shouldered just stepped inside among your damp shirts" @2200}.
+
+[[Retreat toward your mattress facing the dressing table->Vanity_Mirror_Threshold][$tanikama += 10]]
 
 
 :: Vanity_Mirror_Threshold [#samayam:SANDHYA_DUSK #flow:mirror_dark_idle #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.68]

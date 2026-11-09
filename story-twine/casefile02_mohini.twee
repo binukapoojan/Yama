@@ -3,7 +3,7 @@ The last bus down to the Kandy clock tower left twenty minutes ago. Cold mist ro
 
 To your left, the moss-slick stone retaining wall borders the giant bamboo thickets of Udawattakele Sanctuary. It is 11:46 PM. Around your right wrist, the white three-knotted Pirith Nula thread from the Dalada Maligawa feels damp against your pulse. Up ahead, the single municipal streetlamp flickers with {mutate: "a failing sodium bulb" -> "the pale yellow glow of a funeral oil wick" @2700}.
 
-[[Walk briskly down the hill through the bamboo shadow->Bamboo_Culvert_Approach][$taboo_walked_samayam = true, $tanikama += 10]]
+[[Walk briskly down the hill through the bamboo shadow->False_Tuk_Headlight][$taboo_walked_samayam = true, $tanikama += 10]]
 [[Wait under the closed tin awning of the wayside tea stall->Three_Wheeler_Wait][$taboo_walked_samayam = true, $tanikama += 15]]
 
 
@@ -12,8 +12,44 @@ You step beneath the rusted tin awning. No three-wheeler engine echoes anywhere 
 
 From twenty paces up the dark lane, a woman's voice calls out softly through the fog—using {mutate: "a word you cannot quite catch" -> "the childhood nickname only your mother uses" @2400}.
 
-[[Call back into the mist to ask who is there->Bamboo_Culvert_Approach][$taboo_answered_call = true, $balma += 20]]
-[[Keep your mouth shut, touch your Pirith Nula, and start walking down->Bamboo_Culvert_Approach][@anchor_held $balma -= 5]]
+[[Call back into the mist to ask who is there->Culvert_Whisper_Echo][$taboo_answered_call = true, $balma += 20]]
+[[Keep your mouth shut, touch your Pirith Nula, and start walking down->False_Tuk_Headlight][@anchor_held $balma -= 5]]
+
+
+:: Culvert_Whisper_Echo [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:ceb_power_cut #haptic:dread_throb #vignette:0.68 #balma:10]
+The moment your voice leaves your lips, the echo does not bounce off the hillside—it answers from directly beneath your boots inside the storm drain.
+
+Water sloshes against the stone grate, and pale fingers stained with milky tree-sap reach up through the iron bars, whispering: {mutate: "Help me lift my child out of the drain" -> "You gave me your voice at midnight; now lend me your arms" @2100}.
+
+[[Wrench your heel back from the drain grate and run down the road->Bamboo_Culvert_Approach][$tanikama += 10]]
+[[Hold the Pirith Nula tight and spit once onto the iron grate->Bamboo_Culvert_Approach][@anchor_held $balma -= 5]]
+
+
+:: False_Tuk_Headlight [#samayam:MADDHAMA_MIDNIGHT #flow:kandy_mist_bamboo #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.60]
+Through the swirling fog behind you, a single yellow headlight sweeps around the bend. A black three-wheeler coasts slowly down the incline with its two-stroke engine strangely silent, rolling to a stop beside the bamboo wall.
+
+Rain sheets off the canvas hood. From the shadowed passenger bench comes the faint rustle of wet white silk and {mutate: "the squeak of a vinyl seat" -> "a soft, rhythmic lullaby hummed through clenched teeth" @2300}.
+
+[[Wave the three-wheeler down and climb into the dry backseat->Backseat_Wet_Saree][$balma += 20]]
+[[Ignore the silent three-wheeler and climb the stone steps toward the forest edge->Sanctuary_Stone_Steps][$tanikama += 10]]
+[[Keep walking along the asphalt road with your thumb on the Pirith Nula->Bamboo_Culvert_Approach][@anchor_held $balma -= 5]]
+
+
+:: Backseat_Wet_Saree [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.78 #balma:15]
+You duck under the canvas flap onto the vinyl bench—and freeze. The driver's seat in front of you is completely empty; the handlebars are rusted solid and wrapped in dead creeper vines.
+
+Beside your left thigh, the seat cushion is soaking wet. A woman in a drenched white saree sits pressed against your shoulder in the dark cab, turning her pupil-less face toward your neck: {mutate: "You climbed in out of the rain on your own" -> "Hold the child while I pin my border, malli" @2000}.
+
+[[Throw yourself backward out of the cab onto the wet asphalt->Bamboo_Culvert_Approach][$taboo_met_eyes = true, $balma += 15]]
+[[Clamp your thumb onto the Pirith Nula and kick out through the canvas->Bamboo_Culvert_Approach][@anchor_held $balma -= 10]]
+
+
+:: Sanctuary_Stone_Steps [#samayam:MADDHAMA_MIDNIGHT #flow:kaduru_puddle_feet #audio:monsoon_heavy #haptic:dread_throb #vignette:0.66]
+You scramble up five mossy stone steps toward the locked iron gate of Udawattakele. Overhanging Kaduru trees drip thick, acrid white sap onto the stone.
+
+When you look back down at the road, the three-wheeler is gone—only a rotting green banana trunk lies in the middle of the lane, while the weeping sound rises directly ahead of you at the culvert bend: {mutate: "wind whistling through the sanctuary wire" -> "a mother sobbing for someone to carry her cold bundle" @2300}.
+
+[[Descend back to the road edge and approach the culvert bend->Bamboo_Culvert_Approach][$tanikama += 5]]
 
 
 :: Bamboo_Culvert_Approach [#samayam:MADDHAMA_MIDNIGHT #flow:kandy_mist_bamboo #audio:monsoon_heavy #haptic:dread_throb #vignette:0.62]

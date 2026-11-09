@@ -6,10 +6,10 @@ import { parseTweeStory } from '../src/core/twineParser';
 describe('Casefile 03 (Riri Yaka) Twine Parser', () => {
   const tweePath = path.resolve(__dirname, '../story-twine/casefile03_riri_yaka.twee');
 
-  it('parses exactly 18 passages with zero missing passages', () => {
+  it('parses exactly 22 passages with zero missing passages', () => {
     const tweeContent = fs.readFileSync(tweePath, 'utf-8');
     const story = parseTweeStory(tweeContent);
-    expect(Object.keys(story)).toHaveLength(18);
+    expect(Object.keys(story)).toHaveLength(22);
 
     const expectedPassages = [
       'Crimson_Hearth_Start',
@@ -30,6 +30,10 @@ describe('Casefile 03 (Riri Yaka) Twine Parser', () => {
       'Midnight_Peduru_Surrender',
       'Outcome_Kattadiya_Riri_Banished',
       'Outcome_Kattadiya_Riri_Backfire',
+      'Courtyard_Grandmother_Call',
+      'Chopping_Block_Cleaver',
+      'Rafters_Simian_Chatter',
+      'Well_Bucket_Reflection',
     ];
 
     for (const name of expectedPassages) {

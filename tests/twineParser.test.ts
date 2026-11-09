@@ -13,8 +13,8 @@ describe('Deterministic Engine Core (twineParser, JuiceDirector, textMutator)', 
   );
   const story = parseTweeStory(tweeContent);
 
-  it('parses all 17 passages into StoryGraph with zero broken references', () => {
-    expect(Object.keys(story)).toHaveLength(17);
+  it('parses all 21 passages into StoryGraph with zero broken references', () => {
+    expect(Object.keys(story)).toHaveLength(21);
     expect(story['Dusk_Balcony_Check']).toBeDefined();
     expect(story['Balcony_Rain_Breach']).toBeDefined();
     expect(story['Louver_Latch_Safe']).toBeDefined();
