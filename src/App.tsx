@@ -24,7 +24,7 @@ export const App: React.FC = () => {
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(initial.runtimeState);
   const [compendiumOpen, setCompendiumOpen] = useState<boolean>(false), [discoveredIds, setDiscoveredIds] = useState<string[]>(() => loadDiscoveredCompendium());
   const [leafInspected, setLeafInspected] = useState<boolean>(false);
-  const [menuOpen, setMenuOpen] = useState<boolean>(() => !getInitialWebBulath());
+  const [gateMode, setGateMode] = useState<'COLD_OPEN' | 'LEDGER' | null>(() => (getInitialWebBulath() ? null : 'COLD_OPEN'));
 
   const latestRef = useRef({ casefile, currentPassageId, runtimeState });
   latestRef.current = { casefile, currentPassageId, runtimeState };
@@ -32,7 +32,7 @@ export const App: React.FC = () => {
 
   const applySummonsPayload = useCallback((payload: BulathHurullaPayload) => {
     const nextState = buildStateFromBulath(payload), nextPassage = CASEFILE_META[payload.casefile].kattadiyaStart;
-    setCasefile(payload.casefile); setRuntimeState(nextState); setCurrentPassageId(nextPassage); setMenuOpen(false);
+    setCasefile(payload.casefile); setRuntimeState(nextState); setCurrentPassageId(nextPassage); setGateMode(null);
     saveSessionSnapshot(payload.casefile, nextPassage, nextState); juiceDirector.triggerHaptic('iron_grip');
   }, []);
 
@@ -54,7 +54,7 @@ export const App: React.FC = () => {
   }, [activePassage, casefile, currentPassageId, runtimeState]);
 
   const switchCasefile = (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA' = 'ATHURA') => {
-    setCasefile(nextId); setMenuOpen(false);
+    setCasefile(nextId); setGateMode(null);
     setRuntimeState({ tanikama: 50, balma: 20, samayam_velava: role === 'ATHURA' ? (nextId === 'CF04' || nextId === 'CF02' ? 'MADDHAMA_MIDNIGHT' : 'SANDHYA_DUSK') : 'MADDHAMA_MIDNIGHT' });
     setCurrentPassageId(role === 'ATHURA' ? CASEFILE_META[nextId].athuraStart : CASEFILE_META[nextId].kattadiyaStart);
   };
@@ -73,15 +73,15 @@ export const App: React.FC = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#090807] selection:bg-[#C8963E]/20 selection:text-[#EAE3D2]">
       <FlowBackdrop /><ChiaroscuroMask />
-      {menuOpen ? (
+      {gateMode ? (
         <SamayamTitleGate
-          activeCasefile={casefile} activePassageId={currentPassageId} discoveredCount={discoveredIds.length}
-          onResumeWatch={() => setMenuOpen(false)} onStartCasefile={switchCasefile}
+          mode={gateMode} activeCasefile={casefile} discoveredCount={discoveredIds.length}
+          onEnterDarkness={() => setGateMode(null)} onStartCasefile={switchCasefile}
           onApplySummons={applySummonsPayload} onOpenCompendium={() => setCompendiumOpen(true)}
         />
       ) : (
         <>
-          <AnthologyHeader activeCasefile={casefile} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setMenuOpen(true)} />
+          <AnthologyHeader activeCasefile={casefile} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setGateMode('LEDGER')} />
           {sastraNext ? (
             <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
               <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
