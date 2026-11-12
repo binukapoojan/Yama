@@ -1,5 +1,5 @@
 // src/components/diegetic/PuskolaCompendium.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CasefileId } from '../../core/bulathCodec';
 import { getEntriesByCasefile } from '../../core/compendiumStore';
 import { CASEFILE_META } from '../../core/savePersistence';
@@ -21,6 +21,14 @@ export const PuskolaCompendium: React.FC<PuskolaCompendiumProps> = ({
   isOpen, initialCasefile, discoveredIds, onClose,
 }) => {
   const [activeTab, setActiveTab] = useState<CasefileId>(initialCasefile);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const entries = getEntriesByCasefile(activeTab);

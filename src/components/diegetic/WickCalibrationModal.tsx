@@ -21,18 +21,19 @@ export const WickCalibrationModal: React.FC<WickCalibrationModalProps> = ({ isOp
   const [settings, setSettings] = useState<LampCalibrationSettings>(() => loadCalibrationSettings());
 
   useEffect(() => {
-    if (isOpen) setSettings(loadCalibrationSettings());
-  }, [isOpen]);
+    if (!isOpen) return;
+    setSettings(loadCalibrationSettings());
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   const update = (patch: Partial<LampCalibrationSettings>, previewWhisper = false) => {
     const next = saveCalibrationSettings({ ...settings, ...patch });
-    setSettings(next);
-    audioMixer.unlock();
-    juiceDirector.triggerHaptic('iron_grip');
-    if (previewWhisper) audioMixer.playMohiniWhimper();
-    else audioMixer.playYakBeraPulse(0.6);
+    setSettings(next); audioMixer.unlock(); juiceDirector.triggerHaptic('iron_grip');
+    if (previewWhisper) audioMixer.playMohiniWhimper(); else audioMixer.playYakBeraPulse(0.6);
   };
 
   const renderWickRow = (titleSinhala: string, titleRoman: string, current: WickNotch, onSelect: (n: WickNotch) => void) => (

@@ -79,10 +79,8 @@ class WebAudioMixer {
     const buf = this.fileBuffers.get(stemName);
     if (this.ctx && this.masterFilter && buf) {
       try { this.activeWhisperSource?.stop(); } catch {}
-      const src = this.ctx.createBufferSource(); src.buffer = buf;
-      const g = this.ctx.createGain(); g.gain.value = this.whisperScale;
-      src.connect(g); g.connect(spatialPanner.getDestination(this.ctx, this.masterFilter));
-      src.start(); this.activeWhisperSource = src;
+      const src = this.ctx.createBufferSource(), g = this.ctx.createGain(); src.buffer = buf; g.gain.value = this.whisperScale;
+      src.connect(g); g.connect(spatialPanner.getDestination(this.ctx, this.masterFilter)); src.start(); this.activeWhisperSource = src;
     } else {
       if (this.ctx && this.masterFilter) playProceduralWhisper(this.ctx, spatialPanner.getDestination(this.ctx, this.masterFilter)); if (fallback) fallback();
     }
