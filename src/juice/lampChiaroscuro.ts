@@ -1,6 +1,7 @@
 // src/juice/lampChiaroscuro.ts
 import { FlowLoopId } from '../core/schema';
 import { juiceDirector } from './JuiceDirector';
+import { spatialPanner } from './spatialPanner';
 
 const DREAD_DRAFT_LOOPS = new Set<FlowLoopId>([
   'pahana_nil_manel',
@@ -43,10 +44,11 @@ class LampChiaroscuroController {
   }
 
   private handlePointerMove = (e: PointerEvent): void => {
-    const nx = (e.clientX / Math.max(1, window.innerWidth)) * 100;
-    const ny = (e.clientY / Math.max(1, window.innerHeight)) * 100;
-    this.targetX = Math.max(8, Math.min(92, nx));
-    this.targetY = Math.max(8, Math.min(92, ny));
+    const normX = e.clientX / Math.max(1, window.innerWidth);
+    const normY = e.clientY / Math.max(1, window.innerHeight);
+    this.targetX = Math.max(8, Math.min(92, normX * 100));
+    this.targetY = Math.max(8, Math.min(92, normY * 100));
+    spatialPanner.setLampPosition(normX, normY);
   };
 
   private updateStep(t: number): void {

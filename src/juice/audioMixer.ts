@@ -1,6 +1,7 @@
 // src/juice/audioMixer.ts
 import { buildCrackleStem, playStrikeSynth, PRELOAD_STEM_NAMES } from './audioHelpers';
 import { createCebHumStem, createCicadaStem, createNoiseStem, createPinkNoiseBuffer, playInfantWhimper, playIronKeyTone as triggerIronKeyTone, playMohiniWeeping as triggerMohiniWeeping, playYakBeraClimaxRoll, playYakBeraPulse as triggerYakBera } from './audioStems';
+import { spatialPanner } from './spatialPanner';
 
 export type AudioCueId = 'monsoon_light' | 'monsoon_heavy' | 'ceb_power_cut' | 'yak_bera_ritual' | 'hearth_crackle' | 'arterial_pulse';
 export type StemCueId = AudioCueId;
@@ -17,21 +18,16 @@ class WebAudioMixer {
     const AudioCtx = (typeof window !== 'undefined' ? (window.AudioContext || (window as any).webkitAudioContext) : null) || (globalThis as any).AudioContext;
     if (!AudioCtx) return;
     const ctx = new AudioCtx(); this.ctx = ctx;
-    const masterFilter = ctx.createBiquadFilter(); this.masterFilter = masterFilter;
-    masterFilter.type = 'lowpass'; masterFilter.frequency.value = 14000;
+    const masterFilter = ctx.createBiquadFilter(); this.masterFilter = masterFilter; masterFilter.type = 'lowpass'; masterFilter.frequency.value = 14000;
     const analyser = ctx.createAnalyser(); this.analyser = analyser; analyser.fftSize = 256;
     masterFilter.connect(analyser); analyser.connect(ctx.destination);
-
     const pinkBuf = createPinkNoiseBuffer(ctx);
     this.rainGain = createNoiseStem(ctx, masterFilter, pinkBuf, 950, 0.7);
     this.droneGain = createCebHumStem(ctx, masterFilter, pinkBuf);
     this.cicadaGain = createCicadaStem(ctx, masterFilter, pinkBuf);
     this.hearthGain = buildCrackleStem(ctx, masterFilter);
-    const fileGain = ctx.createGain();
-    this.fileGain = fileGain; fileGain.gain.value = 0.65;
-    fileGain.connect(masterFilter);
-    this.preloadStems(PRELOAD_STEM_NAMES);
-    this.setCue(this.currentCue, this.currentBalma);
+    const fileGain = ctx.createGain(); this.fileGain = fileGain; fileGain.gain.value = 0.65; fileGain.connect(masterFilter);
+    this.preloadStems(PRELOAD_STEM_NAMES); this.setCue(this.currentCue, this.currentBalma);
   }
 
   private preloadStems(names: readonly string[]): void {
@@ -66,8 +62,7 @@ class WebAudioMixer {
     this.masterFilter.frequency.setTargetAtTime(held ? 16000 : this.currentBalma >= 55 ? 320 : 9500, this.ctx.currentTime, 0.2);
     if (held) {
       try { this.activeWhisperSource?.stop(); this.activeWhisperSource = null; } catch {}
-      triggerIronKeyTone(this.ctx, this.masterFilter);
-      this.syncArterialLoop(false);
+      triggerIronKeyTone(this.ctx, this.masterFilter); this.syncArterialLoop(false);
     } else {
       this.syncArterialLoop(this.currentCue === 'arterial_pulse' || this.currentBalma >= 60);
     }
@@ -79,19 +74,26 @@ class WebAudioMixer {
     if (this.ctx && this.masterFilter && buf) {
       try { this.activeWhisperSource?.stop(); } catch {}
       const src = this.ctx.createBufferSource();
-      src.buffer = buf; src.connect(this.masterFilter); src.start();
-      this.activeWhisperSource = src;
-    } else if (fallback) { fallback(); }
+      src.buffer = buf; src.connect(spatialPanner.getDestination(this.ctx, this.masterFilter));
+      src.start(); this.activeWhisperSource = src;
+    } else if (fallback) fallback();
   }
 
   public playYakBeraPulse(i = 0.7): void { if (this.ctx && this.masterFilter) triggerYakBera(this.ctx, this.masterFilter, i); }
   public playYakBeraClimax(): void { if (this.ctx && this.masterFilter) playYakBeraClimaxRoll(this.ctx, this.masterFilter); }
-  public playMohiniWhimper(): void { if (this.ctx && this.masterFilter && !this.anchorHeld) playInfantWhimper(this.ctx, this.masterFilter); }
-  public playMohiniWeeping(): void { if (this.ctx && this.masterFilter && !this.anchorHeld) triggerMohiniWeeping(this.ctx, this.masterFilter); }
+  public playMohiniWhimper(): void {
+    if (this.ctx && this.masterFilter && !this.anchorHeld) playInfantWhimper(this.ctx, spatialPanner.getDestination(this.ctx, this.masterFilter) as BiquadFilterNode);
+  }
+  public playMohiniWeeping(): void {
+    if (this.ctx && this.masterFilter && !this.anchorHeld) triggerMohiniWeeping(this.ctx, spatialPanner.getDestination(this.ctx, this.masterFilter) as BiquadFilterNode);
+  }
   public playArterialPulse(intensity = 0.75, force = false): void {
     if (!this.ctx || !this.masterFilter || (this.anchorHeld && !force)) return;
     this.playStrike(96, 36, 0.14, intensity * 0.32, 'sine', 0);
     this.playStrike(78, 30, 0.18, intensity * 0.22, 'sine', 0.135);
+    const rain = this.currentCue === 'monsoon_heavy' ? 0.28 : this.currentCue === 'ceb_power_cut' ? 0.04 : 0.14;
+    const cicada = this.currentCue === 'ceb_power_cut' || this.currentCue === 'monsoon_light' ? 0.12 : 0.02;
+    spatialPanner.triggerSystolicDuck(this.ctx, [{ node: this.rainGain, baseGain: rain }, { node: this.cicadaGain, baseGain: cicada }], intensity);
   }
   private playStrike(fStart: number, fEnd: number, dur: number, vol: number, type: OscillatorType = 'sine', delay = 0): void {
     if (this.ctx && this.masterFilter) playStrikeSynth(this.ctx, this.masterFilter, fStart, fEnd, dur, vol, type, delay);

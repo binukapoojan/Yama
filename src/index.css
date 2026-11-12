@@ -105,14 +105,7 @@ body::after {
   text-shadow: 0 0 18px rgba(59, 77, 122, 0.75), 0 2px 10px rgba(0, 0, 0, 0.95);
 }
 
-.incised-trigger {
-  transition: color 0.4s ease, text-shadow 0.4s ease, letter-spacing 0.4s ease;
-}
-.incised-trigger:hover {
-  color: #D49B27;
-  text-shadow: 0 0 16px rgba(212, 155, 39, 0.5), 0 0 28px rgba(59, 77, 122, 0.6);
-}
-
-.duration-1200 {
-  transition-duration: 1200ms;
-}
+.incised-trigger { transition: color 0.4s ease, text-shadow 0.4s ease, letter-spacing 0.4s ease; }
+.incised-trigger:hover { color: #D49B27; text-shadow: 0 0 16px rgba(212, 155, 39, 0.5), 0 0 28px rgba(59, 77, 122, 0.6); }
+.duration-1200 { transition-duration: 1200ms; }
+.dummala-warp-target { filter: var(--dummala-filter, none); }
