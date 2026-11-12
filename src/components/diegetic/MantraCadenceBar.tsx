@@ -6,7 +6,7 @@ import { wardFatigue } from '../../juice/wardFatigue';
 import { MantraBreathYantra, MantraVerseSpec } from './MantraBreathYantra';
 
 export type MantraKey = 'RATA_YAKUMA' | 'PATTINI_VARAMA' | 'RIRI_VARAMA' | 'GOTHAIMBARA_VARAMA';
-interface MantraCadenceProps { mantraKey: MantraKey; onCompleted: (succeeded: boolean) => void; }
+interface MantraCadenceProps { mantraKey: MantraKey; onCompleted: (succeeded: boolean) => void; misdiagnosed?: boolean; }
 
 const v = (sinhala: string, phonetic: string, durationMs: number): MantraVerseSpec => ({ sinhala, phonetic, durationMs });
 const MANTRA_SCRIPTS: Record<MantraKey, { titleSinhala: string; titleRoman: string; verses: MantraVerseSpec[] }> = {
@@ -28,9 +28,9 @@ const MANTRA_SCRIPTS: Record<MantraKey, { titleSinhala: string; titleRoman: stri
   ]},
 };
 
-export const MantraCadenceBar: React.FC<MantraCadenceProps> = ({ mantraKey, onCompleted }) => {
+export const MantraCadenceBar: React.FC<MantraCadenceProps> = ({ mantraKey, onCompleted, misdiagnosed = false }) => {
   const script = MANTRA_SCRIPTS[mantraKey];
-  const [verseIdx, setVerseIdx] = useState(0), [knots, setKnots] = useState(3), [progress, setProgress] = useState(0);
+  const [verseIdx, setVerseIdx] = useState(0), [knots, setKnots] = useState(misdiagnosed ? 1 : 3), [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<'IDLE' | 'INHALING' | 'RESONANT' | 'RUPTURED' | 'CONSECRATED'>('IDLE');
   const holdingRef = useRef(false), progressRef = useRef(0), chimedRef = useRef(false);
 
@@ -63,7 +63,8 @@ export const MantraCadenceBar: React.FC<MantraCadenceProps> = ({ mantraKey, onCo
     const timer = setInterval(() => {
       if (!holdingRef.current) return;
       const curVerse = script.verses[verseIdx];
-      const next = progressRef.current + (stepMs / curVerse.durationMs) * 100;
+      const duration = misdiagnosed ? curVerse.durationMs * 0.72 : curVerse.durationMs;
+      const next = progressRef.current + (stepMs / duration) * 100;
       progressRef.current = next; setProgress(next);
       if (next >= 58 && !chimedRef.current) {
         chimedRef.current = true; setStatus('RESONANT'); audioMixer.playIronKeyTone();
@@ -71,7 +72,7 @@ export const MantraCadenceBar: React.FC<MantraCadenceProps> = ({ mantraKey, onCo
       if (next >= 100) ruptureKnot();
     }, stepMs);
     return () => clearInterval(timer);
-  }, [verseIdx, script.verses, ruptureKnot]);
+  }, [verseIdx, script.verses, ruptureKnot, misdiagnosed]);
 
   const beginHold = useCallback(() => {
     if (status === 'CONSECRATED' || holdingRef.current) return;

@@ -29,7 +29,7 @@ const BLEMISH_SLOTS: ReadonlyArray<{
 export function encodeBulathPayload(
   state: RuntimeVariables,
   casefile?: CasefileId
-): { urlParam: string; payload: BulathHurullaPayload } {
+): { urlParam: string; payload: BulathHurullaPayload } & BulathHurullaPayload {
   const has = (k: string) => state[k] === true || state[`$${k}`] === true;
   const resolved = casefile ?? (
     BLEMISH_SLOTS.some((s) => has(s.keys.CF04)) ? 'CF04' :
@@ -46,7 +46,7 @@ export function encodeBulathPayload(
   const payload = buildPayloadFromBits(resolved, mask, balma, tanikama);
   const rawToken = `${resolved}.${mask}.${balma}.${tanikama}`;
   const urlParam = typeof btoa !== 'undefined' ? btoa(rawToken).replace(/=+$/, '') : rawToken;
-  return { urlParam, payload };
+  return { urlParam, payload, ...payload };
 }
 
 export function decodeBulathPayload(input: string): BulathHurullaPayload | null {

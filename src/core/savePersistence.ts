@@ -28,6 +28,13 @@ export interface SessionSnapshot {
   runtimeState: RuntimeVariables; unlockedKattadiya?: CasefileId[]; updatedAt: number;
 }
 
+export function createInitialStateForCasefile(casefile: CasefileId, role: 'ATHURA' | 'KATTADIYA' = 'ATHURA'): RuntimeVariables {
+  return {
+    tanikama: 50, balma: 20,
+    samayam_velava: role === 'ATHURA' ? (casefile === 'CF04' || casefile === 'CF02' || casefile === 'CF05' ? 'MADDHAMA_MIDNIGHT' : 'SANDHYA_DUSK') : 'MADDHAMA_MIDNIGHT',
+  };
+}
+
 export function buildStateFromBulath(p: BulathHurullaPayload): RuntimeVariables {
   const s: RuntimeVariables = { tanikama: p.tanikama, balma: p.balma, samayam_velava: 'MADDHAMA_MIDNIGHT' };
   p.blemishes.forEach((b) => { s[b.tabooKey] = true; });

@@ -3,11 +3,11 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw';
 import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw'; import rawCF05 from '../story-twine/casefile05_huniyam.twee?raw';
 import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard';
-import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium';
+import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium';
 import { RitualStageRouter } from './components/diegetic/RitualStageRouter'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate'; import { WickCalibrationModal } from './components/diegetic/WickCalibrationModal';
 import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { DummalaShaderFilter } from './components/viewport/DummalaShaderFilter'; import { FlowBackdrop } from './components/viewport/FlowBackdrop';
 import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { getInitialWebBulath, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter';
-import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, getUnlockedKattadiya, KATTADIYA_UNLOCK_PASSAGES, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
+import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, createInitialStateForCasefile, getUnlockedKattadiya, KATTADIYA_UNLOCK_PASSAGES, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
 import { RuntimeVariables, TwineChoice } from './core/schema'; import { applyStateMutations, parseTweeStory } from './core/twineParser'; import { audioMixer } from './juice/audioMixer'; import { juiceDirector } from './juice/JuiceDirector';
 
 export { resolveCasefileConfig };
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
 
   const switchCasefile = (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA' = 'ATHURA') => {
     setCasefile(nextId); setGateMode(null);
-    setRuntimeState({ tanikama: 50, balma: 20, samayam_velava: role === 'ATHURA' ? (nextId === 'CF04' || nextId === 'CF02' || nextId === 'CF05' ? 'MADDHAMA_MIDNIGHT' : 'SANDHYA_DUSK') : 'MADDHAMA_MIDNIGHT' });
+    setRuntimeState(createInitialStateForCasefile(nextId, role));
     setCurrentPassageId(role === 'ATHURA' ? CASEFILE_META[nextId].athuraStart : CASEFILE_META[nextId].kattadiyaStart);
   };
 
@@ -93,14 +93,13 @@ export const App: React.FC = () => {
           <AnthologyHeader activeCasefile={casefile} kattadiyaUnlocked={unlockedKattadiya.includes(casefile)} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onOpenCalibration={() => setCalibrationOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setGateMode('LEDGER')} />
           {sastraNext ? (
             <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
-              <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
+              <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} onDiagnosisMarked={() => setLeafInspected(true)} />
               <button type="button" disabled={!canConcludeDivination} onClick={() => setCurrentPassageId(sastraNext)} className={`mx-auto mt-6 border-b pb-1 font-serif text-sm tracking-widest uppercase transition-colors ${canConcludeDivination ? 'cursor-pointer border-[#C8963E]/50 text-[#EAE3D2]/85 hover:text-[#C8963E]' : 'cursor-not-allowed border-[#C8963E]/15 text-[#EAE3D2]/25'}`}>
                 {canConcludeDivination ? '❖ Conclude Betel Divination' : 'Inspect Leaf Veins with Pahana to Proceed'}
               </button>
             </div>
           ) : (
-            <RitualStageRouter passageId={currentPassageId} payload={bulath.payload} onNavigate={setCurrentPassageId}>
-              {climaxMantra && <div className="relative z-20 pt-20"><MantraCadenceBar mantraKey={climaxMantra.key} onCompleted={(ok) => setCurrentPassageId(ok ? climaxMantra.win : climaxMantra.lose)} /></div>}
+            <RitualStageRouter passageId={currentPassageId} payload={bulath.payload} onNavigate={setCurrentPassageId} climaxMantra={climaxMantra}>
               <ProseStream passage={activePassage} onSelectChoice={handleSelectChoice} hideChoices={Boolean(climaxMantra)} />
             </RitualStageRouter>
           )}
