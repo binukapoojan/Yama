@@ -14,7 +14,8 @@ export const DummalaShaderFilter: React.FC<DummalaShaderFilterProps> = ({ balma 
     return juiceDirector.on('ANCHOR_STATE_CHANGE', ({ held }) => setAnchorHeld(held));
   }, []);
 
-  const activeWarp = !anchorHeld && balma >= 50;
+  const isTempered = typeof document !== 'undefined' && document.documentElement.dataset.temperedWick === 'true';
+  const activeWarp = !anchorHeld && balma >= 50 && !isTempered;
 
   useEffect(() => {
     if (!activeWarp) return;

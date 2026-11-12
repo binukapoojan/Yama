@@ -10,12 +10,13 @@ interface AnthologyHeaderProps {
   kattadiyaUnlocked?: boolean;
   onSwitchCasefile: (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA') => void;
   onOpenCompendium: () => void;
+  onOpenCalibration?: () => void;
   onApplySummons: (payload: BulathHurullaPayload) => void;
   onOpenMenu: () => void;
 }
 
 export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
-  activeCasefile, kattadiyaUnlocked = false, onSwitchCasefile, onOpenCompendium, onApplySummons, onOpenMenu,
+  activeCasefile, kattadiyaUnlocked = false, onSwitchCasefile, onOpenCompendium, onOpenCalibration, onApplySummons, onOpenMenu,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [codeInput, setCodeInput] = useState<string>('');
@@ -48,6 +49,11 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
         <div className="flex shrink-0 items-center space-x-5 text-[11px]">
           <button type="button" onClick={onOpenMenu} className="incised-trigger cursor-pointer">පුස්කොළ · Folios</button>
           <button type="button" onClick={onOpenCompendium} className="incised-trigger cursor-pointer text-[#C8963E]/85">ලේඛනය · Ledger</button>
+          {onOpenCalibration && (
+            <button type="button" onClick={onOpenCalibration} className="incised-trigger cursor-pointer text-[#D49B27]/85">
+              පහන · Wick
+            </button>
+          )}
           <button
             type="button" onClick={() => setDrawerOpen((prev) => !prev)}
             className={`incised-trigger cursor-pointer ${drawerOpen ? 'text-[#D49B27]' : ''}`}

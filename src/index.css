@@ -11,6 +11,11 @@
   --lamp-radius: 40vmax;
   --lamp-darkness: 0.65;
   --lamp-core-color: rgba(200, 150, 62, 0.09);
+  --folio-font-size: 16px;
+}
+
+html {
+  font-size: var(--folio-font-size, 16px);
 }
 
 body {

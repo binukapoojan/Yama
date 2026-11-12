@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw'; import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw';
-import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate';
+import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate'; import { WickCalibrationModal } from './components/diegetic/WickCalibrationModal';
 import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { DummalaShaderFilter } from './components/viewport/DummalaShaderFilter'; import { FlowBackdrop } from './components/viewport/FlowBackdrop';
 import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { getInitialWebBulath, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter';
 import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, getUnlockedKattadiya, KATTADIYA_UNLOCK_PASSAGES, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
@@ -21,7 +21,7 @@ export const App: React.FC = () => {
   const initial = useMemo(() => resolveInitialSession(stories), [stories]);
   const [casefile, setCasefile] = useState<CasefileId>(initial.casefile), [currentPassageId, setCurrentPassageId] = useState<string>(initial.passageId);
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(initial.runtimeState);
-  const [compendiumOpen, setCompendiumOpen] = useState<boolean>(false), [discoveredIds, setDiscoveredIds] = useState<string[]>(() => loadDiscoveredCompendium());
+  const [compendiumOpen, setCompendiumOpen] = useState(false), [calibrationOpen, setCalibrationOpen] = useState(false), [discoveredIds, setDiscoveredIds] = useState<string[]>(() => loadDiscoveredCompendium());
   const [leafInspected, setLeafInspected] = useState<boolean>(false), [unlockedKattadiya, setUnlockedKattadiya] = useState<CasefileId[]>(() => getUnlockedKattadiya());
   const [gateMode, setGateMode] = useState<'COLD_OPEN' | 'LEDGER' | null>(() => (getInitialWebBulath() ? null : 'COLD_OPEN'));
 
@@ -80,11 +80,11 @@ export const App: React.FC = () => {
         <SamayamTitleGate
           mode={gateMode} activeCasefile={casefile} discoveredCount={discoveredIds.length} unlockedKattadiya={unlockedKattadiya}
           onEnterDarkness={() => setGateMode(null)} onStartCasefile={switchCasefile}
-          onApplySummons={applySummonsPayload} onOpenCompendium={() => setCompendiumOpen(true)}
+          onApplySummons={applySummonsPayload} onOpenCompendium={() => setCompendiumOpen(true)} onOpenCalibration={() => setCalibrationOpen(true)}
         />
       ) : (
         <>
-          <AnthologyHeader activeCasefile={casefile} kattadiyaUnlocked={unlockedKattadiya.includes(casefile)} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setGateMode('LEDGER')} />
+          <AnthologyHeader activeCasefile={casefile} kattadiyaUnlocked={unlockedKattadiya.includes(casefile)} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onOpenCalibration={() => setCalibrationOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setGateMode('LEDGER')} />
           {sastraNext ? (
             <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
               <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
@@ -111,6 +111,7 @@ export const App: React.FC = () => {
         </>
       )}
       <PuskolaCompendium isOpen={compendiumOpen} initialCasefile={casefile} discoveredIds={discoveredIds} onClose={() => setCompendiumOpen(false)} />
+      <WickCalibrationModal isOpen={calibrationOpen} onClose={() => setCalibrationOpen(false)} />
     </div>
   );
 };

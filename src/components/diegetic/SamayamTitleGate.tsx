@@ -18,11 +18,12 @@ interface SamayamTitleGateProps {
   onStartCasefile: (id: CasefileId, role: 'ATHURA' | 'KATTADIYA') => void;
   onApplySummons: (payload: BulathHurullaPayload) => void;
   onOpenCompendium: () => void;
+  onOpenCalibration?: () => void;
 }
 
 export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
   mode, activeCasefile, discoveredCount, unlockedKattadiya = [],
-  onEnterDarkness, onStartCasefile, onApplySummons, onOpenCompendium,
+  onEnterDarkness, onStartCasefile, onApplySummons, onOpenCompendium, onOpenCalibration,
 }) => {
   const [showFolios, setShowFolios] = useState<boolean>(mode === 'LEDGER');
   const [openFolio, setOpenFolio] = useState<CasefileId>(activeCasefile);
@@ -49,6 +50,11 @@ export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
             <h2 className="typo-carved-title mt-1 text-2xl font-normal tracking-wide">Select a Samayam Folio ෴</h2>
           </div>
           <div className="flex flex-wrap items-center gap-6 text-xs tracking-[0.2em] uppercase">
+            {onOpenCalibration && (
+              <button type="button" onClick={onOpenCalibration} className="incised-trigger cursor-pointer text-[#C8963E]/85">
+                පහන · Wick
+              </button>
+            )}
             <button type="button" onClick={onOpenCompendium} className="incised-trigger cursor-pointer text-[#C8963E]/85">
               ලේඛනය · Puskola ({discoveredCount}/28)
             </button>
