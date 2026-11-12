@@ -19,10 +19,8 @@ const SAMAYAM_LABELS: Record<SamayamVelava, { sinhala: string; english: string }
 };
 
 export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoice, hideChoices = false }) => {
-  const [mutations, setMutations] = useState<Record<string, MutatedTokenState>>(() => textMutator.getSnapshot());
-  const [visibleCount, setVisibleCount] = useState<number>(1);
-  const [anchorHeld, setAnchorHeld] = useState<boolean>(() => juiceDirector.isAnchorHeld());
-  const activeScar = useMemo(() => getScarForPassage(passage.name), [passage.name]);
+  const [mutations, setMutations] = useState<Record<string, MutatedTokenState>>(() => textMutator.getSnapshot()), [visibleCount, setVisibleCount] = useState<number>(1);
+  const [anchorHeld, setAnchorHeld] = useState<boolean>(() => juiceDirector.isAnchorHeld()), activeScar = useMemo(() => getScarForPassage(passage.name), [passage.name]);
 
   useEffect(() => {
     setVisibleCount(1);

@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 // src/components/viewport/__tests__/ScratchboardEtchPlate.test.tsx
-import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { ProseStream } from '../../narrative/ProseStream';
 import { ScratchboardEtchPlate } from '../ScratchboardEtchPlate';
 
 describe('ScratchboardEtchPlate SVG Scratchboard Underlay', () => {
@@ -35,5 +36,17 @@ describe('ScratchboardEtchPlate SVG Scratchboard Underlay', () => {
     render(<ScratchboardEtchPlate loopId="thummansala_banyan_wind" />);
     const plate = screen.getByTestId('scratchboard-etch-plate');
     expect(plate.getAttribute('data-loop')).toBe('thummansala_banyan_wind');
+  });
+
+  it('triggers choice selection via Digit1 keyboard shortcut in ProseStream', () => {
+    const onSelectSpy = vi.fn();
+    render(
+      <ProseStream
+        passage={{ name: 'T', directives: {}, paragraphs: [], choices: [{ label: 'Option 1', targetPassage: 'P1', mutations: [] }] }}
+        onSelectChoice={onSelectSpy}
+      />
+    );
+    fireEvent.keyDown(window, { code: 'Digit1' });
+    expect(onSelectSpy).toHaveBeenCalledTimes(1);
   });
 });

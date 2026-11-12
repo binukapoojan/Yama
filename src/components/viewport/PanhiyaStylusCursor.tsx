@@ -1,18 +1,14 @@
 // src/components/viewport/PanhiyaStylusCursor.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import { toggleDesktopFullscreen } from '../../core/steamBridge';
-import { initGlobalPanhiyaListener } from '../../juice/panhiyaFeedback';
+import { toggleDesktopFullscreen } from '../../core/steamBridge'; import { initGlobalPanhiyaListener } from '../../juice/panhiyaFeedback';
 import { wardFatigue, WardFatigueSnapshot } from '../../juice/wardFatigue';
 
 const INTERACTIVE_SELECTOR = 'button, a, input, [role="button"], .incised-trigger, .cursor-pointer';
 
 export const PanhiyaStylusCursor: React.FC = () => {
-  const cursorRef = useRef<HTMLDivElement | null>(null);
-  const clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [hovering, setHovering] = useState(false);
-  const [pressed, setPressed] = useState(false);
-  const [scrollPct, setScrollPct] = useState(0);
-  const [trail, setTrail] = useState<Array<{ x: number; y: number }>>([]);
+  const cursorRef = useRef<HTMLDivElement | null>(null), clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [hovering, setHovering] = useState(false), [pressed, setPressed] = useState(false);
+  const [scrollPct, setScrollPct] = useState(0), [trail, setTrail] = useState<Array<{ x: number; y: number }>>([]);
   const [fatigue, setFatigue] = useState<WardFatigueSnapshot>(() => wardFatigue.getSnapshot());
 
   useEffect(() => wardFatigue.subscribe(setFatigue), []);
