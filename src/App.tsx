@@ -3,21 +3,18 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw';
 import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw'; import rawCF05 from '../story-twine/casefile05_huniyam.twee?raw';
 import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard';
-import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium';
-import { RitualStageRouter } from './components/diegetic/RitualStageRouter'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate'; import { WickCalibrationModal } from './components/diegetic/WickCalibrationModal';
+import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { PuskolaInscriptionBrand } from './components/diegetic/PuskolaInscriptionBrand'; import { RitualStageRouter } from './components/diegetic/RitualStageRouter'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate'; import { WickCalibrationModal } from './components/diegetic/WickCalibrationModal';
 import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { DummalaShaderFilter } from './components/viewport/DummalaShaderFilter'; import { FlowBackdrop } from './components/viewport/FlowBackdrop'; import { PanhiyaStylusCursor } from './components/viewport/PanhiyaStylusCursor';
 import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { getInitialWebBulath, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter';
-import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, createInitialStateForCasefile, getUnlockedKattadiya, KATTADIYA_UNLOCK_PASSAGES, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
+import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, createInitialStateForCasefile, getUnlockedKattadiya, isHuniyamUnsealed, KATTADIYA_UNLOCK_PASSAGES, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
 import { RuntimeVariables, TwineChoice } from './core/schema'; import { applyStateMutations, parseTweeStory } from './core/twineParser'; import { audioMixer } from './juice/audioMixer'; import { juiceDirector } from './juice/JuiceDirector';
 
 export { resolveCasefileConfig };
 
 const SASTRA_NEXT: Record<string, string> = { Sastra_Vein_Deduction: 'Bedroom_Lakunu_Forensics', Sastra_Kaduru_Leaf_Check: 'Patient_Catatonia_Inspection', Sastra_Riri_Leaf_Check: 'Patient_Hemorrhage_Check', Sastra_Mahasona_Leaf_Check: 'Patient_Handprint_Forensics' };
 const CLIMAX_MANTRAS: Record<string, { key: 'RATA_YAKUMA' | 'PATTINI_VARAMA' | 'RIRI_VARAMA' | 'GOTHAIMBARA_VARAMA'; win: string; lose: string }> = {
-  Midnight_Samayama_Confrontation: { key: 'RATA_YAKUMA', win: 'Outcome_Kattadiya_Banished', lose: 'Outcome_Kattadiya_Backfire' },
-  Midnight_Kesel_Kanda_Severance: { key: 'PATTINI_VARAMA', win: 'Outcome_Kattadiya_Mohini_Cured', lose: 'Outcome_Kattadiya_Mohini_Failed' },
-  Midnight_Peduru_Surrender: { key: 'RIRI_VARAMA', win: 'Outcome_Kattadiya_Riri_Banished', lose: 'Outcome_Kattadiya_Riri_Backfire' },
-  Midnight_Gothaimbara_Varama: { key: 'GOTHAIMBARA_VARAMA', win: 'Outcome_Kattadiya_Mahasona_Banished', lose: 'Outcome_Kattadiya_Mahasona_Backfire' },
+  Midnight_Samayama_Confrontation: { key: 'RATA_YAKUMA', win: 'Outcome_Kattadiya_Banished', lose: 'Outcome_Kattadiya_Backfire' }, Midnight_Kesel_Kanda_Severance: { key: 'PATTINI_VARAMA', win: 'Outcome_Kattadiya_Mohini_Cured', lose: 'Outcome_Kattadiya_Mohini_Failed' },
+  Midnight_Peduru_Surrender: { key: 'RIRI_VARAMA', win: 'Outcome_Kattadiya_Riri_Banished', lose: 'Outcome_Kattadiya_Riri_Backfire' }, Midnight_Gothaimbara_Varama: { key: 'GOTHAIMBARA_VARAMA', win: 'Outcome_Kattadiya_Mahasona_Banished', lose: 'Outcome_Kattadiya_Mahasona_Backfire' },
   Midnight_Oddisa_Confrontation: { key: 'GOTHAIMBARA_VARAMA', win: 'Outcome_Huniyam_Sovereign_Cut', lose: 'Outcome_Huniyam_Ash_Tomb' },
 };
 const isPossessedEnding = (id: string) => id.startsWith('Outcome_Athura_') && !id.endsWith('_Survived') && !id.endsWith('_Escaped');
@@ -29,7 +26,8 @@ export const App: React.FC = () => {
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(initial.runtimeState);
   const [compendiumOpen, setCompendiumOpen] = useState(false), [calibrationOpen, setCalibrationOpen] = useState(false), [discoveredIds, setDiscoveredIds] = useState<string[]>(() => loadDiscoveredCompendium());
   const [leafInspected, setLeafInspected] = useState<boolean>(false), [unlockedKattadiya, setUnlockedKattadiya] = useState<CasefileId[]>(() => getUnlockedKattadiya());
-  const [gateMode, setGateMode] = useState<'COLD_OPEN' | 'LEDGER' | null>(() => (getInitialWebBulath() ? null : 'COLD_OPEN'));
+  const [gateMode, setGateMode] = useState<'COLD_OPEN' | 'LEDGER' | null>(() => (getInitialWebBulath() ? null : 'COLD_OPEN')), [brandUnlockId, setBrandUnlockId] = useState<string | null>(null), [huniyamJustUnsealed, setHuniyamJustUnsealed] = useState(false);
+  const prevDiscRef = useRef(discoveredIds), prevHuniyamRef = useRef(isHuniyamUnsealed(unlockedKattadiya, discoveredIds));
 
   const latestRef = useRef({ casefile, currentPassageId, runtimeState, unlockedKattadiya });
   latestRef.current = { casefile, currentPassageId, runtimeState, unlockedKattadiya };
@@ -59,7 +57,13 @@ export const App: React.FC = () => {
     const nextUnlocks = unlock && !unlockedKattadiya.includes(unlock) ? [...unlockedKattadiya, unlock] : unlockedKattadiya;
     if (nextUnlocks !== unlockedKattadiya) setUnlockedKattadiya(nextUnlocks);
     saveSessionSnapshot(casefile, currentPassageId, runtimeState, nextUnlocks);
-    setDiscoveredIds(syncRuntimeToCompendium(runtimeState, casefile, currentPassageId));
+    const nextDisc = syncRuntimeToCompendium(runtimeState, casefile, currentPassageId);
+    const brandNew = nextDisc.find((id) => !prevDiscRef.current.includes(id));
+    if (brandNew) setBrandUnlockId(brandNew);
+    prevDiscRef.current = nextDisc;
+    const unsealed = isHuniyamUnsealed(nextUnlocks, nextDisc);
+    if (unsealed && !prevHuniyamRef.current) { setHuniyamJustUnsealed(true); prevHuniyamRef.current = true; }
+    setDiscoveredIds(nextDisc);
   }, [activePassage, casefile, currentPassageId, runtimeState, unlockedKattadiya]);
 
   const switchCasefile = (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA' = 'ATHURA') => {
@@ -82,6 +86,7 @@ export const App: React.FC = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#090807] selection:bg-[#C8963E]/20 selection:text-[#EAE3D2]">
       <div className="dummala-warp-target"><FlowBackdrop /></div><ChiaroscuroMask /><DummalaShaderFilter balma={Number(runtimeState.balma ?? 20)} /><PanhiyaStylusCursor />
+      <PuskolaInscriptionBrand newlyUnlockedId={brandUnlockId} huniyamJustUnsealed={huniyamJustUnsealed} />
       {gateMode ? (
         <SamayamTitleGate
           mode={gateMode} activeCasefile={casefile} discoveredCount={discoveredIds.length} unlockedKattadiya={unlockedKattadiya}
@@ -107,8 +112,7 @@ export const App: React.FC = () => {
           <IronKeyAnchor />
         </>
       )}
-      <PuskolaCompendium isOpen={compendiumOpen} initialCasefile={casefile} discoveredIds={discoveredIds} onClose={() => setCompendiumOpen(false)} />
-      <WickCalibrationModal isOpen={calibrationOpen} onClose={() => setCalibrationOpen(false)} />
+      <PuskolaCompendium isOpen={compendiumOpen} initialCasefile={casefile} discoveredIds={discoveredIds} onClose={() => setCompendiumOpen(false)} /><WickCalibrationModal isOpen={calibrationOpen} onClose={() => setCalibrationOpen(false)} />
     </div>
   );
 };

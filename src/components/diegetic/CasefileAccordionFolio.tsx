@@ -1,7 +1,6 @@
 // src/components/diegetic/CasefileAccordionFolio.tsx
 import React from 'react';
 import { CasefileId } from '../../core/bulathCodec';
-import { triggerStylusScratch } from '../../juice/panhiyaFeedback';
 
 export interface DocketFolioSpec {
   id: CasefileId; numeral: string; sinhala: string; roman: string;
@@ -72,11 +71,11 @@ export const CasefileAccordionFolio: React.FC<CasefileAccordionFolioProps> = ({
             <p className="text-xs leading-relaxed text-[#C8963E]/85 italic">ශාස්ත්ර පිළිවෙත · {spec.ritual}</p>
           )}
           <div className="flex flex-wrap items-center gap-8 pt-2 text-xs tracking-[0.22em] uppercase">
-            <button type="button" onClick={() => { triggerStylusScratch(); onSelectRole(spec.id, 'ATHURA'); }} className="incised-trigger cursor-pointer text-[#D49B27]">
+            <button type="button" onClick={() => onSelectRole(spec.id, 'ATHURA')} className="incised-trigger cursor-pointer text-[#D49B27]">
               ❖ Witness the Watch (Athura)
             </button>
             {kattadiyaUnlocked ? (
-              <button type="button" onClick={() => { triggerStylusScratch(); onSelectRole(spec.id, 'KATTADIYA'); }} className="incised-trigger cursor-pointer text-[#8C1D24] hover:text-[#D49B27]">
+              <button type="button" onClick={() => onSelectRole(spec.id, 'KATTADIYA')} className="incised-trigger cursor-pointer text-[#8C1D24] hover:text-[#D49B27]">
                 ෴ Perform the Exorcism (Kattadiya)
               </button>
             ) : (

@@ -1,29 +1,42 @@
 // src/components/viewport/PanhiyaStylusCursor.tsx
 import React, { useEffect, useRef, useState } from 'react';
+import { initGlobalPanhiyaListener } from '../../juice/panhiyaFeedback';
 import { wardFatigue, WardFatigueSnapshot } from '../../juice/wardFatigue';
 
 const INTERACTIVE_SELECTOR = 'button, a, input, [role="button"], .incised-trigger, .cursor-pointer';
 
 export const PanhiyaStylusCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement | null>(null);
+  const clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [hovering, setHovering] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
+  const [trail, setTrail] = useState<Array<{ x: number; y: number }>>([]);
   const [fatigue, setFatigue] = useState<WardFatigueSnapshot>(() => wardFatigue.getSnapshot());
 
   useEffect(() => wardFatigue.subscribe(setFatigue), []);
 
   useEffect(() => {
+    const unsubGlobal = initGlobalPanhiyaListener();
     const onPointerMove = (e: PointerEvent) => {
       if (e.pointerType === 'touch') return;
       if (cursorRef.current) cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
       const target = e.target instanceof Element ? e.target : null;
       const isInteractive = Boolean(target?.closest(INTERACTIVE_SELECTOR));
       setHovering((prev) => (prev !== isInteractive ? isInteractive : prev));
+      if (e.buttons === 1) setTrail((prev) => [...prev.slice(-6), { x: e.clientX, y: e.clientY }]);
     };
 
-    const onPointerDown = (e: PointerEvent) => { if (e.pointerType !== 'touch') setPressed(true); };
-    const onPointerUp = () => setPressed(false);
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType === 'touch') return;
+      setPressed(true);
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+      setTrail([{ x: e.clientX, y: e.clientY }]);
+    };
+    const onPointerUp = () => {
+      setPressed(false);
+      clearTimerRef.current = setTimeout(() => setTrail([]), 220);
+    };
 
     const onScroll = () => {
       const doc = document.documentElement;
@@ -38,6 +51,8 @@ export const PanhiyaStylusCursor: React.FC = () => {
     onScroll();
 
     return () => {
+      unsubGlobal();
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointerup', onPointerUp);
@@ -52,6 +67,11 @@ export const PanhiyaStylusCursor: React.FC = () => {
 
   return (
     <>
+      {trail.length > 1 && (
+        <svg aria-hidden="true" className="pointer-events-none fixed inset-0 z-[95] hidden h-full w-full [@media(pointer:fine)]:block">
+          <polyline points={trail.map((p) => `${p.x},${p.y}`).join(' ')} fill="none" stroke={nibColor} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" opacity="0.85" />
+        </svg>
+      )}
       <div aria-hidden="true" className="pointer-events-none fixed inset-y-16 right-2.5 z-40 hidden w-3 flex-col items-center md:flex">
         <div className="h-2 w-2 rounded-full border border-[#C8963E]/60 bg-[#050608]" />
         <div className="relative h-full w-[1.5px] bg-gradient-to-b from-[#C8963E]/35 via-[#8C1D24]/45 to-[#C8963E]/35">
@@ -66,18 +86,14 @@ export const PanhiyaStylusCursor: React.FC = () => {
       </div>
 
       <div
-        ref={cursorRef}
-        data-testid="panhiya-cursor"
-        data-hovering={hovering ? 'true' : 'false'}
-        aria-hidden="true"
+        ref={cursorRef} data-testid="panhiya-cursor" data-hovering={hovering ? 'true' : 'false'} aria-hidden="true"
         style={{ transform: 'translate3d(-100px, -100px, 0)' }}
         className="pointer-events-none fixed top-0 left-0 z-[100] hidden will-change-transform [@media(pointer:fine)]:block"
       >
         <svg
           viewBox="0 0 64 64"
           style={{
-            transform: `rotate(${tiltDeg}deg) scale(${scale})`,
-            transformOrigin: '4px 4px',
+            transform: `rotate(${tiltDeg}deg) scale(${scale})`, transformOrigin: '4px 4px',
             filter: `drop-shadow(0 4px 8px rgba(0,0,0,0.95)) drop-shadow(0 0 ${hovering || holding ? '10px' : '4px'} ${nibColor})`,
           }}
           className="h-12 w-12 overflow-visible transition-transform duration-150 ease-out"

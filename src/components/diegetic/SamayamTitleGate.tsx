@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { BulathHurullaPayload, CasefileId } from '../../core/bulathCodec';
 import { CASEFILE_META, isHuniyamUnsealed } from '../../core/savePersistence';
 import { audioMixer } from '../../juice/audioMixer';
-import { triggerStylusScratch } from '../../juice/panhiyaFeedback';
 import { BulathTelegramFoldOut } from './BulathTelegramFoldOut';
 import { CasefileAccordionFolio, DOCKET_FOLIOS } from './CasefileAccordionFolio';
 import { ColdOpenIgnition } from './ColdOpenIgnition';
@@ -60,10 +59,10 @@ export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
                 පහන · Wick
               </button>
             )}
-            <button type="button" onClick={() => { triggerStylusScratch(); onOpenCompendium(); }} className="incised-trigger cursor-pointer text-[#C8963E]/85">
+            <button type="button" onClick={onOpenCompendium} className="incised-trigger cursor-pointer text-[#C8963E]/85">
               ලේඛනය · Puskola ({discoveredCount}/28)
             </button>
-            <button type="button" onClick={() => { triggerStylusScratch(); onEnterDarkness(); }} className="incised-trigger cursor-pointer text-[#D49B27]">
+            <button type="button" onClick={onEnterDarkness} className="incised-trigger cursor-pointer text-[#D49B27]">
               ❖ Resume {CASEFILE_META[activeCasefile].title}
             </button>
           </div>
@@ -80,7 +79,6 @@ export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
               onToggle={() => {
                 setOpenFolio(spec.id);
                 audioMixer.playYakBeraPulse(0.5);
-                triggerStylusScratch();
               }}
               onSelectRole={onStartCasefile}
             />

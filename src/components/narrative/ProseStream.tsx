@@ -4,7 +4,6 @@ import { getScarForPassage, recordMemoryScarIfEnding } from '../../core/memorySc
 import { SamayamVelava, TwineChoice, TwinePassage } from '../../core/schema';
 import { juiceDirector } from '../../juice/JuiceDirector';
 import { MutatedTokenState, textMutator } from '../../juice/textMutator';
-import { triggerStylusScratch } from '../../juice/panhiyaFeedback';
 
 interface ProseStreamProps {
   passage: TwinePassage;
@@ -92,7 +91,7 @@ export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoic
             const lockedByWard = Boolean(choice.requiresAnchorHeld && !anchorHeld);
             return (
               <button
-                key={`${passage.name}_c_${idx}`} type="button" disabled={lockedByWard} onClick={() => { triggerStylusScratch(); onSelectChoice(choice); }}
+                key={`${passage.name}_c_${idx}`} type="button" disabled={lockedByWard} onClick={() => onSelectChoice(choice)}
                 className={`group flex w-full items-baseline text-left font-serif text-[1.12rem] leading-relaxed transition-all duration-300 ${
                   lockedByWard ? 'cursor-not-allowed text-[#8A99AD]/30 italic' : 'incised-trigger cursor-pointer text-[#EAE3D2]/85 focus:outline-none'
                 }`}
