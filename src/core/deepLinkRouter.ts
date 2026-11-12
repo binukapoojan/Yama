@@ -93,6 +93,6 @@ export function buildWhatsAppSummonLink(urlParam: string, shareCode: string): st
       ? `${window.location.origin}${window.location.pathname}`
       : 'https://kalukumara.aftermonsoon.lk/';
   const webLink = `${origin}?bulath=${urlParam}`;
-  const text = `Bulath Hurulla Summons [${shareCode}] — Something struck me during the Samayam watch. Open the Kattadiya triage: ${webLink}`;
+  const text = `Bulath Hurulla Summons (${shareCode}) — Something struck me during the Samayam watch. Open the Kattadiya triage: ${webLink}`;
   return `https://wa.me/?text=${encodeURIComponent(text)}`;
 }

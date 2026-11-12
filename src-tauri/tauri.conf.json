@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "After Monsoon - The Samayam Anthology",
+  "productName": "GOMMAN - The Ceylon Night Dockets",
   "version": "1.0.0",
-  "identifier": "lk.aftermonsoon.samayam",
+  "identifier": "lk.aftermonsoon.gomman",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:5173",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "After Monsoon · The Samayam Anthology",
+        "title": "ගොම්මන් · GOMMAN — The Ceylon Night Dockets",
         "width": 1280,
         "height": 800,
         "minWidth": 960,

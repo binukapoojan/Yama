@@ -33,5 +33,5 @@ fn main() {
             toggle_fullscreen
         ])
         .run(tauri::generate_context!())
-        .expect("error while running After Monsoon Tauri application");
+        .expect("error while running GOMMAN Tauri application");
 }

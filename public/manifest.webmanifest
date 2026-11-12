@@ -1,8 +1,8 @@
 {
-  "id": "com.aftermonsoon.kalukumara",
-  "name": "After Monsoon · Kalu Kumara & The Samayam Anthology",
-  "short_name": "Kalu Kumara",
-  "description": "A five-casefile Sri Lankan folk-horror anthology of dusk taboos, betel-leaf divination, and midnight Thovil exorcism rituals.",
+  "id": "lk.aftermonsoon.gomman",
+  "name": "GOMMAN: The Ceylon Night Dockets",
+  "short_name": "GOMMAN",
+  "description": "Unseal five 1970s Ceylon night dockets, guard the flickering Pahana lamp, grip Cold Iron against text gaslighting, and perform the Thovil exorcisms.",
   "lang": "en-LK",
   "dir": "ltr",
   "start_url": "/?source=pwa",

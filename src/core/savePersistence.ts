@@ -8,12 +8,12 @@ import { evaluateAndSyncSteamAchievements } from './steamBridge';
 
 const STORAGE_KEY = 'aftermonsoon_puskola_ledger_v1';
 
-export const CASEFILE_META: Record<CasefileId, { title: string; athuraStart: string; kattadiyaStart: string }> = {
-  CF01: { title: 'I · Kalu Kumara', athuraStart: 'Dusk_Balcony_Check', kattadiyaStart: 'Kattadiya_Sastra_Entry' },
-  CF02: { title: 'II · Mala Mohini', athuraStart: 'Upper_Lake_Mist_Start', kattadiyaStart: 'Kattadiya_Mohini_Entry' },
-  CF03: { title: 'III · Riri Yaka', athuraStart: 'Crimson_Hearth_Start', kattadiyaStart: 'Kattadiya_Riri_Entry' },
-  CF04: { title: 'IV · Mahasona', athuraStart: 'Crossroads_Midnight_Start', kattadiyaStart: 'Kattadiya_Mahasona_Entry' },
-  CF05: { title: 'V · Maha Huniyam', athuraStart: 'Walawwa_Eclipse_Start', kattadiyaStart: 'Puhul_Sacrifice_Prep' },
+export const CASEFILE_META: Record<CasefileId, { title: string; sinhalaTitle: string; athuraStart: string; kattadiyaStart: string }> = {
+  CF01: { title: 'I · Kalu Kumara', sinhalaTitle: 'කළු කුමාර දිෂ්ටිය', athuraStart: 'Dusk_Balcony_Check', kattadiyaStart: 'Kattadiya_Sastra_Entry' },
+  CF02: { title: 'II · Mala Mohini', sinhalaTitle: 'මළ මෝහිනී දිෂ්ටිය', athuraStart: 'Upper_Lake_Mist_Start', kattadiyaStart: 'Kattadiya_Mohini_Entry' },
+  CF03: { title: 'III · Riri Yaka', sinhalaTitle: 'රීරි යක්ෂ දිෂ්ටිය', athuraStart: 'Crimson_Hearth_Start', kattadiyaStart: 'Kattadiya_Riri_Entry' },
+  CF04: { title: 'IV · Mahasona', sinhalaTitle: 'මහසොහොන් දිෂ්ටිය', athuraStart: 'Crossroads_Midnight_Start', kattadiyaStart: 'Kattadiya_Mahasona_Entry' },
+  CF05: { title: 'V · Maha Huniyam', sinhalaTitle: 'මහා හූනියම් දිෂ්ටිය', athuraStart: 'Walawwa_Eclipse_Start', kattadiyaStart: 'Puhul_Sacrifice_Prep' },
 };
 
 export const KATTADIYA_UNLOCK_PASSAGES: Record<string, CasefileId> = {
