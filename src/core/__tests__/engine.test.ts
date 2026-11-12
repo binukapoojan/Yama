@@ -99,11 +99,11 @@ The clock reads {mutate: "11:52 PM" -> "11:99 PM" @2400} at the junction.
     expect(next).toEqual({ balma: 20, taboo_whistled_crossroads: true });
   });
 
-  it('compiles all 4 expanded production casefiles (87 total passages) cleanly', () => {
+  it('compiles all 4 expanded production casefiles (99 total passages) cleanly', () => {
     const read = (f: string) => fs.readFileSync(path.resolve(__dirname, `../../../story-twine/${f}`), 'utf-8');
-    expect(Object.keys(parseTweeStory(read('casefile01_kalu_kumara.twee')))).toHaveLength(21);
-    expect(Object.keys(parseTweeStory(read('casefile02_mohini.twee')))).toHaveLength(22);
-    expect(Object.keys(parseTweeStory(read('casefile03_riri_yaka.twee')))).toHaveLength(22);
-    expect(Object.keys(parseTweeStory(read('casefile04_mahasona.twee')))).toHaveLength(22);
+    expect(Object.keys(parseTweeStory(read('casefile01_kalu_kumara.twee')))).toHaveLength(24);
+    expect(Object.keys(parseTweeStory(read('casefile02_mohini.twee')))).toHaveLength(25);
+    expect(Object.keys(parseTweeStory(read('casefile03_riri_yaka.twee')))).toHaveLength(25);
+    expect(Object.keys(parseTweeStory(read('casefile04_mahasona.twee')))).toHaveLength(25);
   });
 });

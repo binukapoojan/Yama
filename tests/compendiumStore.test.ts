@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import {
   loadDiscoveredCompendium,
   syncRuntimeToCompendium,
+  getEntriesByCasefile,
   PUSKOLA_ENTRIES,
 } from '../src/core/compendiumStore';
 
@@ -70,5 +71,12 @@ describe('Puskola Compendium Store', () => {
     };
     const synced = syncRuntimeToCompendium(state, 'CF01', 'Outcome_Athura_Possessed');
     expect(synced).toContain('HANDUN_KUMARA');
+  });
+
+  it('filters entries by casefile via getEntriesByCasefile', () => {
+    const cf01Entries = getEntriesByCasefile('CF01');
+    expect(cf01Entries.length).toBeGreaterThan(0);
+    expect(cf01Entries.every((e) => e.casefile === 'CF01')).toBe(true);
+    expect(cf01Entries.some((e) => e.id === 'HANDUN_KUMARA')).toBe(true);
   });
 });

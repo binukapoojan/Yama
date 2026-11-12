@@ -1,196 +1,224 @@
 :: Upper_Lake_Mist_Start [#samayam:MADDHAMA_MIDNIGHT #flow:kandy_mist_bamboo #audio:monsoon_light #haptic:heartbeat_slow #vignette:0.50]
-The last bus down to the Kandy clock tower left twenty minutes ago. Cold mist rolls off the black surface of the lake below, swallowing the curve of Upper Lake Road in a wet, chalky shroud.
+The last private bus down to the Kandy clock tower rumbled away twenty minutes ago, leaving the switchbacks of Upper Lake Road in a wet, chalky silence. Below the stone parapet, the black water of the Bogambara lake lies motionless under a ceiling of hill-country fog.
 
-To your left, the moss-slick stone retaining wall borders the giant bamboo thickets of Udawattakele Sanctuary. It is 11:46 PM. Around your right wrist, the white three-knotted Pirith Nula thread from the Dalada Maligawa feels damp against your pulse. Up ahead, the single municipal streetlamp flickers with {mutate: "a failing sodium bulb" -> "the pale yellow glow of a funeral oil wick" @2700}.
+To your left, the moss-slick retaining wall holds back the giant bamboo thickets of Udawattakele Sanctuary. Your wristwatch reads 11:46 PM—the threshold of the Maddhama midnight watch. Around your right pulse, the three-knotted white Pirith Nula thread blessed at the Dalada Maligawa feels cold and sodden against your skin. Thirty yards down the slope, the single municipal streetlamp sputters with {mutate: "a dying orange sodium vapor tube" -> "the sputtering tallow wick of a cemetery lantern" @2600}.
 
-[[Walk briskly down the hill through the bamboo shadow->False_Tuk_Headlight][$taboo_walked_samayam = true, $tanikama += 10]]
-[[Wait under the closed tin awning of the wayside tea stall->Three_Wheeler_Wait][$taboo_walked_samayam = true, $tanikama += 15]]
+[[Walk briskly down the middle of the wet asphalt through the bamboo arch->False_Tuk_Headlight][$taboo_walked_samayam = true, $tanikama += 10]]
+[[Step beneath the rusted tin awning of the shuttered wayside kadé to wait->Three_Wheeler_Wait][$taboo_walked_samayam = true, $tanikama += 15]]
 
 
 :: Three_Wheeler_Wait [#samayam:MADDHAMA_MIDNIGHT #flow:kandy_mist_bamboo #audio:monsoon_light #haptic:heartbeat_slow #vignette:0.56]
-You step beneath the rusted tin awning. No three-wheeler engine echoes anywhere on the hill. The only sound is rainwater gurgling inside the stone culvert across the road and the dry clatter of giant bamboo stems knocking together in the wind.
+You press your back against the padlocked timber shutters of the tea stall. Not a single three-wheeler engine echoes across the valley. The only sound in the mist is rainwater gurgling down the storm culvert across the lane and the hollow, skeletal knock of giant bamboo culms grinding together overhead.
 
-From twenty paces up the dark lane, a woman's voice calls out softly through the fog—using {mutate: "a word you cannot quite catch" -> "the childhood nickname only your mother uses" @2400}.
+Then, from twenty paces up the blind curve you just walked down, a woman's voice calls softly through the drizzle—speaking {mutate: "a name muffled by the dripping leaves" -> "the private childhood pet-name only your mother uses when you are sick with fever" @2300}.
 
-[[Call back into the mist to ask who is there->Culvert_Whisper_Echo][$taboo_answered_call = true, $balma += 20]]
-[[Keep your mouth shut, touch your Pirith Nula, and start walking down->False_Tuk_Headlight][@anchor_held $balma -= 5]]
+[[Turn toward the blind curve and call out to ask who is in the dark->Culvert_Whisper_Echo][$taboo_answered_call = true, $balma += 20]]
+[[Clamp your teeth shut, press your thumb to your Pirith Nula, and walk downhill->False_Tuk_Headlight][@anchor_held $balma -= 5]]
 
 
 :: Culvert_Whisper_Echo [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:ceb_power_cut #haptic:dread_throb #vignette:0.68 #balma:10]
-The moment your voice leaves your lips, the echo does not bounce off the hillside—it answers from directly beneath your boots inside the storm drain.
+The instant your voice leaves your throat, you realize your mistake: the wet hillside did not echo your words back. Instead, the second syllable of your call is repeated from directly beneath the soles of your shoes inside the stone storm drain.
 
-Water sloshes against the stone grate, and pale fingers stained with milky tree-sap reach up through the iron bars, whispering: {mutate: "Help me lift my child out of the drain" -> "You gave me your voice at midnight; now lend me your arms" @2100}.
+Dark runoff water sloshes against the rusted iron grate at your feet. Five pale fingers coated in sticky white tree-sap slide upward between the bars, and a wet mouth whispers from the dark pipe: {mutate: "I dropped my baby's shawl into the water, malli" -> "You answered my call in the midnight watch; your tongue is mine now" @2000}.
 
-[[Wrench your heel back from the drain grate and run down the road->Bamboo_Culvert_Approach][$tanikama += 10]]
-[[Hold the Pirith Nula tight and spit once onto the iron grate->Bamboo_Culvert_Approach][@anchor_held $balma -= 5]]
+[[Wrench your heel back from the grate and hurry down the road->Bamboo_Culvert_Approach][$tanikama += 10]]
+[[Hold the cold Pirith Nula knot and spit once onto the iron bars->Bamboo_Culvert_Approach][@anchor_held $balma -= 5]]
 
 
 :: False_Tuk_Headlight [#samayam:MADDHAMA_MIDNIGHT #flow:kandy_mist_bamboo #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.60]
-Through the swirling fog behind you, a single yellow headlight sweeps around the bend. A black three-wheeler coasts slowly down the incline with its two-stroke engine strangely silent, rolling to a stop beside the bamboo wall.
+Behind your left shoulder, a single yellow headlamp beam cuts through the swirling mountain fog. An old black Bajaj three-wheeler coasts slowly down the steep grade—yet its two-stroke engine makes no sound at all, only the wet hiss of bald rubber tires rolling across the tar.
 
-Rain sheets off the canvas hood. From the shadowed passenger bench comes the faint rustle of wet white silk and {mutate: "the squeak of a vinyl seat" -> "a soft, rhythmic lullaby hummed through clenched teeth" @2300}.
+It glides to a halt beside the bamboo retaining wall five paces ahead. Rainwater sheets off the torn black canvas hood. From the pitch-dark passenger bench inside comes the rustle of wet white cotton and {mutate: "the creak of rusted seat springs" -> "a breathless, weeping lullaby hummed to a wet bundle" @2200}.
 
-[[Wave the three-wheeler down and climb into the dry backseat->Backseat_Wet_Saree][$balma += 20]]
-[[Ignore the silent three-wheeler and climb the stone steps toward the forest edge->Sanctuary_Stone_Steps][$tanikama += 10]]
-[[Keep walking along the asphalt road with your thumb on the Pirith Nula->Bamboo_Culvert_Approach][@anchor_held $balma -= 5]]
+[[Step off the verge and climb into the backseat out of the rain->Backseat_Wet_Saree][$balma += 20]]
+[[Turn away from the silent three-wheeler and climb the mossy forest steps->Sanctuary_Stone_Steps][$tanikama += 10]]
+[[Keep your thumb locked on your Pirith Nula and walk past on the far side->Bamboo_Culvert_Approach][@anchor_held $balma -= 5]]
 
 
 :: Backseat_Wet_Saree [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.78 #balma:15]
-You duck under the canvas flap onto the vinyl bench—and freeze. The driver's seat in front of you is completely empty; the handlebars are rusted solid and wrapped in dead creeper vines.
+You duck beneath the dripping canvas flap onto the vinyl bench—and the blood drains from your face. The driver's seat in front of you is completely empty. The steering handlebars are rusted solid, tangled in dead Udawattakele creeper vines and dry cobwebs.
 
-Beside your left thigh, the seat cushion is soaking wet. A woman in a drenched white saree sits pressed against your shoulder in the dark cab, turning her pupil-less face toward your neck: {mutate: "You climbed in out of the rain on your own" -> "Hold the child while I pin my border, malli" @2000}.
+Beside your hip, the cushion squelches with freezing water. Sitting pressed tight against your left ribcage in the dark cab is a woman in a soaking white saree, her chin resting almost on your shoulder as she turns her pupil-less eyes toward your cheek: {mutate: "You climbed inside of your own accord, malli" -> "Hold the child while I pin my saree border—my hands are so cold" @1950}.
 
-[[Throw yourself backward out of the cab onto the wet asphalt->Bamboo_Culvert_Approach][$taboo_met_eyes = true, $balma += 15]]
-[[Clamp your thumb onto the Pirith Nula and kick out through the canvas->Bamboo_Culvert_Approach][@anchor_held $balma -= 10]]
+[[Hurl yourself backward out of the cab onto the wet asphalt->Bamboo_Culvert_Approach][$taboo_met_eyes = true, $balma += 15]]
+[[Crush your thumb against the Pirith Nula and kick backward onto the road->Bamboo_Culvert_Approach][@anchor_held $balma -= 10]]
+[[Stay seated on the wet vinyl bench and let her lay the bundle in your lap->Outcome_Athura_Udawattakele_Lullaby][$taboo_accepted_bundle = true, $balma += 45]]
 
 
 :: Sanctuary_Stone_Steps [#samayam:MADDHAMA_MIDNIGHT #flow:kaduru_puddle_feet #audio:monsoon_heavy #haptic:dread_throb #vignette:0.66]
-You scramble up five mossy stone steps toward the locked iron gate of Udawattakele. Overhanging Kaduru trees drip thick, acrid white sap onto the stone.
+You scramble up six moss-blackened stone steps toward the padlocked iron gate of the forest sanctuary. Overhead, the gnarled branches of a wild Kaduru tree drip thick, poisonous white latex onto the wet leaves.
 
-When you look back down at the road, the three-wheeler is gone—only a rotting green banana trunk lies in the middle of the lane, while the weeping sound rises directly ahead of you at the culvert bend: {mutate: "wind whistling through the sanctuary wire" -> "a mother sobbing for someone to carry her cold bundle" @2300}.
+When you glance back down at the asphalt lane, the black three-wheeler has vanished—leaving only a waterlogged green banana trunk lying in the tire tracks, while a woman's ragged weeping rises from the hairpin culvert just ahead: {mutate: "it is only the wind whistling through the sanctuary wire" -> "she is waiting at the bend because there is no other road down the mountain" @2200}.
 
-[[Descend back to the road edge and approach the culvert bend->Bamboo_Culvert_Approach][$tanikama += 5]]
+[[Descend the stone steps and approach the hairpin culvert bend->Bamboo_Culvert_Approach][$tanikama += 5]]
 
 
 :: Bamboo_Culvert_Approach [#samayam:MADDHAMA_MIDNIGHT #flow:kandy_mist_bamboo #audio:monsoon_heavy #haptic:dread_throb #vignette:0.62]
-As you round the hair-pin bend where the giant bamboo arches completely over the asphalt, the air turns thick with a sharp, cloying floral scent. It is not night-blooming jasmine; it is the bruised, milky sap of {mutate: "wet roadside weeds" -> "crushed Kaduru blossoms and camphor water" @2500}.
+Where the road hooks sharply above the lake, giant bamboo stalks arch completely across the sky like the ribs of a drowned whale. The mountain air turns abruptly suffocating, thick with the cloying stench of {mutate: "wet roadside Lantana weeds" -> "crushed Kaduru blossoms, camphor water, and sour breast-milk" @2400}.
 
-Sitting on the low concrete culvert parapet in the drizzle is a slender woman in a plain white saree. Her long black hair hangs soaking wet past her waist, and she rocks a small white cloth bundle against her shoulder, weeping softly.
+Sitting barefoot on the low concrete culvert wall in the pouring drizzle is a slender woman draped in an unbleached white saree. Her waist-length black hair hangs in sodden ropes over her face, and she rocks a small white cloth bundle against her collarbone, sobbing as if her ribs are breaking.
 
-[[Cross to the far gravel edge of the road to pass without disturbing her->Cross_Road_Verge][$tanikama += 5]]
-[[Slow your pace and ask why she is sitting in the rain at midnight->Weeping_By_The_Wall][$taboo_answered_call = true, $balma += 15]]
+[[Cross to the outer gravel verge to slip past without speaking a word->Cross_Road_Verge][$tanikama += 5]]
+[[Slow your steps and ask why she is sitting alone in the rain at midnight->Weeping_By_The_Wall][$taboo_answered_call = true, $balma += 15]]
 
 
 :: Cross_Road_Verge [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:monsoon_heavy #haptic:heartbeat_slow #vignette:0.66]
-You step toward the outer edge of the road, keeping your boots on the wet gravel. Before you can take three strides, the weeping stops.
+You edge toward the lakeward drop-off, keeping your shoes on the loose wet gravel. Before you can take three silent strides, the sobbing cuts off in mid-breath.
 
-Without the sound of a single footstep splashing in the runoff, she is standing directly in the center of the narrow lane five paces ahead of you. The white saree pleats hang loose and untidy, soaked translucent at the hem, and from inside the cloth bundle comes {mutate: "a muffled, rasping cough" -> "the high, breathless cry of a newborn infant" @2300}.
+There is no splash of bare feet hitting the asphalt—yet when the streetlamp flickers, she is standing motionless in the exact center of the narrow lane four paces in front of your chest. Her wet white saree pleats hang untidy and unpinned, clinging translucent to her limbs, and from inside the white bundle against her breast comes {mutate: "the sound of rainwater dripping on cloth" -> "the thin, choking wail of a newborn struggling for air" @2200}.
 
-[[Lock your thumb on your Pirith Nula and keep your eyes fixed on the wet tar->Gaze_Down_Puddle][@anchor_held $balma -= 5]]
-[[Raise your head to see why she is blocking the road->Look_Into_Her_Eyes][$taboo_met_eyes = true, $balma += 25]]
+[[Clamp your thumb over your Pirith Nula and lock your eyes on the rain puddle at your feet->Gaze_Down_Puddle][@anchor_held $balma -= 5]]
+[[Lift your chin to see why she is blocking the downhill road->Look_Into_Her_Eyes][$taboo_met_eyes = true, $balma += 25]]
 
 
 :: Weeping_By_The_Wall [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:monsoon_heavy #haptic:dread_throb #vignette:0.68 #balma:10]
-She rises from the culvert stone as you speak. In the pale mist, her skin has the dull, waxen sheen of peeled manioc root. The white saree is draped without a brooch, its wet border slipping down from her left shoulder as the infant inside her bundle wails louder.
+At the sound of your voice, her shoulders stop shaking. She rises from the mossy culvert parapet without using her hands. In the sickly amber mist, her skin has the grey, bloodless sheen of peeled manioc root, and there is no hollow philtrum groove above her upper lip.
 
-She steps into your path, shivering violently, and whispers: {mutate: "My husband went to fetch a three-wheeler near the lake" -> "You walked alone in Tanikama, and my child is so cold" @2400}.
+The white saree border slips loose from her left shoulder as the bundle in her arms writhes and wails louder. She drifts into your path, teeth chattering violently, and breathes: {mutate: "My husband walked down to the lake to find a three-wheeler" -> "You walked alone in Tanikama, and you spoke to me across the water" @2300}.
 
-[[Press your thumb to the Pirith Nula and drop your gaze to the rain puddle->Gaze_Down_Puddle][@anchor_held $balma -= 5]]
-[[Look into her dark eyes to see if she is injured->Look_Into_Her_Eyes][$taboo_met_eyes = true, $balma += 25]]
+[[Press your thumb hard against the Pirith Nula and drop your gaze to the puddle->Gaze_Down_Puddle][@anchor_held $balma -= 5]]
+[[Look straight into her dark eyes to see if she is feverish->Look_Into_Her_Eyes][$taboo_met_eyes = true, $balma += 25]]
 
 
 :: Look_Into_Her_Eyes [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.78 #balma:15]
-You meet her gaze. Her pupils are impossibly wide, swallowing the amber streetlamp reflection without throwing back a single spark of light. A sudden, dizzying warmth floods your chest, dulling the cold rain on your face.
+You raise your eyes to hers—and your breath catches in your windpipe. Her pupils are dilated across the entire iris, two wells of wet pitch that swallow the streetlamp glow without reflecting a single pinpoint of light. A narcotic, suffocating warmth floods behind your temples, making the freezing rain feel like warm bathwater.
 
-With her left hand, she reaches up and slowly draws three wet strands of hair back across her cheek, her fingers curling in a slow, beckoning arc. Your own right hand {mutate: "hangs heavy at your side" -> "twitches upward to mirror her exact gesture" @2100}.
+Slowly, she lifts her left hand and draws three dripping strands of black hair back across her temple, her long fingers curling inward in a rhythmic, hypnotic gesture. Down at your side, your own right arm {mutate: "hangs numb in the rain" -> "lifts against your will to mirror her exact motion across your forehead" @2000}.
 
-[[Raise your hand to brush the rain from your own forehead->The_Slipping_Saree_Plea][$taboo_mirrored_gesture = true, $balma += 20, $tanikama += 10]]
-[[Force your fingers closed around the Pirith Nula thread on your wrist->The_Slipping_Saree_Plea][@anchor_held $balma -= 10]]
+[[Let your hand rise to brush the wet hair from your own forehead->The_Slipping_Saree_Plea][$taboo_mirrored_gesture = true, $balma += 20, $tanikama += 10]]
+[[Grind your thumbnail into the Pirith Nula thread to break the motor mimicry->The_Slipping_Saree_Plea][@anchor_held $balma -= 10]]
 
 
 :: Gaze_Down_Puddle [#samayam:MADDHAMA_MIDNIGHT #flow:kaduru_puddle_feet #audio:monsoon_heavy #haptic:iron_grip #vignette:0.52]
-You keep your chin tucked and your thumb pressed hard against the three knots of the Pirith Nula. On the black asphalt between you, a rainwater puddle catches the dim amber glow of the streetlamp.
+You keep your chin pinned to your collarbone and your thumb crushed against the three blessed knots on your wrist. Between your shoes and hers, a black rainwater puddle mirrors the sodium streetlamp.
 
-Floating on the surface of the puddle are three bruised white Kaduru flowers. At the far edge of the water, the wet white hem of her saree sways—and beneath it, {mutate: "her bare heels rest in the mud" -> "there are no feet touching the wet stone at all" @2200}.
+Floating on the oily film of the puddle are three bruised white Kaduru blossoms. At the upper rim of the water, the sodden white border of her saree sways inches above the stone—and in the reflection beneath the hem, {mutate: "her heels are hidden by the dark mud" -> "there are no ankles or feet at all, only empty air three inches above the tar" @2100}.
 
-[[Step sideways toward the downhill slope without lifting your eyes->The_Slipping_Saree_Plea][$tanikama -= 5]]
-[[Look up to see how she is floating above the road->The_Slipping_Saree_Plea][$taboo_met_eyes = true, $balma += 20]]
+[[Edge sideways toward the downhill slope without raising your eyes from the water->The_Slipping_Saree_Plea][$tanikama -= 5]]
+[[Jerk your head up to see how she is suspended above the road->The_Slipping_Saree_Plea][$taboo_met_eyes = true, $balma += 20]]
 
 
 :: The_Slipping_Saree_Plea [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.80]
-She glides half a step closer. The smell of wet burial cloth, crushed Kaduru sap, and sour milk fills your lungs until the mountain air feels unbreathable.
+She glides half a pace closer until her freezing breath fogs your collar. The stench of wet burial cloth, bitter white Kaduru latex, and curdled milk coats your tongue.
 
-The white saree pleat slips further down her shoulder. With a soft sob, she holds the squirming, crying bundle out toward your chest with both hands: {mutate: "Ane malli, hold my baby for one second while I pin my saree" -> "Take my burden into your arms and give me your breath" @2200}.
+The unpinned white saree pleat slips further down her bare shoulder. With a ragged, heartbreaking sob, she thrusts the squirming, crying bundle straight toward your chest with both hands: {mutate: "Ane malli, hold my baby for one heartbeat while I tie my saree pleat" -> "Open your forearms and take the dead weight of my warrant into your blood" @2100}.
 
-[[Reach out with both hands to hold the crying infant for her->The_Infant_Drop_Trap][$taboo_accepted_bundle = true, $balma += 30]]
-[[Keep your arms pinned to your sides and back away down the hill->The_Infant_Drop_Trap][$balma += 5]]
+[[Open your arms and take the crying infant bundle from her hands->The_Infant_Drop_Trap][$taboo_accepted_bundle = true, $balma += 30]]
+[[Lock your elbows against your ribs and step backward down the incline->The_Infant_Drop_Trap][$balma += 5]]
 
 
 :: The_Infant_Drop_Trap [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.88 #balma:15]
-As you hesitate, her pale fingers suddenly open. She lets go of the bundle completely.
+As you recoil half a step, her long waxen fingers suddenly splay wide open. She drops the crying bundle in mid-air.
 
-The white cloth drops straight toward the jagged stone edge of the culvert. In that split second of terror, your eyes see {mutate: "a helpless infant plunging toward the rock" -> "a rotting green banana stem wrapped in a funeral shroud" @1900}. If you release the Pirith Nula to catch it, the contract is sealed.
+The white shroud plummets straight toward the jagged granite edge of the culvert drain. Every human instinct in your nervous system screams at you to lunge forward and catch the child—yet in the strobe of the streetlamp, the cloth parts for a millisecond to reveal {mutate: "a tiny, shivering newborn skull" -> "a hacked, sap-bleeding green banana trunk swarming with black ants" @1850}. If you unhook your thumb from the Pirith Nula to catch it, your life is forfeit.
 
-[[Keep the Pirith Nula held tight, stare at the puddle, and let it hit the stone->Outcome_Athura_Road_Escaped][@anchor_held $balma -= 30]]
-[[Lunge forward and catch the falling bundle in your arms->Outcome_Athura_Mohini_Bound][$taboo_accepted_bundle = true, $balma += 40]]
-[[Scream and cover your face with both hands->Outcome_Athura_Mohini_Bound][$taboo_mirrored_gesture = true, $balma += 30]]
+[[Crush the Pirith Nula under your thumb, shut your eyes, and let the bundle strike the stone->Outcome_Athura_Road_Escaped][@anchor_held $balma -= 30]]
+[[Lunge forward with both arms to catch the falling child before it hits the rock->Outcome_Athura_Mohini_Bound][$taboo_accepted_bundle = true, $balma += 40]]
+[[Mirror her weeping gesture and press both sap-stained hands over your eyes->Outcome_Athura_Kaduru_Sap_Veins][$taboo_mirrored_gesture = true, $balma += 45]]
 
 
 :: Outcome_Athura_Road_Escaped [#samayam:ALUYA_DAWN #flow:kaduru_puddle_feet #audio:monsoon_light #haptic:iron_grip #vignette:0.35]
-You lock your jaw and keep your thumb crushed against the sacred thread. The bundle strikes the asphalt with a dull, fibrous thud—not bone, but a waterlogged chunk of banana trunk that splits open in the puddle.
+You bite the inside of your cheek until it bleeds and keep your thumb locked over the sacred thread. The white bundle hits the granite curb with a wet, fibrous crunch—not infant bone, but a freshly severed chunk of green Kesel Kanda banana stem that splits lengthwise across the puddle.
 
-A shriek like tearing wet silk echoes up into the giant bamboo of Udawattakele. When the headlights of a morning bakery lorry sweep around the bend, the road is empty save for the split plantain stem and a scatter of black Kaduru seeds.
+An ear-splitting shriek like wet silk tearing in the wind echoes up into the giant bamboo of Udawattakele. When the yellow fog-lamps of a 5:30 AM vegetable lorry round the bend from Ampitiya, the asphalt is empty save for the split banana trunk and a scatter of poisonous black Kaduru seeds.
 
-[[Examine the forensic case from the Kattadiya perspective->Kattadiya_Mohini_Entry][$tanikama = 40]]
+[[Examine the forensic case from the Kattadiya exorcist perspective->Kattadiya_Mohini_Entry][$tanikama = 40]]
 [[Walk Upper Lake Road again from 11:46 PM->Upper_Lake_Mist_Start][$balma = 20, $tanikama = 50]]
 
 
 :: Outcome_Athura_Mohini_Bound [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.90]
-The moment the wet bundle touches your forearms, its weight turns to freezing lead. The Pirith Nula on your wrist snaps cleanly in two.
+The millisecond the wet white bundle touches your forearms, its weight turns to three hundred pounds of freezing graveyard iron. On your right wrist, the three-stranded Pirith Nula snaps like dry cobweb.
 
-You look up—and there is no infant in your arms, and no woman before you, only tall jaws laughing down through a curtain of soaking black hair. A street-sweeper finds you at dawn curled beside the culvert, shivering with a burning fever, your arms locked rigidly in a cradle shape and your tongue unable to form a word.
+You jerk your chin up—and there is no infant in your arms, and no weeping widow before you, only a twelve-foot skeleton draped in wet grave-cloth laughing down through a curtain of dripping black hair as her curved tusks lock over your shoulder. Municipal sweepers find you at dawn curled rigid in the culvert ditch, burning with a 105-degree fever, your forearms locked in an unbreakable cradle around empty air.
 
-[[Accept the Bulath Hurulla and step into the Kattadiya role->Kattadiya_Mohini_Entry][$tanikama = 80]]
+[[Accept the Bulath Hurulla summons and step into the Kattadiya role->Kattadiya_Mohini_Entry][$tanikama = 80]]
 [[Return to Upper Lake Road at 11:46 PM->Upper_Lake_Mist_Start][$balma = 20, $tanikama = 50]]
 
 
 :: Kattadiya_Mohini_Entry [#samayam:MADDHAMA_MIDNIGHT #flow:sanni_mask_torch #audio:monsoon_light #haptic:iron_grip #vignette:0.46]
-Two nights later, in a hillside house above Peradeniya, the young man sits propped against the wall. His arms remain locked at the elbows as if cradling an invisible weight, and whenever the rain hits the window, he smiles vacantly and whispers toward the doorway.
+Two nights later, in an old tiled house on the Peradeniya slope, the young man sits propped against the lime-washed wall. Both of his forearms remain locked at a ninety-degree angle as though cradling an invisible infant, and whenever rainwater ticks against the windowpane, his lips part in a vacant smile and he hums toward the dark corridor.
 
-His father places the Bulath Hurulla sheaf before your brass pahana lamp. Without asking how they found him on the road, you lift the top betel leaf to the flame.
+His trembling father kneels and lays the Bulath Hurulla sheaf beside your brass pahana lamp. Asking zero questions of the household, you draw the top betel leaf from the pile and pass its blade before the flame.
 
-[[Pass the Pahana flame behind the betel leaf to read the road Lakunu->Sastra_Kaduru_Leaf_Check][$tanikama -= 5]]
-[[Examine the patient's locked forearms and snapped wrist thread first->Patient_Catatonia_Inspection][$tanikama -= 5]]
+[[Hold the Pahana flame behind the betel leaf to read the wayside Lakunu->Sastra_Kaduru_Leaf_Check][$tanikama -= 5]]
+[[Kneel by the reed mat to inspect his locked forearms and snapped wrist thread first->Patient_Catatonia_Inspection][$tanikama -= 5]]
 
 
 :: Sastra_Kaduru_Leaf_Check [#samayam:MADDHAMA_MIDNIGHT #flow:sanni_mask_torch #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.52]
-Against the amber flame, the leaf reveals the signature of the lonely road: a pale milky film coats the right veins where mimetic gesture or spoken answers occurred, while a black rot eats the petiole base where the phantom bundle was accepted.
+Backlit by the golden flame, the betel leaf exposes the exact anatomy of the midnight ambush: a clouded apex bruise from walking alone in the Maddhama watch, a twisted left vein where he answered her call in the mist, a central midrib perforation where he met her pupil-less gaze, a milky Kaduru-sap sheen across the right blade from mirrored gesture, and black necrosis rotting the stem where he caught the falling bundle.
 
-The veins confirm what the hospital doctors missed: {mutate: "the boy is suffering from exposure to the cold mountain rain" -> "Mala Mohini has bound his mind through the infant contract" @2400}.
+The leaf leaves no doubt: {mutate: "the boy is merely in shock from hypothermia by the lake" -> "Mala Mohini has sealed the surrogate child contract in his tendons" @2200}.
 
-[[Inspect the patient's physical symptoms in the room->Patient_Catatonia_Inspection][$balma += 5]]
-[[Prepare the Three Kaduru-Wood Masks and Kesel Kanda stem->Three_Mask_Paliya_Prep][$balma += 10]]
+[[Examine the patient's physical symptoms and broken Pirith Nula in the room->Patient_Catatonia_Inspection][$balma += 5]]
+[[Unpack the Three Ambalangoda Kaduru-Wood Masks and cut a fresh Kesel Kanda stem->Three_Mask_Paliya_Prep][$balma += 10]]
 
 
 :: Patient_Catatonia_Inspection [#samayam:MADDHAMA_MIDNIGHT #flow:kaduru_puddle_feet #audio:ceb_power_cut #haptic:heartbeat_slow #vignette:0.60]
-You kneel beside the reed mat. Around his right wrist hangs the frayed end of a snapped Pirith Nula, stained grey with dried Kaduru sap. His eyes are dilated, fixed past your shoulder as though watching a woman in white standing by the door.
+You kneel on the reed mat beside the boy. Clinging to his right wrist is the frayed cotton stub of a snapped Pirith Nula, crusted with bitter white Kaduru latex. His pupils are blown wide, staring past your ear toward the rain-swept doorway as if a woman in white is still standing on the threshold demanding her child.
 
-When you try to unbend his forearms, the tendons feel like cold iron. To unlock his grip, you cannot use brute force—you must stage the three-part Mohini Paliya theatre to externalize and shatter the illusion inside his mind.
+When you test his biceps, the muscles are petrified like seasoned ironwood. Force will snap his bones before it unbends his arms—to break a mimetic trance, you must stage the three-part Mohini Paliya ritual drama to externalize the phantom infant and sever it before his eyes.
 
-[[Lay out the Three Masks and consecrated offerings->Three_Mask_Paliya_Prep][$tanikama -= 10]]
-[[Re-verify the betel leaf veins against the brass lamp->Sastra_Kaduru_Leaf_Check][$tanikama -= 5]]
+[[Set up the Three Kaduru Masks and the shrouded banana stem in the courtyard->Three_Mask_Paliya_Prep][$tanikama -= 10]]
+[[Return to the brass pahana to re-verify the betel leaf veins->Sastra_Kaduru_Leaf_Check][$tanikama -= 5]]
 
 
 :: Three_Mask_Paliya_Prep [#samayam:MADDHAMA_MIDNIGHT #flow:sanni_mask_torch #audio:yak_bera_ritual #haptic:iron_grip #vignette:0.58]
-In the courtyard beneath a temporary gokkola canopy, the yak bera drum begins its rolling cadence. Before the altar stand three carved Ambalangoda masks of Kaduru wood alongside a freshly cut green banana stem—the Kesel Kanda—wrapped in white cloth like an infant.
+Under a temporary gokkola palm awning in the rain-slick courtyard, the yak bera drum begins its hypnotic, rolling pulse. Before the torchlit altar stand three carved Ambalangoda masks of light Kaduru wood alongside a four-foot green banana trunk—the Kesel Kanda—swaddled in white burial cloth like a newborn.
 
-You dance the first two states in sequence: first the blandly alluring pink Coquette mask to draw the patient's gaze toward the arena; then the grotesquely swollen Pregnancy mask, groaning under a crushing burden until the boy shudders in revulsion. Now comes the final severance.
+You must dance the three faces of the illusion in strict order: first the alluring Malwathu Coquette mask to capture the boy's catatonic gaze; second the swollen Gabbara Pregnancy mask, groaning under the demon's false burden; and third the Daru Severance mask—where her weeping eyes snap open to resist your forged iron Ketta cleaver as you slice the surrogate bundle in half.
 
-[[Don the third Maternal mask, place the Kesel Kanda at his feet, and raise the blade->Midnight_Kesel_Kanda_Severance][$balma += 10]]
+[[Don the three Kaduru masks in sequence and overpower her grip to cleave the Kesel Kanda->Midnight_Kesel_Kanda_Severance][$balma += 10]]
 
 
 :: Midnight_Kesel_Kanda_Severance [#samayam:MADDHAMA_MIDNIGHT #flow:sanni_mask_torch #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.84 #balma:15]
-Dummala resin flashes gold against the mist. As you lay the wrapped banana stem before the patient's locked arms, the pahana flame bends flat and turns indigo. From the bamboo shadows beyond the compound wall, Mohini's voice pleads through the drumbeat: {mutate: "Do not strike the child, give him back to me" -> "By the warrant of Goddess Pattini and the Triple Gem, the false child is severed" @2100}.
+Powdered dummala resin explodes into a sheet of blinding gold against the mountain fog. As your Ketta blade bites into the white cloth swaddling the banana trunk at the patient's feet, the brass pahana flame flattens and turns corpse-blue.
 
-You must hold the sacred ward to keep your blade true before slicing the surrogate bundle in half.
+From the wet bamboo grove beyond the wall, Mohini's weeping voice shrieks over the thunder of the drum: {mutate: "Do not cut the child in two—he promised to carry it for me!" -> "By the fiery anklet of Goddess Pattini and the Triple Gem, the false contract is severed!" @2000}. Lock the cold iron ward under your thumb and strike every syllable of the Pattini Varama cadence!
 
 [[Hold the sacred ward, chant the Pattini Varama, and cleave the Kesel Kanda in two->Outcome_Kattadiya_Mohini_Cured][@anchor_held $balma = 0]]
-[[Bring the plantain knife down without holding the sacred ward->Outcome_Kattadiya_Mohini_Failed][$balma += 35]]
+[[Bring the plantain cleaver down without anchoring the sacred ward->Outcome_Kattadiya_Mohini_Failed][$balma += 35]]
 
 
 :: Outcome_Kattadiya_Mohini_Cured [#samayam:ALUYA_DAWN #flow:kaduru_puddle_feet #audio:monsoon_light #haptic:iron_grip #vignette:0.32]
-The blade shears cleanly through the white cloth and green banana trunk. Clear, watery sap spills across the reed mat. At that exact instant, the young man's locked forearms drop limp into his lap with a long, shuddering exhalation.
+With the ward locked under your thumb, the heavy iron Ketta shears cleanly through the white shroud and splits the green banana trunk into two halves. Clear, watery plantain sap gushes across the courtyard stones. At that exact instant, the young man's petrified forearms drop limp into his lap with a long, sobbing exhalation as the phantom weight vanishes.
 
-You dip a fresh three-stranded Pirith Nula into turmeric water, chant the protective gatha, and knot it tightly around his right wrist as the mist over the Kandy hills turns pale gold with dawn.
+You steep a fresh three-stranded Pirith Nula in turmeric-lime water, chant the protective warrant of Goddess Pattini, and knot it three times around his right wrist as the mist over Kandy Lake turns pale gold with dawn.
 
 [[Replay Casefile 02 from Upper Lake Road at 11:46 PM->Upper_Lake_Mist_Start][$balma = 20, $tanikama = 50]]
-[[Examine a new Bulath Hurulla sheaf in Kattadiya Mode->Kattadiya_Mohini_Entry][$balma = 25]]
+[[Examine a new Bulath Hurulla summons sheaf in Kattadiya Mode->Kattadiya_Mohini_Entry][$balma = 25]]
 
 
 :: Outcome_Kattadiya_Mohini_Failed [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.88]
-Your thumb slips from the ward as the blade falls. Instead of splitting the banana stem, the knife glances off the stone floor in a shower of sparks, and the dummala torch hisses out in the drizzle.
+Your thumb slips from the ward as the cleaver descends. Instead of severing the banana trunk, the iron blade skids off the wet stone in a shower of blue sparks, and a freezing gust from the bamboo grove snuffs the dummala torch into black smoke.
 
-The patient's eyes roll back, his arms locking tighter around the empty air as a sound like a weeping infant echoes from inside the house. You must re-consecrate the masks and repeat the Paliya sequence before daybreak.
+On the verandah, the boy's eyes roll back into his skull, his locked forearms tightening around the empty air as the high, wet cry of a newborn infant echoes from inside his own chest.
 
-[[Re-light the torch and reset the Three Masks->Three_Mask_Paliya_Prep][$balma = 40]]
-[[Return to the Sastra betel leaf inspection->Kattadiya_Mohini_Entry][$balma = 30]]
+[[Relight the torch and reset the Three Kaduru Masks->Three_Mask_Paliya_Prep][$balma = 40]]
+[[Reach down with bare hands to lift the nicked Kesel Kanda stem from the puddle->Outcome_Kattadiya_Cradle_Contagion][$balma += 35]]
+
+
+:: Outcome_Athura_Udawattakele_Lullaby [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.92]
+The canvas flaps of the three-wheeler seal shut on their own. You never reach the Kandy clock tower.
+
+Weeks later, when late-night three-wheeler drivers round the hairpin culvert on Upper Lake Road in the fog, their headlamps catch {mutate: "an abandoned, rusting chassis by the bamboo wall" -> "two figures waiting in the drizzle—a woman in white, and you sitting beside her holding a rotting banana stem out toward every passing window" @2100}. Your family dispatches a Bulath Hurulla sheaf after finding only your snapped Pirith Nula on the asphalt.
+
+[[Accept the Bulath Hurulla summons and step into the Kattadiya role->Kattadiya_Mohini_Entry][$tanikama = 85]]
+[[Return to Upper Lake Road at 11:46 PM->Upper_Lake_Mist_Start][$balma = 20, $tanikama = 50]]
+
+
+:: Outcome_Athura_Kaduru_Sap_Veins [#samayam:MADDHAMA_MIDNIGHT #flow:kaduru_puddle_feet #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.92]
+Because you mirrored her hands during the Maddhama watch, your motor cortex remains permanently wired to hers across the dark.
+
+In the Peradeniya ward, the doctors have to strap your wrists to the iron bed-rails. Whenever rain ticks against the glass, your fingers curl in a slow, beckoning arc to brush invisible wet hair behind your ear—and {mutate: "tears of exhaustion run down your cheeks" -> "thick, poisonous white Kaduru tree-latex weeps from your tear ducts while a woman's voice sobs from your open mouth" @2000}.
+
+[[Accept the Bulath Hurulla summons as the Kattadiya->Kattadiya_Mohini_Entry][$tanikama = 90]]
+[[Walk Upper Lake Road again from 11:46 PM->Upper_Lake_Mist_Start][$balma = 20, $tanikama = 50]]
+
+
+:: Outcome_Kattadiya_Cradle_Contagion [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.94]
+The moment your bare palms touch the nicked green banana trunk on the courtyard stones, the fibrous plantain bark turns warm and soft as skin. From the shallow cut where your Ketta blade glanced off, {mutate: "clear plantain water drips onto the mat" -> "hot arterial blood gushes across your wrists and the banana stem wails like a newborn infant" @1950}.
+
+On the verandah, the young man's arms drop free—because your own forearms have petrified at a ninety-degree angle around the screaming bundle, locking the third Kaduru mask permanently to your face.
+
+[[Replay Casefile 02 from Upper Lake Road at 11:46 PM->Upper_Lake_Mist_Start][$balma = 20, $tanikama = 50]]
+[[Re-enter Kattadiya Triage from the beginning->Kattadiya_Mohini_Entry][$balma = 25]]

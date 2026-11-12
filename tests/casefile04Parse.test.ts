@@ -6,10 +6,10 @@ import { parseTweeStory } from '../src/core/twineParser';
 describe('Casefile 04 (Mahasona) Twine Parser', () => {
   const tweePath = path.resolve(__dirname, '../story-twine/casefile04_mahasona.twee');
 
-  it('parses all 22 passages with zero missing passages', () => {
+  it('parses all 25 passages with zero missing passages', () => {
     const tweeContent = fs.readFileSync(tweePath, 'utf-8');
     const story = parseTweeStory(tweeContent);
-    expect(Object.keys(story)).toHaveLength(22);
+    expect(Object.keys(story)).toHaveLength(25);
 
     const expectedPassages = [
       'Crossroads_Midnight_Start',
@@ -23,6 +23,8 @@ describe('Casefile 04 (Mahasona) Twine Parser', () => {
       'Shoulder_Ash_Strike',
       'Outcome_Athura_Mahasona_Survived',
       'Outcome_Athura_Mahasona_Struck',
+      'Outcome_Athura_Backwards_Cervical',
+      'Outcome_Athura_Biso_Kotuwa_Pilgrim',
       'Kattadiya_Mahasona_Entry',
       'Sastra_Mahasona_Leaf_Check',
       'Patient_Handprint_Forensics',
@@ -30,6 +32,7 @@ describe('Casefile 04 (Mahasona) Twine Parser', () => {
       'Midnight_Gothaimbara_Varama',
       'Outcome_Kattadiya_Mahasona_Banished',
       'Outcome_Kattadiya_Mahasona_Backfire',
+      'Outcome_Kattadiya_Boar_Mask_Fused',
       'Culvert_Pilgrim_Lantern',
       'Backwards_Shadow_Stride',
       'Banyan_Root_Noose',
@@ -70,17 +73,17 @@ describe('Casefile 04 (Mahasona) Twine Parser', () => {
     const startMutate = story['Crossroads_Midnight_Start'].paragraphs.flat().find((s) => s.type === 'mutate');
     expect(startMutate).toBeDefined();
     if (startMutate && startMutate.type === 'mutate') {
-      expect(startMutate.wakingText).toBe('warm dry-zone wind');
-      expect(startMutate.corruptedText).toBe('a giant holding its breath six paces behind your back');
+      expect(startMutate.wakingText).toBe('the warm breath of the dry tank wind');
+      expect(startMutate.corruptedText).toBe('a twelve-foot giant holding its breath six paces behind your rear mudguard');
       expect(startMutate.delayMs).toBe(2500);
     }
 
     const varamaMutate = story['Midnight_Gothaimbara_Varama'].paragraphs.flat().find((s) => s.type === 'mutate');
     expect(varamaMutate).toBeDefined();
     if (varamaMutate && varamaMutate.type === 'mutate') {
-      expect(varamaMutate.wakingText).toBe('The giant will crush the roof beams if you mock him');
-      expect(varamaMutate.corruptedText).toBe('By the kick of the warrior Gothaimbara, your head sits backwards and your warrant is void');
-      expect(varamaMutate.delayMs).toBe(2100);
+      expect(varamaMutate.wakingText).toBe('The cemetery giant will bring the roof beams down upon your head!');
+      expect(varamaMutate.corruptedText).toBe('By the left toe of the warrior Gothaimbara, your boar-head sits backwards and your warrant is ash!');
+      expect(varamaMutate.delayMs).toBe(2000);
     }
   });
 

@@ -1,3 +1,4 @@
+/* src/index.css */
 @import "tailwindcss";
 
 @theme {
@@ -10,6 +11,106 @@
   --lamp-radius: 40vmax;
   --lamp-darkness: 0.65;
   --lamp-core-color: rgba(200, 150, 62, 0.09);
+}
+
+body {
+  background-color: #050608;
+  color: #EAE3D2;
+  font-feature-settings: "liga" 1, "kern" 1, "onum" 1, "swsh" 1;
+  text-rendering: optimizeLegibility;
+}
+
+p, h1, h2, button, span {
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.95);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  opacity: 0.048;
+  background-image: radial-gradient(rgba(138, 153, 173, 0.65) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+}
+
+@keyframes etchDraw {
+  0% { stroke-dashoffset: 640; opacity: 0; filter: drop-shadow(0 0 12px rgba(59, 77, 122, 0.85)); }
+  40% { opacity: 0.9; }
+  100% { stroke-dashoffset: 0; opacity: 1; filter: drop-shadow(0 0 6px rgba(212, 155, 39, 0.25)); }
+}
+
+@keyframes smokeRise {
+  0% { stroke-dashoffset: 260; opacity: 0; transform: translateY(8px); }
+  45% { opacity: 0.78; }
+  100% { stroke-dashoffset: 0; opacity: 0; transform: translateY(-30px); }
+}
+
+@keyframes flameFlicker {
+  0%, 100% { transform: scale(1) rotate(-1.2deg); opacity: 0.94; }
+  50% { transform: scale(1.07, 0.94) rotate(1.6deg); opacity: 1; }
+}
+
+@keyframes blueBreath {
+  0%, 100% { opacity: 0.45; transform: scale(0.96); }
+  50% { opacity: 0.88; transform: scale(1.06); }
+}
+
+@keyframes folioUnroll {
+  0% { opacity: 0; transform: translateY(14px) scaleY(0.97); filter: blur(5px); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); filter: blur(0); }
+}
+
+.animate-etch {
+  stroke-dasharray: 640;
+  animation: etchDraw 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-smoke {
+  stroke-dasharray: 260;
+  animation: smokeRise 4.2s ease-in-out infinite;
+}
+
+.animate-flame {
+  transform-origin: 50% 78%;
+  animation: flameFlicker 2.3s ease-in-out infinite;
+}
+
+.animate-blue-aura {
+  transform-origin: 50% 50%;
+  animation: blueBreath 3.6s ease-in-out infinite;
+}
+
+.animate-folio {
+  animation: folioUnroll 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.typo-carved-title {
+  color: #D49B27;
+  text-shadow:
+    0 1px 0 #FFF3D1,
+    0 3px 14px rgba(0, 0, 0, 0.95),
+    0 0 28px rgba(59, 77, 122, 0.55),
+    0 0 48px rgba(212, 155, 39, 0.22);
+}
+
+.typo-dropcap:first-of-type::first-letter {
+  float: left;
+  font-size: 3.1rem;
+  line-height: 0.82;
+  padding-right: 0.65rem;
+  padding-top: 0.15rem;
+  color: #D49B27;
+  text-shadow: 0 0 18px rgba(59, 77, 122, 0.75), 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+.incised-trigger {
+  transition: color 0.4s ease, text-shadow 0.4s ease, letter-spacing 0.4s ease;
+}
+.incised-trigger:hover {
+  color: #D49B27;
+  text-shadow: 0 0 16px rgba(212, 155, 39, 0.5), 0 0 28px rgba(59, 77, 122, 0.6);
 }
 
 .duration-1200 {

@@ -65,7 +65,7 @@ export const AudioMixerDebugPanel: React.FC = () => {
     <aside className="fixed bottom-4 left-4 z-50 w-88 border border-[#C8963E]/45 bg-[#0D0B0A]/95 p-4 font-serif text-xs text-[#EAE3D2] shadow-2xl select-none">
       <div className="mb-2.5 flex items-center justify-between border-b border-[#C8963E]/20 pb-1.5">
         <span className="tracking-[0.18em] text-[#D49B27] uppercase">DSP Acoustic Workbench [~]</span>
-        <button type="button" onClick={() => setIsOpen(false)} className="cursor-pointer text-[#EAE3D2]/50 hover:text-[#EAE3D2]">[Close]</button>
+        <button type="button" onClick={() => setIsOpen(false)} className="incised-trigger cursor-pointer text-[#EAE3D2]/50 hover:text-[#EAE3D2]">෴ Close ෴</button>
       </div>
 
       <canvas ref={canvasRef} width={320} height={68} className="mb-3 w-full border border-[#C8963E]/25 bg-[#090807]" />

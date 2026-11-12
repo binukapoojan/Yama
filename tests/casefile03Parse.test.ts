@@ -6,10 +6,10 @@ import { parseTweeStory } from '../src/core/twineParser';
 describe('Casefile 03 (Riri Yaka) Twine Parser', () => {
   const tweePath = path.resolve(__dirname, '../story-twine/casefile03_riri_yaka.twee');
 
-  it('parses exactly 22 passages with zero missing passages', () => {
+  it('parses exactly 25 passages with zero missing passages', () => {
     const tweeContent = fs.readFileSync(tweePath, 'utf-8');
     const story = parseTweeStory(tweeContent);
-    expect(Object.keys(story)).toHaveLength(22);
+    expect(Object.keys(story)).toHaveLength(25);
 
     const expectedPassages = [
       'Crimson_Hearth_Start',
@@ -23,6 +23,8 @@ describe('Casefile 03 (Riri Yaka) Twine Parser', () => {
       'Midnight_Arterial_Weight',
       'Outcome_Athura_Riri_Survived',
       'Outcome_Athura_Riri_Drained',
+      'Outcome_Athura_Hearth_Cannibal',
+      'Outcome_Athura_Termite_Humbaha',
       'Kattadiya_Riri_Entry',
       'Sastra_Riri_Leaf_Check',
       'Patient_Hemorrhage_Check',
@@ -30,6 +32,7 @@ describe('Casefile 03 (Riri Yaka) Twine Parser', () => {
       'Midnight_Peduru_Surrender',
       'Outcome_Kattadiya_Riri_Banished',
       'Outcome_Kattadiya_Riri_Backfire',
+      'Outcome_Kattadiya_Mat_Substitution',
       'Courtyard_Grandmother_Call',
       'Chopping_Block_Cleaver',
       'Rafters_Simian_Chatter',
@@ -70,17 +73,17 @@ describe('Casefile 03 (Riri Yaka) Twine Parser', () => {
     const startMutate = story['Crimson_Hearth_Start'].paragraphs.flat().find(s => s.type === 'mutate');
     expect(startMutate).toBeDefined();
     if (startMutate && startMutate.type === 'mutate') {
-      expect(startMutate.wakingText).toBe('fried onions and curry leaves');
-      expect(startMutate.corruptedText).toBe('scorched copper and raw slaughterhouse iron');
+      expect(startMutate.wakingText).toBe('roasted red onions and pandan leaf');
+      expect(startMutate.corruptedText).toBe('boiling slaughterhouse copper and wet monkey fur');
       expect(startMutate.delayMs).toBe(2500);
     }
 
     const weightMutate = story['Midnight_Arterial_Weight'].paragraphs.flat().find(s => s.type === 'mutate');
     expect(weightMutate).toBeDefined();
     if (weightMutate && weightMutate.type === 'mutate') {
-      expect(weightMutate.wakingText).toBe('Give me the blood in the pan and the life on the mat');
-      expect(weightMutate.corruptedText).toBe('By the Varama of the Sun God and the Iron Sickle, I claim only ash');
-      expect(weightMutate.delayMs).toBe(2100);
+      expect(weightMutate.wakingText).toBe('Give me the fish in the pan and the warm breath on the mat');
+      expect(weightMutate.corruptedText).toBe('By the Varama of the Sun God and the Cold Iron Sickle, I may take only red lime-water and ash!');
+      expect(weightMutate.delayMs).toBe(2000);
     }
   });
 

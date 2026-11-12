@@ -13,15 +13,18 @@ describe('Deterministic Engine Core (twineParser, JuiceDirector, textMutator)', 
   );
   const story = parseTweeStory(tweeContent);
 
-  it('parses all 21 passages into StoryGraph with zero broken references', () => {
-    expect(Object.keys(story)).toHaveLength(21);
+  it('parses all 24 passages into StoryGraph with zero broken references', () => {
+    expect(Object.keys(story)).toHaveLength(24);
     expect(story['Dusk_Balcony_Check']).toBeDefined();
     expect(story['Balcony_Rain_Breach']).toBeDefined();
     expect(story['Louver_Latch_Safe']).toBeDefined();
     expect(story['Kattadiya_Sastra_Entry']).toBeDefined();
     expect(story['Outcome_Athura_Survived']).toBeDefined();
     expect(story['Outcome_Athura_Possessed']).toBeDefined();
+    expect(story['Outcome_Athura_Mirror_Entombed']).toBeDefined();
+    expect(story['Outcome_Athura_Canal_Drowned']).toBeDefined();
     expect(story['Outcome_Kattadiya_Banished']).toBeDefined();
+    expect(story['Outcome_Kattadiya_Vessel_Transfer']).toBeDefined();
   });
 
   it('parses passage header hashtags into JuiceDirective', () => {

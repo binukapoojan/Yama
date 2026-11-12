@@ -40,51 +40,43 @@ export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoic
   const watchMeta = passage.directives.samayam ? SAMAYAM_LABELS[passage.directives.samayam] : null;
 
   return (
-    <main className="relative z-10 mx-auto flex min-h-screen w-full max-w-[38rem] flex-col justify-end px-7 pt-[32vh] pb-32 md:px-12">
+    <main className="relative z-10 mx-auto flex min-h-screen w-full max-w-[39rem] flex-col justify-end px-7 pt-[28vh] pb-32 md:px-12">
       {watchMeta && (
-        <div className="mb-4 flex items-center gap-x-2.5 font-serif text-xs tracking-[0.18em] text-[#C8963E]/75 uppercase">
-          <span className="text-[#D49B27]">{watchMeta.sinhala}</span>
-          <span>෴</span>
-          <span>{watchMeta.english}</span>
+        <div className="mb-6 border-b border-[#3B4D7A]/35 pb-2.5 font-serif">
+          <div className="flex items-center gap-x-3 text-xs tracking-[0.26em] text-[#8A99AD] uppercase">
+            <span className="text-sm text-[#D49B27]">{watchMeta.sinhala}</span>
+            <span className="text-[#C8963E]/60">෴</span>
+            <span>{watchMeta.english}</span>
+          </div>
         </div>
       )}
 
-      <article className="space-y-6 font-serif text-[1.18rem] leading-[1.82] tracking-[0.01em] text-[#EAE3D2] antialiased">
+      <article className="space-y-6 font-serif text-[1.22rem] leading-[1.88] tracking-[0.012em] text-[#EAE3D2] antialiased">
         {passage.paragraphs.map((paragraph, pIdx) => {
           const isVisible = pIdx < visibleCount;
-          return (
-            <p
-              key={`${passage.name}_p_${pIdx}`}
-              className={`transition-all duration-700 ease-out ${
-                isVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-2 opacity-0'
-              }`}
-            >
-              {paragraph.map((seg, sIdx) => {
-                if (seg.type === 'plain') return <React.Fragment key={sIdx}>{seg.text}</React.Fragment>;
-                const tokenState = mutations[seg.id];
-                const display = tokenState?.currentText ?? seg.wakingText;
-                const isCorrupted = tokenState?.isCorrupted ?? false;
-                const isMorphing = tokenState?.isMorphing ?? false;
-                return (
-                  <span
-                    key={seg.id}
-                    className={`inline transition-colors duration-500 ${
-                      anchorHeld
-                        ? 'text-[#D49B27] decoration-[#C8963E]/60 underline decoration-1 underline-offset-4'
-                        : isMorphing ? 'text-[#8A99AD] opacity-80' : isCorrupted ? 'text-[#D6DFEC]' : 'text-[#EAE3D2]'
-                    }`}
-                  >
-                    {display}
-                  </span>
-                );
-              })}
-            </p>
-          );
+            return (
+              <p key={`${passage.name}_p_${pIdx}`} className={`typo-dropcap transition-all duration-700 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-2 opacity-0'}`}>
+                {paragraph.map((seg, sIdx) => {
+                  if (seg.type === 'plain') return <React.Fragment key={sIdx}>{seg.text}</React.Fragment>;
+                  const tokenState = mutations[seg.id], display = tokenState?.currentText ?? seg.wakingText;
+                  const isCorrupted = tokenState?.isCorrupted ?? false, isMorphing = tokenState?.isMorphing ?? false;
+                  return (
+                    <span
+                      key={seg.id}
+                      style={isCorrupted && !anchorHeld ? { textShadow: '0 0 16px rgba(91, 120, 184, 0.75)' } : undefined}
+                      className={`inline transition-all duration-500 ${anchorHeld ? 'text-[#D49B27] decoration-[#C8963E]/60 underline decoration-1 underline-offset-4' : isMorphing ? 'text-[#6883BA] opacity-85 italic' : isCorrupted ? 'text-[#9BB4E8] italic' : 'text-[#EAE3D2]'}`}
+                    >
+                      {display}
+                    </span>
+                  );
+                })}
+              </p>
+            );
         })}
       </article>
 
       {!hideChoices && (
-        <nav aria-label="Narrative actions" className={`mt-10 space-y-4 transition-opacity duration-700 ${choicesReady ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
+        <nav aria-label="Narrative actions" className={`mt-11 space-y-4 border-t border-[#C8963E]/20 pt-6 transition-opacity duration-700 ${choicesReady ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
           {passage.choices.map((choice, idx) => {
             const lockedByWard = Boolean(choice.requiresAnchorHeld && !anchorHeld);
             return (
@@ -93,16 +85,16 @@ export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoic
                 type="button"
                 disabled={lockedByWard}
                 onClick={() => onSelectChoice(choice)}
-                className={`group flex w-full items-baseline text-left font-serif text-[1.08rem] leading-relaxed transition-all duration-300 ${
-                  lockedByWard ? 'cursor-not-allowed text-[#EAE3D2]/30 italic' : 'cursor-pointer text-[#EAE3D2]/85 hover:text-[#EAE3D2] focus:outline-none'
+                className={`group flex w-full items-baseline text-left font-serif text-[1.12rem] leading-relaxed transition-all duration-300 ${
+                  lockedByWard ? 'cursor-not-allowed text-[#8A99AD]/30 italic' : 'incised-trigger cursor-pointer text-[#EAE3D2]/85 focus:outline-none'
                 }`}
               >
-                <span className={`mr-4 inline-block h-[1px] bg-[#C8963E] transition-all duration-300 ease-out ${lockedByWard ? 'w-2 opacity-25' : 'w-4 opacity-60 group-hover:w-8 group-hover:opacity-100'}`} />
+                <span className={`mr-3.5 text-xs transition-transform duration-300 ${lockedByWard ? 'text-[#3B4D7A]/50' : 'text-[#C8963E]/75 group-hover:translate-x-1 group-hover:text-[#D49B27]'}`}>❖</span>
                 <span>
                   {choice.label}
                   {choice.requiresAnchorHeld && (
-                    <span className={`ml-2 text-xs tracking-wider uppercase not-italic ${anchorHeld ? 'text-[#D49B27]' : 'text-[#8C1D24]/80'}`}>
-                      {anchorHeld ? '[යකඩ ආරක්ෂාව · Ward Locked]' : '[Hold Iron Ward / Spacebar]'}
+                    <span className={`ml-2.5 text-xs tracking-[0.18em] uppercase not-italic ${anchorHeld ? 'text-[#D49B27]' : 'text-[#6883BA]/85'}`}>
+                      {anchorHeld ? '· යකඩ ආරක්ෂාව Anchored' : '· Hold Cold Iron Seal Below'}
                     </span>
                   )}
                 </span>

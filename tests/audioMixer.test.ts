@@ -146,4 +146,33 @@ describe('audioMixer & audioStems acoustic cues (Casefile 03 WebAudioMixer)', ()
     expect(audioMixer.getDreamFilter()?.frequency.value).toBe(16000);
     juiceDirector.setAnchorHeld(false);
   });
+
+  it('immediately chokes off active whisper when anchor is held', () => {
+    const mockBuffer = {} as AudioBuffer;
+    (audioMixer as any).fileBuffers.set('whisper_kalu_ear', mockBuffer);
+
+    audioMixer.playWhisper('whisper_kalu_ear');
+    const activeSrc = (audioMixer as any).activeWhisperSource;
+    expect(activeSrc).not.toBeNull();
+    expect(activeSrc?.start).toHaveBeenCalled();
+
+    audioMixer.setAnchorState(true);
+    expect(activeSrc?.stop).toHaveBeenCalled();
+    expect((audioMixer as any).activeWhisperSource).toBeNull();
+    audioMixer.setAnchorState(false);
+  });
+
+  it('suppresses audioMixer.playWhisper when anchorHeld is true', () => {
+    const mockBuffer = {} as AudioBuffer;
+    (audioMixer as any).fileBuffers.set('whisper_roommate_knock', mockBuffer);
+
+    audioMixer.setAnchorState(true);
+    audioMixer.playWhisper('whisper_roommate_knock');
+    expect((audioMixer as any).activeWhisperSource).toBeNull();
+
+    audioMixer.setAnchorState(false);
+    audioMixer.playWhisper('whisper_roommate_knock');
+    expect((audioMixer as any).activeWhisperSource).not.toBeNull();
+    audioMixer.setAnchorState(true);
+  });
 });

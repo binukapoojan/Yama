@@ -82,12 +82,13 @@ Directly opposite the foot of your bed stands the tall wooden dressing table. It
 
 
 :: Mirror_Gaze_Trap [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:ceb_power_cut #haptic:dread_throb #vignette:0.78 #balma:15]
-You lean toward the glass. Your own eyes stare back, wide and dark, framed by damp strands of hair. For three heartbeats nothing moves.
+You lean over the clutter of hairpins and talcum powder until your breath fogs the glass. Your reflection stares back—pale, hollow-eyed, with wet strands of hair plastered to your cheeks.
 
-Then your reflection {mutate: "blinks in time with you" -> "smiles slowly while your own mouth stays frozen shut" @2100}. A scent of crushed blue lotus petals rises from the backing of the mirror, so thick it coats the back of your throat. Beneath your pillow on the bed lies the old iron key your grandmother tied with a white Pirith thread.
+You tilt your head to the left. Your reflection in the tarnished silver backing {mutate: "tilts its head half a second too late" -> "remains dead still, parting its lips in a slow, ravenous smile while your own jaw is locked shut" @2000}. Two dark hands rise from the bottom frame of the mirror to smooth the wet hair behind your reflection's ears. Beneath your pillow on the mattress behind you lies the heavy iron chest-key your grandmother bound with a three-stranded Pirith thread.
 
-[[Grip the iron key under the pillow and step backward without looking->Midnight_Phone_Intrusion][@anchor_held $balma -= 10]]
-[[Stumble back onto the mattress as cold breath fogs the glass from within->Midnight_Phone_Intrusion][$balma += 15, $tanikama += 15]]
+[[Snatch the iron key from under the pillow and back away without blinking->Midnight_Phone_Intrusion][@anchor_held $balma -= 10]]
+[[Wrench your gaze away as cold fingers press outward against the glass surface->Midnight_Phone_Intrusion][$balma += 15, $tanikama += 15]]
+[[Press your bare palm against the reflection's hand on the bevelled glass->Outcome_Athura_Mirror_Entombed][$taboo_mirror_unshrouded = true, $balma += 45]]
 
 
 :: Midnight_Phone_Intrusion [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:ceb_power_cut #haptic:heartbeat_panic #vignette:0.76]
@@ -101,13 +102,13 @@ A message banner glows on the dark glass: {mutate: "Amma: Did you lock the balco
 
 
 :: Sleep_Paralysis_Weight [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.86 #balma:15]
-The mattress sinks beside your hip. A crushing, velvet weight settles directly across your sternum, pinning your ribs until your lungs burn for air.
+The mattress springs groan as a dead weight drops onto the bed between your knees. Before you can draw breath to scream, your jaw locks solid and a crushing, velvet pressure settles across your breastbone—pinning your ribs to the coir mattress while cold river water seems to fill your lungs.
 
-Seven overlapping voices whisper from the corners of the ceiling like rustling silk sarees, while a face of polished night leans down through the mesh. His breath smells of sandalwood paste, frying oil, and river silt. He whispers into your ear: {mutate: "Open your fingers. Drop the cold iron and sleep." -> "I have no warrant over those who hold iron and remember the Queen Mother." @2200}.
+From the four corners of the ceiling come the rustling silk sarees and broken sobs of the Seven Barren Queens of the Rata Yakuma, while a prince carved from wet black stone lowers his mouth to the hollow of your throat. His skin reeks of sandalwood paste, rancid kevum oil, and crushed blue lotus. His voice vibrates inside your sternum: {mutate: "You are alone in the dark. Unclench your hand and come into the water." -> "I have no warrant over those who grip cold iron and invoke the Seven Queens!" @2000}.
 
-[[Keep the iron key pressed into your palm and bite your tongue until dawn->Outcome_Athura_Survived][@anchor_held $balma -= 25]]
-[[Open your fingers and breathe in the sweet blue lotus air->Outcome_Athura_Possessed][$balma += 40]]
-[[Try to scream at the face pressing through the mosquito net->Outcome_Athura_Possessed][$balma += 30]]
+[[Grind the cold iron key into your palm until the metal burns and hold until dawn->Outcome_Athura_Survived][@anchor_held $balma -= 25]]
+[[Let your numb fingers uncurl and drink in the sweet blue lotus dark->Outcome_Athura_Possessed][$balma += 40]]
+[[Rise barefoot from the bed and follow the seven silk voices down the wet stairs->Outcome_Athura_Canal_Drowned][$balma += 45]]
 
 
 :: Outcome_Athura_Survived [#samayam:ALUYA_DAWN #flow:pahana_steady #audio:monsoon_light #haptic:iron_grip #vignette:0.35]
@@ -183,9 +184,36 @@ In the bedroom, the girl draws a long, clear breath. Her fever breaks into cool 
 
 
 :: Outcome_Kattadiya_Backfire [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.88]
-Without the iron ward anchoring your hand, the indigo draft twists the final syllable of the mantra in your throat. The dummala torch sputters out in acrid black smoke.
+Your thumb slips from the cold iron ward as the final syllable leaves your lips. The indigo draft snatches the dummala flame backward into your face, extinguishing the corner wicks in a cloud of choking black soot.
 
-Inside the bedroom, the vanity mirror cracks from corner to corner, and a low laugh echoes from behind the mosquito net. The clay effigy on the Pideni Thattuwa remains whole and cold. You must steady the lamp and re-consecrate the altar before dawn slips away.
+Inside the bedroom, the bevelled dressing-table mirror splits from top to bottom with a sound like breaking ice, and seven voices laugh in unison from beneath the mosquito net. On the tray before you, the clay effigy remains uncracked and freezing cold.
 
-[[Re-light the brass pahana and rebuild the Pideni Thattuwa altar->Pideni_Altar_Preparation][$balma = 40]]
-[[Return to the Sastra betel leaf inspection->Kattadiya_Sastra_Entry][$balma = 30]]
+[[Relight the corner wicks and rebuild the Pideni Thattuwa offering tray->Pideni_Altar_Preparation][$balma = 40]]
+[[Stare down into the dark coconut-oil bowl of the extinguished Pahana->Outcome_Kattadiya_Vessel_Transfer][$balma += 35]]
+
+
+:: Outcome_Athura_Mirror_Entombed [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.92]
+Your fingers sink wrist-deep into the mercury glass like freezing pond water. A violent wrench pulls your shoulders forward—and suddenly the rain stops. You are standing inside the annex, looking out at your bed.
+
+Yet the letters on the spines of your textbooks are printed backward. On the mattress outside the glass, {mutate: "your body is still sleeping under the net" -> "something wearing your face sits up, smiles at you in the mirror, and picks up a black bath towel" @2100}. You hammer your fists against the inside of the glass without making a sound as your double calmly drapes the heavy cloth over the frame, sealing you in eternal, suffocating blackness while your mother dispatches a Bulath Hurulla sheaf for a stranger wearing your skin.
+
+[[Accept the Bulath Hurulla summons and step into the Kattadiya role->Kattadiya_Sastra_Entry][$tanikama = 85]]
+[[Return to Tuesday dusk in the Nugegoda annex->Dusk_Balcony_Check][$balma = 20, $tanikama = 50]]
+
+
+:: Outcome_Athura_Canal_Drowned [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.92]
+You part the mosquito net in a narcotic trance. The outer stairwell bolt slides open under your wet fingers, and the monsoon rain feels like warm sandalwood oil against your bare soles as you walk down into the black water of the Nugegoda canal.
+
+When municipal workers drag the reeds at six in the morning, your body lies peaceful in knee-deep silt. Yet when the judicial medical officer opens your chest, {mutate: "he expects to find muddy canal water in the bronchi" -> "your lungs are completely dry—packed tight from trachea to alveoli with freshly bloomed, roots-and-all Nil Manel blue water-lilies" @2100}.
+
+[[Examine the forensic aftermath as the summoned Kattadiya->Kattadiya_Sastra_Entry][$tanikama = 90]]
+[[Relive Tuesday dusk in the Nugegoda annex->Dusk_Balcony_Check][$balma = 20, $tanikama = 50]]
+
+
+:: Outcome_Kattadiya_Vessel_Transfer [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.94]
+You lean over the brass basin of the extinguished pahana. In the black film of coconut oil, the reflection staring back is not your weathered face—it is crowned with wet blue lotus stalks.
+
+Because the clay Bali Pili effigy was left uncracked, the Samayam warrant demands a living vessel. Cold silt fills your throat as {mutate: "the girl in the bedroom continues to murmur" -> "the girl wakes completely cured—and screams as she watches you unbind your grey hair and laugh in seven overlapping women's voices" @2000}.
+
+[[Begin a new playthrough from Tuesday dusk in the annex->Dusk_Balcony_Check][$balma = 20, $tanikama = 50]]
+[[Re-enter Kattadiya Triage from the beginning->Kattadiya_Sastra_Entry][$balma = 25]]

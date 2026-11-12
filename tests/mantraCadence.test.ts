@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { MANTRA_SCRIPTS } from '../src/components/diegetic/mantraScripts';
 
 describe('Mantra Cadence Steps & Timing Configuration', () => {
   const MANTRA_STEPS: Record<string, ReadonlyArray<{ sinhala: string; phonetic: string; windowMs: number }>> = {
@@ -62,6 +63,23 @@ describe('Mantra Cadence Steps & Timing Configuration', () => {
       for (let i = 1; i < steps.length; i++) {
         expect(steps[i].windowMs).toBeLessThan(steps[i - 1].windowMs);
       }
+    });
+  });
+
+  describe('Diegetic MANTRA_SCRIPTS configuration', () => {
+    it('defines 4 accelerating verses for all 4 demon warrants', () => {
+      const keys = ['RATA_YAKUMA', 'PATTINI_VARAMA', 'RIRI_VARAMA', 'GOTHAIMBARA_VARAMA'] as const;
+      keys.forEach((key) => {
+        const script = MANTRA_SCRIPTS[key];
+        expect(script.titleSinhala).toBeTruthy();
+        expect(script.titleRoman).toBeTruthy();
+        expect(script.verses).toHaveLength(4);
+
+        for (let i = 1; i < script.verses.length; i++) {
+          expect(script.verses[i].durationMs).toBeLessThan(script.verses[i - 1].durationMs);
+        }
+        expect(script.verses[3].sinhala).toContain('ස්වාහඃ ෴');
+      });
     });
   });
 });

@@ -21,12 +21,12 @@ export const BulathLeafCanvas: React.FC<BulathLeafCanvasProps> = ({ payload, onI
   const handlePointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
     if (!svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
-    const clampedX = Math.max(40, Math.min(360, ((e.clientX - rect.left) / rect.width) * 400));
-    const clampedY = Math.max(30, Math.min(450, ((e.clientY - rect.top) / rect.height) * 480));
+    const clampedX = Math.max(0, Math.min(400, ((e.clientX - rect.left) / rect.width) * 400));
+    const clampedY = Math.max(0, Math.min(440, ((e.clientY - rect.top) / rect.height) * 440));
     setLamp({ x: clampedX, y: clampedY });
 
     for (const b of payload.blemishes) {
-      if (Math.hypot(clampedX - b.x * 400, clampedY - b.y * 480) < 34) {
+      if (Math.hypot(clampedX - b.x * 400, clampedY - b.y * 440) < 45) {
         setActiveTabooKey(b.tabooKey);
         if (!discovered.includes(b.id)) {
           const next = [...discovered, b.id];
@@ -50,7 +50,7 @@ export const BulathLeafCanvas: React.FC<BulathLeafCanvasProps> = ({ payload, onI
         viewBox="0 0 400 440"
         onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); handlePointerMove(e); }}
         onPointerMove={handlePointerMove}
-        className="h-auto w-full touch-none cursor-crosshair"
+        className="h-auto w-full touch-none cursor-crosshair overflow-visible"
       >
         <defs>
           <radialGradient id="pahanaBacklight" cx={lamp.x} cy={lamp.y} r="105" gradientUnits="userSpaceOnUse">

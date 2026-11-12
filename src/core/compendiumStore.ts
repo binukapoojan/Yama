@@ -12,6 +12,7 @@ export interface PuskolaEntry {
   sinhalaTitle: string;
   englishGloss: string;
   inscription: string;
+  forensicNotes?: string;
 }
 
 export const PUSKOLA_ENTRIES: ReadonlyArray<PuskolaEntry> = [
@@ -76,4 +77,8 @@ export function syncRuntimeToCompendium(state: RuntimeVariables, casefile: Casef
     window.localStorage.setItem(COMPENDIUM_STORAGE_KEY, JSON.stringify(updated));
   } catch {}
   return updated;
+}
+
+export function getEntriesByCasefile(casefile: CasefileId): PuskolaEntry[] {
+  return PUSKOLA_ENTRIES.filter((e) => e.casefile === casefile);
 }

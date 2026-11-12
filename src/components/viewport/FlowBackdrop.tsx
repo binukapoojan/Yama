@@ -1,49 +1,23 @@
 // src/components/viewport/FlowBackdrop.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlowLoopId } from '../../core/schema';
 import { juiceDirector } from '../../juice/JuiceDirector';
 
 const FLOW_LOOPS: ReadonlyArray<FlowLoopId> = [
-  // CF01 · Nugegoda
-  'bodima_rain_window',
-  'pahana_steady',
-  'pahana_nil_manel',
-  'mirror_dark_idle',
-  // CF02 · Kandy
-  'kandy_mist_bamboo',
-  'mohini_saree_silhouette',
-  'kaduru_puddle_feet',
-  'sanni_mask_torch',
-  // CF03 · Matara
-  'matara_hearth_smoke',
-  'wadamal_blood_hedge',
-  'iron_sickle_ember',
-  'peduru_funeral_mat',
-  // CF04 · Anuradhapura
-  'thummansala_banyan_wind',
-  'sohon_boar_silhouette',
-  'iron_betel_cutter_ash',
-  'dummala_vidiya_cards',
+  'bodima_rain_window', 'pahana_steady', 'pahana_nil_manel', 'mirror_dark_idle',
+  'kandy_mist_bamboo', 'mohini_saree_silhouette', 'kaduru_puddle_feet', 'sanni_mask_torch',
+  'matara_hearth_smoke', 'wadamal_blood_hedge', 'iron_sickle_ember', 'peduru_funeral_mat',
+  'thummansala_banyan_wind', 'sohon_boar_silhouette', 'iron_betel_cutter_ash', 'dummala_vidiya_cards',
 ];
 
-const RIRI_LOOPS = new Set<FlowLoopId>([
-  'matara_hearth_smoke',
-  'wadamal_blood_hedge',
-  'iron_sickle_ember',
-  'peduru_funeral_mat',
-]);
-
-const MAHASONA_LOOPS = new Set<FlowLoopId>([
-  'thummansala_banyan_wind',
-  'sohon_boar_silhouette',
-  'iron_betel_cutter_ash',
-  'dummala_vidiya_cards',
-]);
+const RIRI_LOOPS = new Set<FlowLoopId>(['matara_hearth_smoke', 'wadamal_blood_hedge', 'iron_sickle_ember', 'peduru_funeral_mat']);
+const MAHASONA_LOOPS = new Set<FlowLoopId>(['thummansala_banyan_wind', 'sohon_boar_silhouette', 'iron_betel_cutter_ash', 'dummala_vidiya_cards']);
 
 export const FlowBackdrop: React.FC = () => {
   const [activeLoop, setActiveLoop] = useState<FlowLoopId>('bodima_rain_window');
   const [isProtected, setIsProtected] = useState<boolean>(false);
   const [vignetteIntensity, setVignetteIntensity] = useState<number>(0.55);
+  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
 
   useEffect(() => {
     const unsubFlow = juiceDirector.on('FLOW_CROSSFADE', ({ loopId, isProtectedOverride }) => {
@@ -59,6 +33,25 @@ export const FlowBackdrop: React.FC = () => {
     };
   }, []);
 
+  // Performance: only decode and play active loop (and outgoing during 1.2s crossfade).
+  // Pauses all other 15 background videos to prevent hardware decoder saturation.
+  useEffect(() => {
+    const activeEl = videoRefs.current[activeLoop];
+    if (activeEl) {
+      activeEl.play().catch(() => {});
+    }
+
+    const timer = setTimeout(() => {
+      Object.entries(videoRefs.current).forEach(([id, el]) => {
+        if (el && id !== activeLoop) {
+          el.pause();
+        }
+      });
+    }, 1250);
+
+    return () => clearTimeout(timer);
+  }, [activeLoop]);
+
   const radialStop = Math.round((1 - vignetteIntensity * 0.55) * 100);
   const isRiri = RIRI_LOOPS.has(activeLoop);
   const isMahasona = MAHASONA_LOOPS.has(activeLoop);
@@ -72,11 +65,12 @@ export const FlowBackdrop: React.FC = () => {
           return (
             <video
               key={loopId}
-              autoPlay
+              ref={(el) => { videoRefs.current[loopId] = el; }}
+              autoPlay={isCurrent}
               loop
               muted
               playsInline
-              preload={isCurrent ? 'auto' : 'metadata'}
+              preload={isCurrent ? 'auto' : 'none'}
               className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1200 ease-in-out ${
                 isCurrent ? 'opacity-85 scale-100' : 'opacity-0 scale-[1.02]'
               }`}

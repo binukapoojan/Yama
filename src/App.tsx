@@ -15,7 +15,7 @@ const CLIMAX_MANTRAS: Record<string, { key: 'RATA_YAKUMA' | 'PATTINI_VARAMA' | '
   Midnight_Peduru_Surrender: { key: 'RIRI_VARAMA', win: 'Outcome_Kattadiya_Riri_Banished', lose: 'Outcome_Kattadiya_Riri_Backfire' },
   Midnight_Gothaimbara_Varama: { key: 'GOTHAIMBARA_VARAMA', win: 'Outcome_Kattadiya_Mahasona_Banished', lose: 'Outcome_Kattadiya_Mahasona_Backfire' },
 };
-const POSSESSED_PASSAGES = new Set(['Outcome_Athura_Possessed', 'Outcome_Athura_Mohini_Bound', 'Outcome_Athura_Riri_Drained', 'Outcome_Athura_Mahasona_Struck']);
+const isPossessedEnding = (id: string) => id.startsWith('Outcome_Athura_') && !id.endsWith('_Survived') && !id.endsWith('_Escaped');
 
 export const App: React.FC = () => {
   const stories = useMemo(() => ({ CF01: parseTweeStory(rawCF01), CF02: parseTweeStory(rawCF02), CF03: parseTweeStory(rawCF03), CF04: parseTweeStory(rawCF04) }), []);
@@ -46,6 +46,9 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     setLeafInspected(false);
+  }, [casefile, currentPassageId]);
+
+  useEffect(() => {
     if (activePassage) {
       juiceDirector.enterPassage(activePassage, Number(runtimeState.balma ?? 20));
       saveSessionSnapshot(casefile, currentPassageId, runtimeState);
@@ -86,7 +89,7 @@ export const App: React.FC = () => {
             <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
               <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
               <button type="button" disabled={!canConcludeDivination} onClick={() => setCurrentPassageId(sastraNext)} className={`mx-auto mt-6 border-b pb-1 font-serif text-sm tracking-widest uppercase transition-colors ${canConcludeDivination ? 'cursor-pointer border-[#C8963E]/50 text-[#EAE3D2]/85 hover:text-[#C8963E]' : 'cursor-not-allowed border-[#C8963E]/15 text-[#EAE3D2]/25'}`}>
-                {canConcludeDivination ? 'Conclude Betel Divination →' : 'Inspect Leaf Veins with Pahana to Proceed'}
+                {canConcludeDivination ? '❖ Conclude Betel Divination' : 'Inspect Leaf Veins with Pahana to Proceed'}
               </button>
             </div>
           ) : currentPassageId === 'Pideni_Altar_Preparation' ? (
@@ -103,7 +106,7 @@ export const App: React.FC = () => {
               <ProseStream passage={activePassage} onSelectChoice={handleSelectChoice} hideChoices={Boolean(climaxMantra)} />
             </>
           )}
-          {POSSESSED_PASSAGES.has(currentPassageId) && <BulathSummonCard payload={bulath.payload} urlParam={bulath.urlParam} />}
+          {isPossessedEnding(currentPassageId) && <BulathSummonCard payload={bulath.payload} urlParam={bulath.urlParam} />}
           <IronKeyAnchor />
         </>
       )}

@@ -6,10 +6,10 @@ import { parseTweeStory } from '../src/core/twineParser';
 describe('Casefile 02 (Mala Mohini) Twine Parser', () => {
   const tweePath = path.resolve(__dirname, '../story-twine/casefile02_mohini.twee');
 
-  it('parses exactly 22 passages with zero missing passages', () => {
+  it('parses exactly 25 passages with zero missing passages', () => {
     const tweeContent = fs.readFileSync(tweePath, 'utf-8');
     const story = parseTweeStory(tweeContent);
-    expect(Object.keys(story)).toHaveLength(22);
+    expect(Object.keys(story)).toHaveLength(25);
 
     const expectedPassages = [
       'Upper_Lake_Mist_Start',
@@ -23,6 +23,8 @@ describe('Casefile 02 (Mala Mohini) Twine Parser', () => {
       'The_Infant_Drop_Trap',
       'Outcome_Athura_Road_Escaped',
       'Outcome_Athura_Mohini_Bound',
+      'Outcome_Athura_Udawattakele_Lullaby',
+      'Outcome_Athura_Kaduru_Sap_Veins',
       'Kattadiya_Mohini_Entry',
       'Sastra_Kaduru_Leaf_Check',
       'Patient_Catatonia_Inspection',
@@ -30,6 +32,7 @@ describe('Casefile 02 (Mala Mohini) Twine Parser', () => {
       'Midnight_Kesel_Kanda_Severance',
       'Outcome_Kattadiya_Mohini_Cured',
       'Outcome_Kattadiya_Mohini_Failed',
+      'Outcome_Kattadiya_Cradle_Contagion',
       'Culvert_Whisper_Echo',
       'False_Tuk_Headlight',
       'Backseat_Wet_Saree',
@@ -70,17 +73,17 @@ describe('Casefile 02 (Mala Mohini) Twine Parser', () => {
     const startMutate = story['Upper_Lake_Mist_Start'].paragraphs.flat().find(s => s.type === 'mutate');
     expect(startMutate).toBeDefined();
     if (startMutate && startMutate.type === 'mutate') {
-      expect(startMutate.wakingText).toBe('a failing sodium bulb');
-      expect(startMutate.corruptedText).toBe('the pale yellow glow of a funeral oil wick');
-      expect(startMutate.delayMs).toBe(2700);
+      expect(startMutate.wakingText).toBe('a dying orange sodium vapor tube');
+      expect(startMutate.corruptedText).toBe('the sputtering tallow wick of a cemetery lantern');
+      expect(startMutate.delayMs).toBe(2600);
     }
 
     const trapMutate = story['The_Infant_Drop_Trap'].paragraphs.flat().find(s => s.type === 'mutate');
     expect(trapMutate).toBeDefined();
     if (trapMutate && trapMutate.type === 'mutate') {
-      expect(trapMutate.wakingText).toBe('a helpless infant plunging toward the rock');
-      expect(trapMutate.corruptedText).toBe('a rotting green banana stem wrapped in a funeral shroud');
-      expect(trapMutate.delayMs).toBe(1900);
+      expect(trapMutate.wakingText).toBe('a tiny, shivering newborn skull');
+      expect(trapMutate.corruptedText).toBe('a hacked, sap-bleeding green banana trunk swarming with black ants');
+      expect(trapMutate.delayMs).toBe(1850);
     }
   });
 

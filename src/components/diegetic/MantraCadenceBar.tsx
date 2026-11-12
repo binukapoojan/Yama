@@ -1,113 +1,110 @@
 // src/components/diegetic/MantraCadenceBar.tsx
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { audioMixer } from '../../juice/audioMixer';
 import { juiceDirector } from '../../juice/JuiceDirector';
+import { MantraBreathYantra, MantraVerseSpec } from './MantraBreathYantra';
 
 export type MantraKey = 'RATA_YAKUMA' | 'PATTINI_VARAMA' | 'RIRI_VARAMA' | 'GOTHAIMBARA_VARAMA';
+interface MantraCadenceProps { mantraKey: MantraKey; onCompleted: (succeeded: boolean) => void; }
 
-interface MantraCadenceProps {
-  mantraKey: MantraKey;
-  onCompleted: (success: boolean) => void;
-}
-
-const MANTRA_STEPS: Record<MantraKey, ReadonlyArray<{ sinhala: string; phonetic: string; windowMs: number }>> = {
-  RATA_YAKUMA: [
-    { sinhala: 'ඕං ශ්රී කළු කුමාර', phonetic: 'Om Shri Kalu Kumāra', windowMs: 1600 },
-    { sinhala: 'අමනුෂ්ය බල මඬුලු', phonetic: 'Amanushya Bala Madulu', windowMs: 1450 },
-    { sinhala: 'දුරලමි වරමිනි', phonetic: 'Duralami Varamini', windowMs: 1350 },
-    { sinhala: 'ස්වාහී ෴', phonetic: 'Swāhī ෴', windowMs: 1250 },
-  ],
-  PATTINI_VARAMA: [
-    { sinhala: 'ඕං පත්තිනි මෑණියෝ', phonetic: 'Om Pattini Maeniyō', windowMs: 1600 },
-    { sinhala: 'අරුම දරු බර', phonetic: 'Aruma Daru Bara', windowMs: 1450 },
-    { sinhala: 'කැපෙව්මි වරමිනි', phonetic: 'Kapewmi Varamini', windowMs: 1350 },
-    { sinhala: 'ස්වාහී ෴', phonetic: 'Swāhī ෴', windowMs: 1250 },
-  ],
-  RIRI_VARAMA: [
-    { sinhala: 'ඕං රීරි යක්ෂයා', phonetic: 'Om Rīri Yakshayā', windowMs: 1550 },
-    { sinhala: 'ලේ මල් පිදේනි ගෙන', phonetic: 'Lē Mal Pidēni Gena', windowMs: 1400 },
-    { sinhala: 'පැදුරු දානය හැර', phonetic: 'Peduru Dānaya Hara', windowMs: 1300 },
-    { sinhala: 'ස්වාහී ෴', phonetic: 'Swāhī ෴', windowMs: 1200 },
-  ],
-  GOTHAIMBARA_VARAMA: [
-    { sinhala: 'ඕං ජයසේන මහසෝන්', phonetic: 'Om Jayasēna Mahasōn', windowMs: 1500 },
-    { sinhala: 'ගෝඨයිම්බර තේජසින්', phonetic: 'Gōthaimbara Thējasin', windowMs: 1350 },
-    { sinhala: 'තුන්මන්සල අළු හැර', phonetic: 'Thummansala Alu Hara', windowMs: 1250 },
-    { sinhala: 'ස්වාහී ෴', phonetic: 'Swāhī ෴', windowMs: 1150 },
-  ],
+const v = (sinhala: string, phonetic: string, durationMs: number): MantraVerseSpec => ({ sinhala, phonetic, durationMs });
+const MANTRA_SCRIPTS: Record<MantraKey, { titleSinhala: string; titleRoman: string; verses: MantraVerseSpec[] }> = {
+  RATA_YAKUMA: { titleSinhala: 'රට යකුම වරම', titleRoman: 'Rata Yakuma Warrant', verses: [
+    v('ඕං නමෝ කළු කුමාර දේවතාවා', 'Ōm Namō Kalu Kumāra Dēvathāvā', 1600), v('සත් කට්ටුවේ බිසෝවරුන්ගේ අණින්', 'Sath Kattuwē Bisōwarungē Anin', 1400),
+    v('මේ ආතුරයාගේ ඇඟ ලේ හැර', 'Mē Āthurayāgē Änga Lē Hära', 1200), v('පිදේනි තට්ටුවට බැස තීන්දුයි ස්වාහඃ ෴', 'Pidēni Thattuwata Bäsa Thīnduyi Swāhī ෴', 1050),
+  ]},
+  PATTINI_VARAMA: { titleSinhala: 'පත්තිනි සළඹ වරම', titleRoman: 'Fiery Anklet of Pattini', verses: [
+    v('ඕං නමෝ මළ මෝහිනී යක්ෂණී', 'Ōm Namō Mala Mōhinī Yakshanī', 1600), v('පත්තිනි දේවියගේ ගිනි සළඹේ අණින්', 'Pattini Dēviyagē Gini Salambē Anin', 1400),
+    v('මායා දරු බන්ධනය දෙකඩ කර', 'Māyā Daru Bandhanaya Dekada Kara', 1200), v('කෙසෙල් කඳට බැස තීන්දුයි ස්වාහඃ ෴', 'Kesel Kandata Bäsa Thīnduyi Swāhī ෴', 1050),
+  ]},
+  RIRI_VARAMA: { titleSinhala: 'රීරි යක් වරම', titleRoman: 'Rīri Yak Surrender Warrant', verses: [
+    v('ඕං නමෝ ලේ විලේ උපන් රීරි යකා', 'Ōm Namō Lē Vilē Upan Rīri Yakā', 1600), v('සූර්ය දිව්ය රාජයාගේ අණින්', 'Sūrya Divya Rājayāgē Anin', 1400),
+    v('ආතුර ලේ නහර හැර දමා', 'Āthura Lē Nahara Hära Damā', 1200), v('පැදුරු දානය ගෙන තීන්දුයි ස්වාහඃ ෴', 'Päduru Dānaya Gena Thīnduyi Swāhī ෴', 1050),
+  ]},
+  GOTHAIMBARA_VARAMA: { titleSinhala: 'ගෝඨයිම්බර වරම', titleRoman: 'Gothaimbara Decree', verses: [
+    v('ඕං නමෝ ජයසේන මහසෝන් යකා', 'Ōm Namō Jayasēna Mahasōn Yakā', 1600), v('ගෝඨයිම්බර යෝධයාගේ වම් පයේ අණින්', 'Gōthaimbara Yōdhayāgē Wam Payē Anin', 1400),
+    v('තුන්මන්සල අඟුරු අත අකා මකා', 'Thunmansala Anguru Atha Akā Makā', 1200), v('සොහොන් බිමට බැස තීන්දුයි ස්වාහඃ ෴', 'Sohon Bimata Bäsa Thīnduyi Swāhī ෴', 1050),
+  ]},
 };
 
 export const MantraCadenceBar: React.FC<MantraCadenceProps> = ({ mantraKey, onCompleted }) => {
-  const steps = MANTRA_STEPS[mantraKey];
-  const [started, setStarted] = useState<boolean>(false);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [progress, setProgress] = useState<number>(0);
-  const [failed, setFailed] = useState<boolean>(false);
-  const animRef = useRef<number | null>(null);
-  const startTimeRef = useRef<number>(performance.now());
-  const currentStep = steps[currentIndex];
+  const script = MANTRA_SCRIPTS[mantraKey];
+  const [verseIdx, setVerseIdx] = useState(0), [knots, setKnots] = useState(3), [progress, setProgress] = useState(0);
+  const [status, setStatus] = useState<'IDLE' | 'INHALING' | 'RESONANT' | 'RUPTURED' | 'CONSECRATED'>('IDLE');
+  const holdingRef = useRef(false), progressRef = useRef(0), chimedRef = useRef(false);
 
-  useEffect(() => {
-    setStarted(false); setCurrentIndex(0); setProgress(0); setFailed(false);
-  }, [mantraKey]);
+  const ruptureKnot = useCallback(() => {
+    holdingRef.current = false; progressRef.current = 0; setProgress(0); setStatus('RUPTURED');
+    juiceDirector.triggerHaptic('dread_throb'); audioMixer.playArterialPulse(0.95);
+    setKnots((prev) => {
+      const next = prev - 1;
+      if (next <= 0) onCompleted(false);
+      else setTimeout(() => setStatus('IDLE'), 350);
+      return next;
+    });
+  }, [onCompleted]);
 
-  useEffect(() => {
-    if (!started || failed) return;
-    startTimeRef.current = performance.now();
-    const tick = (now: number) => {
-      const elapsed = now - startTimeRef.current;
-      const pct = Math.min(100, (elapsed / currentStep.windowMs) * 100);
-      setProgress(pct);
-      if (pct >= 100) {
-        setFailed(true);
-        juiceDirector.triggerHaptic('dread_throb');
-        audioMixer.playYakBeraPulse(0.95);
-        setTimeout(() => onCompleted(false), 450);
-        return;
+  const consecrateVerse = useCallback(() => {
+    holdingRef.current = false; progressRef.current = 0; setProgress(0);
+    audioMixer.playYakBeraPulse(0.9); juiceDirector.triggerHaptic('iron_grip');
+    setVerseIdx((v) => {
+      if (v + 1 >= script.verses.length) {
+        setStatus('CONSECRATED'); audioMixer.playYakBeraClimax(); onCompleted(true);
+        return v;
       }
-      animRef.current = requestAnimationFrame(tick);
-    };
-    animRef.current = requestAnimationFrame(tick);
-    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
-  }, [started, currentIndex, currentStep, failed, onCompleted]);
+      setStatus('IDLE'); return v + 1;
+    });
+  }, [script.verses.length, onCompleted]);
 
-  const handleTapSyllable = () => {
-    if (failed) return;
-    if (animRef.current) cancelAnimationFrame(animRef.current);
-    if (!started) setStarted(true);
+  useEffect(() => {
+    const stepMs = 40;
+    const timer = setInterval(() => {
+      if (!holdingRef.current) return;
+      const curVerse = script.verses[verseIdx];
+      const next = progressRef.current + (stepMs / curVerse.durationMs) * 100;
+      progressRef.current = next; setProgress(next);
+      if (next >= 58 && !chimedRef.current) {
+        chimedRef.current = true; setStatus('RESONANT'); audioMixer.playIronKeyTone();
+      }
+      if (next >= 100) ruptureKnot();
+    }, stepMs);
+    return () => clearInterval(timer);
+  }, [verseIdx, script.verses, ruptureKnot]);
 
-    juiceDirector.triggerHaptic('iron_grip');
-    audioMixer.playYakBeraPulse(0.7 + currentIndex * 0.1);
-    if (mantraKey === 'RIRI_VARAMA' || mantraKey === 'GOTHAIMBARA_VARAMA') {
-      audioMixer.playArterialPulse(0.85);
-    }
-    if (currentIndex + 1 >= steps.length) {
-      onCompleted(true);
-    } else {
-      setCurrentIndex((prev) => prev + 1);
-      setProgress(0);
-    }
-  };
+  const beginHold = useCallback(() => {
+    if (status === 'CONSECRATED' || holdingRef.current) return;
+    holdingRef.current = true; chimedRef.current = false; progressRef.current = 12;
+    setProgress(12); setStatus('INHALING'); juiceDirector.setAnchorHeld(true); audioMixer.playYakBeraPulse(0.45);
+  }, [status]);
+
+  const releaseHold = useCallback(() => {
+    if (!holdingRef.current) return;
+    const p = progressRef.current;
+    if (p >= 58 && p <= 99) consecrateVerse();
+    else if (juiceDirector.isAnchorHeld() && p < 30) consecrateVerse();
+    else ruptureKnot();
+  }, [consecrateVerse, ruptureKnot]);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => { if (e.code === 'Space' && !e.repeat) beginHold(); };
+    const onKeyUp = (e: KeyboardEvent) => { if (e.code === 'Space') releaseHold(); };
+    window.addEventListener('keydown', onKeyDown); window.addEventListener('keyup', onKeyUp);
+    return () => { window.removeEventListener('keydown', onKeyDown); window.removeEventListener('keyup', onKeyUp); };
+  }, [beginHold, releaseHold]);
 
   return (
-    <div className="relative mx-auto flex w-full max-w-[28rem] flex-col items-center justify-center p-6 font-serif select-none">
-      <div className="mb-3 text-[11px] tracking-[0.2em] text-[#C8963E]/85 uppercase">
-        මන්ත්ර උච්චාරණය · Mantra Cadence ({currentIndex + 1}/{steps.length}) ෴
-      </div>
-      <div className="relative mb-5 h-1.5 w-full overflow-hidden border border-[#C8963E]/30 bg-[#16120E]">
-        <div className="h-full transition-none" style={{ width: `${failed ? 100 : started ? progress : 0}%`, backgroundColor: failed ? '#8C1D24' : '#D49B27' }} />
-      </div>
-      <button type="button" onClick={handleTapSyllable} disabled={failed} className="group relative flex w-full cursor-pointer flex-col items-center justify-center border border-[#C8963E]/40 bg-[#16120E] px-4 py-6 transition-colors hover:border-[#D49B27] hover:bg-[#1E1712]">
-        <span className="text-2xl font-medium tracking-wide text-[#D49B27] transition-transform group-hover:scale-105">
-          {failed ? 'මන්ත්රය බිඳුණි · Cadence Broken' : currentStep.sinhala}
-        </span>
-        <span className="mt-1 text-xs tracking-[0.16em] text-[#EAE3D2]/65 uppercase">
-          {failed ? 'The ritual warrant slipped' : currentStep.phonetic}
-        </span>
-        <span className="mt-3 text-[10px] tracking-widest text-[#C8963E]/60 uppercase">
-          {started ? '[ යක් බෙර තාලයට තට්ටු කරන්න · Strike Before Bar Fills ]' : '[ පළමු පදය තට්ටු කර අරඹන්න · Tap First Foot to Begin Invocation ]'}
-        </span>
-      </button>
-    </div>
+    <MantraBreathYantra
+      titleSinhala={script.titleSinhala} titleRoman={script.titleRoman} verse={script.verses[verseIdx]}
+      verseIndex={verseIdx} totalVerses={script.verses.length} breathProgress={progress}
+      knotsRemaining={knots} status={status}
+      onHoldStart={(e) => { e.currentTarget.setPointerCapture?.(e.pointerId); beginHold(); }}
+      onHoldRelease={releaseHold}
+      onLegacyClick={() => {
+        if (!holdingRef.current) {
+          if (juiceDirector.isAnchorHeld()) consecrateVerse();
+          else ruptureKnot();
+        }
+      }}
+    />
   );
 };

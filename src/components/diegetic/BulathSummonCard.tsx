@@ -93,19 +93,19 @@ export const BulathSummonCard: React.FC<BulathSummonCardProps> = ({ payload, url
     <aside className="fixed top-16 right-6 z-40 border-l-2 border-[#8C1D24] bg-[#0D0B0A]/95 px-4 py-3.5 font-serif shadow-2xl select-none">
       <div className="flex items-center justify-between gap-4">
         <span className="text-[11px] tracking-[0.18em] text-[#D49B27] uppercase">බුලත් හුරුල්ල · {payload.shareCode}</span>
-        <button type="button" onClick={handleCopyCode} className="cursor-pointer border border-[#C8963E]/40 bg-[#16120E] px-2 py-0.5 text-[10px] tracking-wider text-[#D49B27] uppercase hover:border-[#D49B27]">
-          {copied ? '[Copied ✓]' : '[Copy Code]'}
+        <button type="button" onClick={handleCopyCode} className="incised-trigger cursor-pointer text-[10px] tracking-wider text-[#D49B27] uppercase">
+          {copied ? 'Copied ෴' : 'Copy Mark'}
         </button>
       </div>
       <div className="mt-0.5 text-[11px] text-[#EAE3D2]/65 italic">
         {avatarEntry ? avatarEntry.sinhalaTitle : payload.avatar} ({payload.blemishes.length}/5 Lakunu)
       </div>
-      <div className="mt-2.5 flex items-center gap-x-3 text-xs">
-        <a href={buildWhatsAppSummonLink(urlParam, payload.shareCode)} target="_blank" rel="noreferrer" className="text-[#C8963E] underline underline-offset-4 hover:text-[#D49B27]">
-          Dispatch via WhatsApp →
+      <div className="mt-2.5 flex items-center gap-x-4 text-xs">
+        <a href={buildWhatsAppSummonLink(urlParam, payload.shareCode)} target="_blank" rel="noreferrer" className="incised-trigger text-[#C8963E] underline underline-offset-4 hover:text-[#D49B27]">
+          Dispatch via WhatsApp ❖
         </a>
-        <button type="button" onClick={handleExportTalisman} disabled={exporting} className="cursor-pointer border border-[#C8963E]/40 bg-[#16120E] px-2.5 py-1 text-[11px] tracking-wider text-[#EAE3D2] uppercase hover:border-[#D49B27] hover:text-[#D49B27]">
-          {exporting ? 'Inscribing...' : '[Save Talisman PNG ↓]'}
+        <button type="button" onClick={handleExportTalisman} disabled={exporting} className="incised-trigger cursor-pointer text-[11px] tracking-wider text-[#EAE3D2] uppercase hover:text-[#D49B27]">
+          {exporting ? 'Inscribing...' : 'Save Talisman PNG ❖'}
         </button>
       </div>
     </aside>

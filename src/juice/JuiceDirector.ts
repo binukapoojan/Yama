@@ -2,6 +2,7 @@
 import { FlowLoopId, HapticPatternId, TwinePassage } from '../core/schema';
 import { audioMixer } from './audioMixer';
 import { hapticEngine } from './hapticEngine';
+import { CLIMAX_DRUM_PASSAGES, INFANT_PASSAGES, PASSAGE_WHISPERS, WEEPING_PASSAGES } from './juicePassages';
 
 export type JuiceEventMap = {
   FLOW_CROSSFADE: { loopId: FlowLoopId; isProtectedOverride: boolean };
@@ -12,19 +13,6 @@ export type JuiceEventMap = {
 };
 
 type Listener<K extends keyof JuiceEventMap> = (payload: JuiceEventMap[K]) => void;
-
-const WEEPING_PASSAGES = new Set([
-  'Three_Wheeler_Wait', 'Culvert_Whisper_Echo', 'Bamboo_Culvert_Approach', 'Weeping_By_The_Wall', 'Look_Into_Her_Eyes',
-]);
-const INFANT_PASSAGES = new Set([
-  'False_Tuk_Headlight', 'Backseat_Wet_Saree', 'Cross_Road_Verge', 'The_Slipping_Saree_Plea', 'The_Infant_Drop_Trap',
-]);
-const CLIMAX_DRUM_PASSAGES = new Set([
-  'Corridor_Keyhole_Eye', 'Sleep_Paralysis_Weight', 'Midnight_Samayama_Confrontation',
-  'Backseat_Wet_Saree', 'The_Infant_Drop_Trap', 'Midnight_Kesel_Kanda_Severance',
-  'Chopping_Block_Cleaver', 'Red_Bull_Apparition', 'Midnight_Arterial_Weight', 'Midnight_Peduru_Surrender',
-  'Backwards_Shadow_Stride', 'Boar_Tusk_Apparition', 'Shoulder_Ash_Strike', 'Midnight_Gothaimbara_Varama',
-]);
 
 class JuiceDirectorEngine {
   private listeners: { [K in keyof JuiceEventMap]?: Set<Listener<any>> } = {};
@@ -75,7 +63,16 @@ class JuiceDirectorEngine {
     audioMixer.setCue(this.activeAudioCue, currentBalma);
     if (directives.haptic) this.triggerHaptic(directives.haptic);
 
-    if (WEEPING_PASSAGES.has(name)) setTimeout(() => audioMixer.playMohiniWeeping(), 350);
+    const whisperStem = PASSAGE_WHISPERS[name];
+    if (whisperStem) {
+      setTimeout(() => {
+        audioMixer.playWhisper(whisperStem, () => {
+          if (WEEPING_PASSAGES.has(name)) audioMixer.playMohiniWeeping();
+        });
+      }, 900);
+    } else if (WEEPING_PASSAGES.has(name)) {
+      setTimeout(() => audioMixer.playMohiniWeeping(), 350);
+    }
     if (INFANT_PASSAGES.has(name)) setTimeout(() => audioMixer.playMohiniWhimper(), 600);
     if (CLIMAX_DRUM_PASSAGES.has(name)) audioMixer.playYakBeraClimax();
 
