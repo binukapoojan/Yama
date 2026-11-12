@@ -198,21 +198,19 @@ On the verandah, the boy's eyes roll back into his skull, his locked forearms ti
 
 
 :: Outcome_Athura_Udawattakele_Lullaby [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.92]
-The canvas flaps of the three-wheeler seal shut on their own. You never reach the Kandy clock tower.
+The canvas flaps of the three-wheeler seal shut on their own. You never reach the Kandy clock tower, and no search party ever finds your body in the lake.
 
-Weeks later, when late-night three-wheeler drivers round the hairpin culvert on Upper Lake Road in the fog, their headlamps catch {mutate: "an abandoned, rusting chassis by the bamboo wall" -> "two figures waiting in the drizzle—a woman in white, and you sitting beside her holding a rotting banana stem out toward every passing window" @2100}. Your family dispatches a Bulath Hurulla sheaf after finding only your snapped Pirith Nula on the asphalt.
+Weeks later, when late-night three-wheeler drivers round the hairpin culvert on Upper Lake Road in the fog, their headlamps catch {mutate: "an abandoned, rusting chassis by the bamboo wall" -> "two figures waiting in the drizzle—a woman in white, and you sitting beside her holding a rotting banana stem out toward every passing window" @2100}. You belong to the road watch now; no ritual can call you back.
 
-[[Accept the Bulath Hurulla summons and step into the Kattadiya role->Kattadiya_Mohini_Entry][$tanikama = 85]]
-[[Return to Upper Lake Road at 11:46 PM->Upper_Lake_Mist_Start][$balma = 20, $tanikama = 50]]
+[[Start walking Upper Lake Road again at 11:46 PM->Upper_Lake_Mist_Start][$balma = 25, $tanikama = 55]]
 
 
 :: Outcome_Athura_Kaduru_Sap_Veins [#samayam:MADDHAMA_MIDNIGHT #flow:kaduru_puddle_feet #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.92]
 Because you mirrored her hands during the Maddhama watch, your motor cortex remains permanently wired to hers across the dark.
 
-In the Peradeniya ward, the doctors have to strap your wrists to the iron bed-rails. Whenever rain ticks against the glass, your fingers curl in a slow, beckoning arc to brush invisible wet hair behind your ear—and {mutate: "tears of exhaustion run down your cheeks" -> "thick, poisonous white Kaduru tree-latex weeps from your tear ducts while a woman's voice sobs from your open mouth" @2000}.
+Before a Kattadiya can even be summoned from the low country, you slip out of the Peradeniya ward during a midnight squall—walking backward up into the giant bamboo thickets of Udawattakele while {mutate: "tears of exhaustion run down your cheeks" -> "thick, poisonous white Kaduru tree-latex weeps from your tear ducts and a woman's voice sobs from your open mouth" @2000}.
 
-[[Accept the Bulath Hurulla summons as the Kattadiya->Kattadiya_Mohini_Entry][$tanikama = 90]]
-[[Walk Upper Lake Road again from 11:46 PM->Upper_Lake_Mist_Start][$balma = 20, $tanikama = 50]]
+[[Start walking Upper Lake Road again at 11:46 PM->Upper_Lake_Mist_Start][$balma = 25, $tanikama = 55]]
 
 
 :: Outcome_Kattadiya_Cradle_Contagion [#samayam:MADDHAMA_MIDNIGHT #flow:mohini_saree_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.94]

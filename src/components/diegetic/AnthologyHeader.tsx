@@ -7,6 +7,7 @@ import { juiceDirector } from '../../juice/JuiceDirector';
 
 interface AnthologyHeaderProps {
   activeCasefile: CasefileId;
+  kattadiyaUnlocked?: boolean;
   onSwitchCasefile: (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA') => void;
   onOpenCompendium: () => void;
   onApplySummons: (payload: BulathHurullaPayload) => void;
@@ -14,11 +15,7 @@ interface AnthologyHeaderProps {
 }
 
 export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
-  activeCasefile,
-  onSwitchCasefile,
-  onOpenCompendium,
-  onApplySummons,
-  onOpenMenu,
+  activeCasefile, kattadiyaUnlocked = false, onSwitchCasefile, onOpenCompendium, onApplySummons, onOpenMenu,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [codeInput, setCodeInput] = useState<string>('');
@@ -27,14 +24,10 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
   const applyCodeString = (raw: string) => {
     const decoded = decodeBulathPayload(raw);
     if (decoded) {
-      setInvalidPulse(false);
-      setDrawerOpen(false);
-      setCodeInput('');
-      audioMixer.playYakBeraPulse(0.85);
-      onApplySummons(decoded);
+      setInvalidPulse(false); setDrawerOpen(false); setCodeInput('');
+      audioMixer.playYakBeraPulse(0.85); onApplySummons(decoded);
     } else {
-      setInvalidPulse(true);
-      juiceDirector.triggerHaptic('dread_throb');
+      setInvalidPulse(true); juiceDirector.triggerHaptic('dread_throb');
     }
   };
 
@@ -44,8 +37,7 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
         <div className="flex flex-wrap gap-x-5 gap-y-1">
           {(['CF01', 'CF02', 'CF03', 'CF04'] as CasefileId[]).map((id) => (
             <button
-              key={id}
-              type="button"
+              key={id} type="button"
               onClick={() => { setDrawerOpen(false); onSwitchCasefile(id, 'ATHURA'); }}
               className={`incised-trigger cursor-pointer ${activeCasefile === id ? 'text-[#D49B27]' : ''}`}
             >
@@ -54,15 +46,10 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
           ))}
         </div>
         <div className="flex shrink-0 items-center space-x-5 text-[11px]">
-          <button type="button" onClick={onOpenMenu} className="incised-trigger cursor-pointer">
-            පුස්කොළ · Folios
-          </button>
-          <button type="button" onClick={onOpenCompendium} className="incised-trigger cursor-pointer text-[#C8963E]/85">
-            ලේඛනය · Ledger
-          </button>
+          <button type="button" onClick={onOpenMenu} className="incised-trigger cursor-pointer">පුස්කොළ · Folios</button>
+          <button type="button" onClick={onOpenCompendium} className="incised-trigger cursor-pointer text-[#C8963E]/85">ලේඛනය · Ledger</button>
           <button
-            type="button"
-            onClick={() => setDrawerOpen((prev) => !prev)}
+            type="button" onClick={() => setDrawerOpen((prev) => !prev)}
             className={`incised-trigger cursor-pointer ${drawerOpen ? 'text-[#D49B27]' : ''}`}
           >
             ශාස්ත්ර · Divination
@@ -82,17 +69,17 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
                 invalidPulse ? 'border-[#8C1D24] text-[#8C1D24]' : 'border-[#C8963E]/40 focus:border-[#D49B27]'
               }`}
             />
-            <button type="submit" className="incised-trigger cursor-pointer text-[#D49B27]">
-              ❖ Read Veins
-            </button>
+            <button type="submit" className="incised-trigger cursor-pointer text-[#D49B27]">❖ Read Veins</button>
           </div>
-          <button
-            type="button"
-            onClick={() => { setDrawerOpen(false); onSwitchCasefile(activeCasefile, 'KATTADIYA'); }}
-            className="incised-trigger cursor-pointer text-[10px] tracking-[0.2em] text-[#EAE3D2]/50"
-          >
-            ෴ Enter Exorcist Watch
-          </button>
+          {kattadiyaUnlocked && (
+            <button
+              type="button"
+              onClick={() => { setDrawerOpen(false); onSwitchCasefile(activeCasefile, 'KATTADIYA'); }}
+              className="incised-trigger cursor-pointer text-[10px] tracking-[0.2em] text-[#EAE3D2]/50 hover:text-[#D49B27]"
+            >
+              ෴ Enter Exorcist Watch
+            </button>
+          )}
         </form>
       )}
     </header>

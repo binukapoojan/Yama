@@ -195,19 +195,17 @@ Inside the bedroom, the bevelled dressing-table mirror splits from top to bottom
 :: Outcome_Athura_Mirror_Entombed [#samayam:MADDHAMA_MIDNIGHT #flow:mirror_dark_idle #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.92]
 Your fingers sink wrist-deep into the mercury glass like freezing pond water. A violent wrench pulls your shoulders forward—and suddenly the rain stops. You are standing inside the annex, looking out at your bed.
 
-Yet the letters on the spines of your textbooks are printed backward. On the mattress outside the glass, {mutate: "your body is still sleeping under the net" -> "something wearing your face sits up, smiles at you in the mirror, and picks up a black bath towel" @2100}. You hammer your fists against the inside of the glass without making a sound as your double calmly drapes the heavy cloth over the frame, sealing you in eternal, suffocating blackness while your mother dispatches a Bulath Hurulla sheaf for a stranger wearing your skin.
+Yet the letters on the spines of your textbooks are printed backward. On the mattress outside the glass, {mutate: "your body is still sleeping under the net" -> "something wearing your face sits up, smiles at you in the mirror, and picks up a black bath towel" @2100}. You hammer your fists against the inside of the glass without making a sound as your double calmly drapes the heavy cloth over the frame, sealing you in eternal, suffocating blackness. No Kattadiya will ever be summoned—because the thing wearing your skin tells your mother it feels fine.
 
-[[Accept the Bulath Hurulla summons and step into the Kattadiya role->Kattadiya_Sastra_Entry][$tanikama = 85]]
-[[Return to Tuesday dusk in the Nugegoda annex->Dusk_Balcony_Check][$balma = 20, $tanikama = 50]]
+[[Wake gasping at 6:14 PM as the transformer blows again->Dusk_Balcony_Check][$balma = 25, $tanikama = 55]]
 
 
 :: Outcome_Athura_Canal_Drowned [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.92]
 You part the mosquito net in a narcotic trance. The outer stairwell bolt slides open under your wet fingers, and the monsoon rain feels like warm sandalwood oil against your bare soles as you walk down into the black water of the Nugegoda canal.
 
-When municipal workers drag the reeds at six in the morning, your body lies peaceful in knee-deep silt. Yet when the judicial medical officer opens your chest, {mutate: "he expects to find muddy canal water in the bronchi" -> "your lungs are completely dry—packed tight from trachea to alveoli with freshly bloomed, roots-and-all Nil Manel blue water-lilies" @2100}.
+When municipal workers drag the reeds at six in the morning, your body lies cold in knee-deep silt. When the judicial medical officer opens your chest, {mutate: "he expects to find muddy canal water in the bronchi" -> "your lungs are completely dry—packed tight from trachea to alveoli with freshly bloomed, roots-and-all Nil Manel blue water-lilies" @2100}. Even the southern exorcists refuse a corpse once the water-lilies have taken root.
 
-[[Examine the forensic aftermath as the summoned Kattadiya->Kattadiya_Sastra_Entry][$tanikama = 90]]
-[[Relive Tuesday dusk in the Nugegoda annex->Dusk_Balcony_Check][$balma = 20, $tanikama = 50]]
+[[Wake gasping at 6:14 PM as the ceiling fan spins down->Dusk_Balcony_Check][$balma = 25, $tanikama = 55]]
 
 
 :: Outcome_Kattadiya_Vessel_Transfer [#samayam:MADDHAMA_MIDNIGHT #flow:pahana_nil_manel #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.94]

@@ -194,22 +194,20 @@ In the sudden pitch dark, lopsided footsteps thunder across the sand toward the 
 [[Pull the scorching boar-tusked Kolama mask tighter over your face to confront the shadow->Outcome_Kattadiya_Boar_Mask_Fused][$balma += 35]]
 
 
-:: Outcome_Athura_Backwards_Cervical [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.92]
+:: Outcome_Athura_Backwards_Cervical [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.92]
 As you force your chin around against the freezing lock in your vertebrae, a dry crack echoes across the tank water—not the sound of a broken cord, but the ancient seal of Gothaimbara resetting Jayasena's head.
 
-At six in the morning, villagers watching the tank bund scream and drop their baskets. You are walking steadily home down the red gravel path—yet {mutate: "your head is bowed in exhaustion" -> "your chin rests squarely between your shoulder blades, your open eyes staring permanently backward at the three-way crossroads while your heels walk forward" @2000}.
+At six in the morning, villagers watching the tank bund scream and drop their baskets. You are walking steadily down the red gravel path—yet {mutate: "your head is bowed in exhaustion" -> "your chin rests squarely between your shoulder blades, your open eyes staring permanently backward at the three-way crossroads while your heels walk forward into the cemetery scrub" @2000}.
 
-[[Accept the Bulath Hurulla summons as the Kattadiya->Kattadiya_Mahasona_Entry][$tanikama = 90]]
-[[Return to the Anuradhapura crossroads at 11:52 PM->Crossroads_Midnight_Start][$balma = 20, $tanikama = 50]]
+[[Come to a halt at the 11:52 PM crossroads again->Crossroads_Midnight_Start][$balma = 25, $tanikama = 55]]
 
 
-:: Outcome_Athura_Biso_Kotuwa_Pilgrim [#samayam:MADDHAMA_MIDNIGHT #flow:thummansala_banyan_wind #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.92]
+:: Outcome_Athura_Biso_Kotuwa_Pilgrim [#samayam:MADDHAMA_MIDNIGHT #flow:thummansala_banyan_wind #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.92]
 The gaunt pilgrim accepts the warm newspaper parcel of boar curry with a low, wet grunt—and presses the soot-blackened kuppi bottle-lamp into your grease-stained fingers. Instantly, the brass base of the lamp welds itself to your palm.
 
 At dawn, your rusted bicycle is found leaning empty against the cemetery stone. And the next night at 11:52 PM, when another lone rider halts at the Thummansala with a slipped chain, {mutate: "the road is empty under the banyan roots" -> "it is you who walks out of the culvert mist carrying the green-flamed bottle-lamp on backward-pointing, ash-crusted toes" @2050}.
 
-[[Examine the crossroads case from the Kattadiya perspective->Kattadiya_Mahasona_Entry][$tanikama = 85]]
-[[Relive the midnight ride at the Thummansala crossroads->Crossroads_Midnight_Start][$balma = 20, $tanikama = 50]]
+[[Come to a halt at the 11:52 PM crossroads again->Crossroads_Midnight_Start][$balma = 25, $tanikama = 55]]
 
 
 :: Outcome_Kattadiya_Boar_Mask_Fused [#samayam:MADDHAMA_MIDNIGHT #flow:sohon_boar_silhouette #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.94]

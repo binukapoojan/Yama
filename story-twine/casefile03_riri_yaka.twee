@@ -201,19 +201,17 @@ A wet, simian laugh echoes from the kitchen smoke-tiles as the brass lamp tips o
 :: Outcome_Athura_Hearth_Cannibal [#samayam:MADDHAMA_MIDNIGHT #flow:matara_hearth_smoke #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.92]
 At 4:15 AM, the heavy stench of frying meat wakes your grandmother in the main house. When she unbars the kitchen door with a torch, there is no fire burning beneath the clay dara lipa—only cold grey ash.
 
-Yet the cast-iron pan on top is hissing violently. Squatting hunched on the mud hearth-ledge on all fours is {mutate: "a stray macaque that broke through the roof tiles" -> "you, with a crushed red hibiscus clenched between your teeth, holding your own blistered forearm inside the boiling oil while chattering at the rafters" @2000}. A Bulath Hurulla sheaf is rushed to a southern Yakadura before dawn.
+Yet the cast-iron pan on top is hissing violently. Squatting hunched on the mud hearth-ledge on all fours is {mutate: "a stray macaque that broke through the roof tiles" -> "you, with a crushed red hibiscus clenched between your teeth, holding your own blistered forearm inside the boiling oil while chattering at the rafters" @2000}. Before dawn breaks, you bound over the boundary hedge into the Polhena scrub, beyond the reach of any funeral mat.
 
-[[Accept the Bulath Hurulla summons as the Kattadiya->Kattadiya_Riri_Entry][$tanikama = 85]]
-[[Return to the Matara firewood kitchen at red sunset->Crimson_Hearth_Start][$balma = 20, $tanikama = 50]]
+[[Wake before the red clay hearth at 6:08 PM->Crimson_Hearth_Start][$balma = 25, $tanikama = 55]]
 
 
 :: Outcome_Athura_Termite_Humbaha [#samayam:MADDHAMA_MIDNIGHT #flow:wadamal_blood_hedge #audio:yak_bera_ritual #haptic:heartbeat_panic #vignette:0.92]
 You press your fever-scorched chest against the wet red laterite of the five-foot Humbaha termite mound beside the well. Instead of hard baked clay, the earth yields like warm, wet muscle—drawing your ribs inward through the narrow breathing-chimney.
 
-At daybreak, the kitchen and courtyard are deserted. Only {mutate: "a cluster of red Wada Mal roots" -> "five human fingernails stained purple-red with Rakta stasis protrude from the sealed summit of the termite mound, which now expands and contracts at seventy-two beats per minute" @2050}.
+At daybreak, the kitchen and courtyard are deserted. Only {mutate: "a cluster of red Wada Mal roots" -> "five human fingernails stained purple-red with Rakta stasis protrude from the sealed summit of the termite mound, which now expands and contracts at seventy-two beats per minute" @2050}. What the red earth swallows alive, no Yakadura can dig out.
 
-[[Inspect the forensic aftermath as the summoned Kattadiya->Kattadiya_Riri_Entry][$tanikama = 90]]
-[[Relive the crimson sunset in the Matara kitchen->Crimson_Hearth_Start][$balma = 20, $tanikama = 50]]
+[[Wake before the red clay hearth at 6:08 PM->Crimson_Hearth_Start][$balma = 25, $tanikama = 55]]
 
 
 :: Outcome_Kattadiya_Mat_Substitution [#samayam:MADDHAMA_MIDNIGHT #flow:peduru_funeral_mat #audio:yak_bera_ritual #haptic:dread_throb #vignette:0.94]

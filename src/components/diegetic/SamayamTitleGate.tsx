@@ -13,6 +13,7 @@ interface SamayamTitleGateProps {
   mode: 'COLD_OPEN' | 'LEDGER';
   activeCasefile: CasefileId;
   discoveredCount: number;
+  unlockedKattadiya?: CasefileId[];
   onEnterDarkness: () => void;
   onStartCasefile: (id: CasefileId, role: 'ATHURA' | 'KATTADIYA') => void;
   onApplySummons: (payload: BulathHurullaPayload) => void;
@@ -20,13 +21,8 @@ interface SamayamTitleGateProps {
 }
 
 export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
-  mode,
-  activeCasefile,
-  discoveredCount,
-  onEnterDarkness,
-  onStartCasefile,
-  onApplySummons,
-  onOpenCompendium,
+  mode, activeCasefile, discoveredCount, unlockedKattadiya = [],
+  onEnterDarkness, onStartCasefile, onApplySummons, onOpenCompendium,
 }) => {
   const [showFolios, setShowFolios] = useState<boolean>(mode === 'LEDGER');
   const [openFolio, setOpenFolio] = useState<CasefileId>(activeCasefile);
@@ -49,12 +45,8 @@ export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
       <LivingPuskolaSurface pageKey={openFolio} balma={55}>
         <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#C8963E]/25 pb-5">
           <div>
-            <div className="text-[10px] tracking-[0.32em] text-[#8A99AD]/75 uppercase">
-              සමයම් පුස්කොළ පොත · The Four Watches
-            </div>
-            <h2 className="typo-carved-title mt-1 text-2xl font-normal tracking-wide">
-              Select a Samayam Folio ෴
-            </h2>
+            <div className="text-[10px] tracking-[0.32em] text-[#8A99AD]/75 uppercase">සමයම් පුස්කොළ පොත · The Four Watches</div>
+            <h2 className="typo-carved-title mt-1 text-2xl font-normal tracking-wide">Select a Samayam Folio ෴</h2>
           </div>
           <div className="flex flex-wrap items-center gap-6 text-xs tracking-[0.2em] uppercase">
             <button type="button" onClick={onOpenCompendium} className="incised-trigger cursor-pointer text-[#C8963E]/85">
@@ -73,6 +65,7 @@ export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
               spec={spec}
               isExpanded={openFolio === spec.id}
               isActive={activeCasefile === spec.id}
+              kattadiyaUnlocked={unlockedKattadiya.includes(spec.id)}
               onToggle={() => {
                 setOpenFolio(spec.id);
                 audioMixer.playYakBeraPulse(0.5);

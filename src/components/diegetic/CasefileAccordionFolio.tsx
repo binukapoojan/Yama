@@ -44,12 +44,13 @@ interface CasefileAccordionFolioProps {
   spec: DocketFolioSpec;
   isExpanded: boolean;
   isActive: boolean;
+  kattadiyaUnlocked?: boolean;
   onToggle: () => void;
   onSelectRole: (id: CasefileId, role: 'ATHURA' | 'KATTADIYA') => void;
 }
 
 export const CasefileAccordionFolio: React.FC<CasefileAccordionFolioProps> = ({
-  spec, isExpanded, isActive, onToggle, onSelectRole,
+  spec, isExpanded, isActive, kattadiyaUnlocked = false, onToggle, onSelectRole,
 }) => {
   return (
     <div className={`border-b border-[#C8963E]/20 py-4 transition-colors ${isExpanded ? 'bg-[#14100C]/70 px-5' : 'px-2 hover:bg-[#120E0A]/40'}`}>
@@ -73,9 +74,11 @@ export const CasefileAccordionFolio: React.FC<CasefileAccordionFolioProps> = ({
       {isExpanded && (
         <div className="animate-folio mt-3.5 space-y-3 border-l border-[#C8963E]/35 pl-4">
           <p className="text-sm leading-relaxed text-[#EAE3D2]/80">{spec.omen}</p>
-          <p className="text-xs leading-relaxed text-[#C8963E]/85 italic">
-            ශාස්ත්ර පිළිවෙත · {spec.ritual}
-          </p>
+          {kattadiyaUnlocked && (
+            <p className="text-xs leading-relaxed text-[#C8963E]/85 italic">
+              ශාස්ත්ර පිළිවෙත · {spec.ritual}
+            </p>
+          )}
           <div className="flex flex-wrap items-center gap-8 pt-2 text-xs tracking-[0.22em] uppercase">
             <button
               type="button"
@@ -84,13 +87,19 @@ export const CasefileAccordionFolio: React.FC<CasefileAccordionFolioProps> = ({
             >
               ❖ Witness the Watch (Athura)
             </button>
-            <button
-              type="button"
-              onClick={() => onSelectRole(spec.id, 'KATTADIYA')}
-              className="incised-trigger cursor-pointer text-[#8C1D24] hover:text-[#D49B27]"
-            >
-              ෴ Perform the Exorcism (Kattadiya)
-            </button>
+            {kattadiyaUnlocked ? (
+              <button
+                type="button"
+                onClick={() => onSelectRole(spec.id, 'KATTADIYA')}
+                className="incised-trigger cursor-pointer text-[#8C1D24] hover:text-[#D49B27]"
+              >
+                ෴ Perform the Exorcism (Kattadiya)
+              </button>
+            ) : (
+              <span className="text-[11px] tracking-[0.18em] text-[#8A99AD]/40 italic normal-case">
+                ශාස්ත්ර මුද්රාව · Exorcist Lineage Sealed (Survive the Watch to Unbind)
+              </span>
+            )}
           </div>
         </div>
       )}

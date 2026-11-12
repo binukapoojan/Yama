@@ -1,3 +1,4 @@
+// src/core/savePersistence.ts
 import { App as CapApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { BulathHurullaPayload, CasefileId } from './bulathCodec';
@@ -6,22 +7,23 @@ import { RuntimeVariables, StoryGraph } from './schema';
 
 const STORAGE_KEY = 'aftermonsoon_puskola_ledger_v1';
 
-export const CASEFILE_META: Record<
-  CasefileId,
-  { title: string; athuraStart: string; kattadiyaStart: string }
-> = {
+export const CASEFILE_META: Record<CasefileId, { title: string; athuraStart: string; kattadiyaStart: string }> = {
   CF01: { title: 'I · Kalu Kumara', athuraStart: 'Dusk_Balcony_Check', kattadiyaStart: 'Kattadiya_Sastra_Entry' },
   CF02: { title: 'II · Mala Mohini', athuraStart: 'Upper_Lake_Mist_Start', kattadiyaStart: 'Kattadiya_Mohini_Entry' },
   CF03: { title: 'III · Riri Yaka', athuraStart: 'Crimson_Hearth_Start', kattadiyaStart: 'Kattadiya_Riri_Entry' },
   CF04: { title: 'IV · Mahasona', athuraStart: 'Crossroads_Midnight_Start', kattadiyaStart: 'Kattadiya_Mahasona_Entry' },
 };
 
+export const KATTADIYA_UNLOCK_PASSAGES: Record<string, CasefileId> = {
+  Outcome_Athura_Survived: 'CF01', Outcome_Athura_Possessed: 'CF01',
+  Outcome_Athura_Road_Escaped: 'CF02', Outcome_Athura_Mohini_Bound: 'CF02',
+  Outcome_Athura_Riri_Survived: 'CF03', Outcome_Athura_Riri_Drained: 'CF03',
+  Outcome_Athura_Mahasona_Survived: 'CF04', Outcome_Athura_Mahasona_Struck: 'CF04',
+};
+
 export interface SessionSnapshot {
-  version: 1;
-  casefile: CasefileId;
-  passageId: string;
-  runtimeState: RuntimeVariables;
-  updatedAt: number;
+  version: 1; casefile: CasefileId; passageId: string;
+  runtimeState: RuntimeVariables; unlockedKattadiya?: CasefileId[]; updatedAt: number;
 }
 
 export function buildStateFromBulath(p: BulathHurullaPayload): RuntimeVariables {
@@ -30,12 +32,23 @@ export function buildStateFromBulath(p: BulathHurullaPayload): RuntimeVariables 
   return s;
 }
 
-export function saveSessionSnapshot(casefile: CasefileId, passageId: string, runtimeState: RuntimeVariables): void {
+export function getUnlockedKattadiya(): CasefileId[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const p = JSON.parse(raw);
+    return Array.isArray(p.unlockedKattadiya) ? p.unlockedKattadiya : [];
+  } catch { return []; }
+}
+
+export function saveSessionSnapshot(casefile: CasefileId, passageId: string, runtimeState: RuntimeVariables, unlocked?: CasefileId[]): void {
   if (typeof window === 'undefined') return;
   try {
-    const payload: SessionSnapshot = { version: 1, casefile, passageId, runtimeState, updatedAt: Date.now() };
+    const merged = Array.from(new Set([...getUnlockedKattadiya(), ...(unlocked ?? [])]));
+    const payload: SessionSnapshot = { version: 1, casefile, passageId, runtimeState, unlockedKattadiya: merged, updatedAt: Date.now() };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  } catch { /* Ignore storage quota or private-browsing blocks */ }
+  } catch { /* Ignore storage quota blocks */ }
 }
 
 export function loadSessionSnapshot(stories: Partial<Record<CasefileId, StoryGraph>>): SessionSnapshot | null {
@@ -50,25 +63,15 @@ export function loadSessionSnapshot(stories: Partial<Record<CasefileId, StoryGra
 }
 
 export function resolveInitialSession(stories: Partial<Record<CasefileId, StoryGraph>>): {
-  casefile: CasefileId;
-  passageId: string;
-  runtimeState: RuntimeVariables;
+  casefile: CasefileId; passageId: string; runtimeState: RuntimeVariables;
 } {
-  const incomingBulath = getInitialWebBulath();
-  if (incomingBulath) {
-    return { casefile: incomingBulath.casefile, passageId: CASEFILE_META[incomingBulath.casefile].kattadiyaStart, runtimeState: buildStateFromBulath(incomingBulath) };
-  }
+  const incoming = getInitialWebBulath();
+  if (incoming) return { casefile: incoming.casefile, passageId: CASEFILE_META[incoming.casefile].kattadiyaStart, runtimeState: buildStateFromBulath(incoming) };
   if (typeof window !== 'undefined') {
     const c = new URLSearchParams(window.location.search).get('case') || new URLSearchParams(window.location.search).get('casefile');
-    if (c === '2' || c === '02' || c?.toLowerCase() === 'mohini') {
-      return { casefile: 'CF02', passageId: CASEFILE_META.CF02.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'MADDHAMA_MIDNIGHT' } };
-    }
-    if (c === '3' || c === '03' || c?.toLowerCase() === 'riri' || c?.toLowerCase() === 'riri_yaka') {
-      return { casefile: 'CF03', passageId: CASEFILE_META.CF03.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'SANDHYA_DUSK' } };
-    }
-    if (c === '4' || c === '04' || c?.toLowerCase() === 'mahasona') {
-      return { casefile: 'CF04', passageId: CASEFILE_META.CF04.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'MADDHAMA_MIDNIGHT' } };
-    }
+    if (c === '2' || c === '02' || c?.toLowerCase() === 'mohini') return { casefile: 'CF02', passageId: CASEFILE_META.CF02.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'MADDHAMA_MIDNIGHT' } };
+    if (c === '3' || c === '03' || c?.toLowerCase() === 'riri' || c?.toLowerCase() === 'riri_yaka') return { casefile: 'CF03', passageId: CASEFILE_META.CF03.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'SANDHYA_DUSK' } };
+    if (c === '4' || c === '04' || c?.toLowerCase() === 'mahasona') return { casefile: 'CF04', passageId: CASEFILE_META.CF04.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'MADDHAMA_MIDNIGHT' } };
   }
   const saved = loadSessionSnapshot(stories);
   if (saved) return { casefile: saved.casefile, passageId: saved.passageId, runtimeState: saved.runtimeState };

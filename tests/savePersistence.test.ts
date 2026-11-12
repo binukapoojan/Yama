@@ -4,6 +4,8 @@ import {
   loadSessionSnapshot,
   resolveInitialSession,
   buildStateFromBulath,
+  getUnlockedKattadiya,
+  KATTADIYA_UNLOCK_PASSAGES,
 } from '../src/core/savePersistence';
 import { StoryGraph } from '../src/core/schema';
 import { BulathHurullaPayload } from '../src/core/bulathCodec';
@@ -91,5 +93,25 @@ describe('Save Persistence & Session Hydration', () => {
     expect(session.casefile).toBe('CF01');
     expect(session.passageId).toBe('Dusk_Balcony_Check');
     expect(session.runtimeState.samayam_velava).toBe('SANDHYA_DUSK');
+  });
+
+  it('persists unlockedKattadiya lineages and retrieves them correctly', () => {
+    expect(getUnlockedKattadiya()).toEqual([]);
+    saveSessionSnapshot('CF01', 'Dusk_Balcony_Check', { tanikama: 50, balma: 20 }, ['CF01']);
+    expect(getUnlockedKattadiya()).toEqual(['CF01']);
+    // Saving again merges newly unlocked lineages
+    saveSessionSnapshot('CF02', 'Upper_Lake_Mist_Start', { tanikama: 50, balma: 20 }, ['CF02']);
+    expect(getUnlockedKattadiya().sort()).toEqual(['CF01', 'CF02']);
+  });
+
+  it('maps all 8 initiation passages to their corresponding casefiles', () => {
+    expect(KATTADIYA_UNLOCK_PASSAGES['Outcome_Athura_Survived']).toBe('CF01');
+    expect(KATTADIYA_UNLOCK_PASSAGES['Outcome_Athura_Possessed']).toBe('CF01');
+    expect(KATTADIYA_UNLOCK_PASSAGES['Outcome_Athura_Road_Escaped']).toBe('CF02');
+    expect(KATTADIYA_UNLOCK_PASSAGES['Outcome_Athura_Mohini_Bound']).toBe('CF02');
+    expect(KATTADIYA_UNLOCK_PASSAGES['Outcome_Athura_Riri_Survived']).toBe('CF03');
+    expect(KATTADIYA_UNLOCK_PASSAGES['Outcome_Athura_Riri_Drained']).toBe('CF03');
+    expect(KATTADIYA_UNLOCK_PASSAGES['Outcome_Athura_Mahasona_Survived']).toBe('CF04');
+    expect(KATTADIYA_UNLOCK_PASSAGES['Outcome_Athura_Mahasona_Struck']).toBe('CF04');
   });
 });

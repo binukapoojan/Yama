@@ -1400,36 +1400,24 @@
           },
           {
             "type": "plain",
-            "text": ". You hammer your fists against the inside of the glass without making a sound as your double calmly drapes the heavy cloth over the frame, sealing you in eternal, suffocating blackness while your mother dispatches a Bulath Hurulla sheaf for a stranger wearing your skin."
+            "text": ". You hammer your fists against the inside of the glass without making a sound as your double calmly drapes the heavy cloth over the frame, sealing you in eternal, suffocating blackness. No Kattadiya will ever be summoned—because the thing wearing your skin tells your mother it feels fine."
           }
         ]
       ],
       "choices": [
         {
-          "label": "Accept the Bulath Hurulla summons and step into the Kattadiya role",
-          "targetPassage": "Kattadiya_Sastra_Entry",
-          "mutations": [
-            {
-              "variable": "tanikama",
-              "operator": "=",
-              "value": 85
-            }
-          ],
-          "requiresAnchorHeld": false
-        },
-        {
-          "label": "Return to Tuesday dusk in the Nugegoda annex",
+          "label": "Wake gasping at 6:14 PM as the transformer blows again",
           "targetPassage": "Dusk_Balcony_Check",
           "mutations": [
             {
               "variable": "balma",
               "operator": "=",
-              "value": 20
+              "value": 25
             },
             {
               "variable": "tanikama",
               "operator": "=",
-              "value": 50
+              "value": 55
             }
           ],
           "requiresAnchorHeld": false
@@ -1455,7 +1443,7 @@
         [
           {
             "type": "plain",
-            "text": "When municipal workers drag the reeds at six in the morning, your body lies peaceful in knee-deep silt. Yet when the judicial medical officer opens your chest, "
+            "text": "When municipal workers drag the reeds at six in the morning, your body lies cold in knee-deep silt. When the judicial medical officer opens your chest, "
           },
           {
             "type": "mutate",
@@ -1466,36 +1454,24 @@
           },
           {
             "type": "plain",
-            "text": "."
+            "text": ". Even the southern exorcists refuse a corpse once the water-lilies have taken root."
           }
         ]
       ],
       "choices": [
         {
-          "label": "Examine the forensic aftermath as the summoned Kattadiya",
-          "targetPassage": "Kattadiya_Sastra_Entry",
-          "mutations": [
-            {
-              "variable": "tanikama",
-              "operator": "=",
-              "value": 90
-            }
-          ],
-          "requiresAnchorHeld": false
-        },
-        {
-          "label": "Relive Tuesday dusk in the Nugegoda annex",
+          "label": "Wake gasping at 6:14 PM as the ceiling fan spins down",
           "targetPassage": "Dusk_Balcony_Check",
           "mutations": [
             {
               "variable": "balma",
               "operator": "=",
-              "value": 20
+              "value": 25
             },
             {
               "variable": "tanikama",
               "operator": "=",
-              "value": 50
+              "value": 55
             }
           ],
           "requiresAnchorHeld": false
@@ -2951,7 +2927,7 @@
         [
           {
             "type": "plain",
-            "text": "The canvas flaps of the three-wheeler seal shut on their own. You never reach the Kandy clock tower."
+            "text": "The canvas flaps of the three-wheeler seal shut on their own. You never reach the Kandy clock tower, and no search party ever finds your body in the lake."
           }
         ],
         [
@@ -2968,36 +2944,24 @@
           },
           {
             "type": "plain",
-            "text": ". Your family dispatches a Bulath Hurulla sheaf after finding only your snapped Pirith Nula on the asphalt."
+            "text": ". You belong to the road watch now; no ritual can call you back."
           }
         ]
       ],
       "choices": [
         {
-          "label": "Accept the Bulath Hurulla summons and step into the Kattadiya role",
-          "targetPassage": "Kattadiya_Mohini_Entry",
-          "mutations": [
-            {
-              "variable": "tanikama",
-              "operator": "=",
-              "value": 85
-            }
-          ],
-          "requiresAnchorHeld": false
-        },
-        {
-          "label": "Return to Upper Lake Road at 11:46 PM",
+          "label": "Start walking Upper Lake Road again at 11:46 PM",
           "targetPassage": "Upper_Lake_Mist_Start",
           "mutations": [
             {
               "variable": "balma",
               "operator": "=",
-              "value": 20
+              "value": 25
             },
             {
               "variable": "tanikama",
               "operator": "=",
-              "value": 50
+              "value": 55
             }
           ],
           "requiresAnchorHeld": false
@@ -3023,13 +2987,13 @@
         [
           {
             "type": "plain",
-            "text": "In the Peradeniya ward, the doctors have to strap your wrists to the iron bed-rails. Whenever rain ticks against the glass, your fingers curl in a slow, beckoning arc to brush invisible wet hair behind your ear—and "
+            "text": "Before a Kattadiya can even be summoned from the low country, you slip out of the Peradeniya ward during a midnight squall—walking backward up into the giant bamboo thickets of Udawattakele while "
           },
           {
             "type": "mutate",
             "id": "Outcome_Athura_Kaduru_Sap_Veins_p1_m0",
             "wakingText": "tears of exhaustion run down your cheeks",
-            "corruptedText": "thick, poisonous white Kaduru tree-latex weeps from your tear ducts while a woman's voice sobs from your open mouth",
+            "corruptedText": "thick, poisonous white Kaduru tree-latex weeps from your tear ducts and a woman's voice sobs from your open mouth",
             "delayMs": 2000
           },
           {
@@ -3040,30 +3004,18 @@
       ],
       "choices": [
         {
-          "label": "Accept the Bulath Hurulla summons as the Kattadiya",
-          "targetPassage": "Kattadiya_Mohini_Entry",
-          "mutations": [
-            {
-              "variable": "tanikama",
-              "operator": "=",
-              "value": 90
-            }
-          ],
-          "requiresAnchorHeld": false
-        },
-        {
-          "label": "Walk Upper Lake Road again from 11:46 PM",
+          "label": "Start walking Upper Lake Road again at 11:46 PM",
           "targetPassage": "Upper_Lake_Mist_Start",
           "mutations": [
             {
               "variable": "balma",
               "operator": "=",
-              "value": 20
+              "value": 25
             },
             {
               "variable": "tanikama",
               "operator": "=",
-              "value": 50
+              "value": 55
             }
           ],
           "requiresAnchorHeld": false
@@ -4560,36 +4512,24 @@
           },
           {
             "type": "plain",
-            "text": ". A Bulath Hurulla sheaf is rushed to a southern Yakadura before dawn."
+            "text": ". Before dawn breaks, you bound over the boundary hedge into the Polhena scrub, beyond the reach of any funeral mat."
           }
         ]
       ],
       "choices": [
         {
-          "label": "Accept the Bulath Hurulla summons as the Kattadiya",
-          "targetPassage": "Kattadiya_Riri_Entry",
-          "mutations": [
-            {
-              "variable": "tanikama",
-              "operator": "=",
-              "value": 85
-            }
-          ],
-          "requiresAnchorHeld": false
-        },
-        {
-          "label": "Return to the Matara firewood kitchen at red sunset",
+          "label": "Wake before the red clay hearth at 6:08 PM",
           "targetPassage": "Crimson_Hearth_Start",
           "mutations": [
             {
               "variable": "balma",
               "operator": "=",
-              "value": 20
+              "value": 25
             },
             {
               "variable": "tanikama",
               "operator": "=",
-              "value": 50
+              "value": 55
             }
           ],
           "requiresAnchorHeld": false
@@ -4626,36 +4566,24 @@
           },
           {
             "type": "plain",
-            "text": "."
+            "text": ". What the red earth swallows alive, no Yakadura can dig out."
           }
         ]
       ],
       "choices": [
         {
-          "label": "Inspect the forensic aftermath as the summoned Kattadiya",
-          "targetPassage": "Kattadiya_Riri_Entry",
-          "mutations": [
-            {
-              "variable": "tanikama",
-              "operator": "=",
-              "value": 90
-            }
-          ],
-          "requiresAnchorHeld": false
-        },
-        {
-          "label": "Relive the crimson sunset in the Matara kitchen",
+          "label": "Wake before the red clay hearth at 6:08 PM",
           "targetPassage": "Crimson_Hearth_Start",
           "mutations": [
             {
               "variable": "balma",
               "operator": "=",
-              "value": 20
+              "value": 25
             },
             {
               "variable": "tanikama",
               "operator": "=",
-              "value": 50
+              "value": 55
             }
           ],
           "requiresAnchorHeld": false
@@ -6087,7 +6015,7 @@
         "samayam": "MADDHAMA_MIDNIGHT",
         "flow": "sohon_boar_silhouette",
         "audio": "yak_bera_ritual",
-        "haptic": "dread_throb",
+        "haptic": "heartbeat_panic",
         "vignette": 0.92
       },
       "paragraphs": [
@@ -6100,13 +6028,13 @@
         [
           {
             "type": "plain",
-            "text": "At six in the morning, villagers watching the tank bund scream and drop their baskets. You are walking steadily home down the red gravel path—yet "
+            "text": "At six in the morning, villagers watching the tank bund scream and drop their baskets. You are walking steadily down the red gravel path—yet "
           },
           {
             "type": "mutate",
             "id": "Outcome_Athura_Backwards_Cervical_p1_m0",
             "wakingText": "your head is bowed in exhaustion",
-            "corruptedText": "your chin rests squarely between your shoulder blades, your open eyes staring permanently backward at the three-way crossroads while your heels walk forward",
+            "corruptedText": "your chin rests squarely between your shoulder blades, your open eyes staring permanently backward at the three-way crossroads while your heels walk forward into the cemetery scrub",
             "delayMs": 2000
           },
           {
@@ -6117,30 +6045,18 @@
       ],
       "choices": [
         {
-          "label": "Accept the Bulath Hurulla summons as the Kattadiya",
-          "targetPassage": "Kattadiya_Mahasona_Entry",
-          "mutations": [
-            {
-              "variable": "tanikama",
-              "operator": "=",
-              "value": 90
-            }
-          ],
-          "requiresAnchorHeld": false
-        },
-        {
-          "label": "Return to the Anuradhapura crossroads at 11:52 PM",
+          "label": "Come to a halt at the 11:52 PM crossroads again",
           "targetPassage": "Crossroads_Midnight_Start",
           "mutations": [
             {
               "variable": "balma",
               "operator": "=",
-              "value": 20
+              "value": 25
             },
             {
               "variable": "tanikama",
               "operator": "=",
-              "value": 50
+              "value": 55
             }
           ],
           "requiresAnchorHeld": false
@@ -6153,7 +6069,7 @@
         "samayam": "MADDHAMA_MIDNIGHT",
         "flow": "thummansala_banyan_wind",
         "audio": "yak_bera_ritual",
-        "haptic": "heartbeat_panic",
+        "haptic": "dread_throb",
         "vignette": 0.92
       },
       "paragraphs": [
@@ -6183,30 +6099,18 @@
       ],
       "choices": [
         {
-          "label": "Examine the crossroads case from the Kattadiya perspective",
-          "targetPassage": "Kattadiya_Mahasona_Entry",
-          "mutations": [
-            {
-              "variable": "tanikama",
-              "operator": "=",
-              "value": 85
-            }
-          ],
-          "requiresAnchorHeld": false
-        },
-        {
-          "label": "Relive the midnight ride at the Thummansala crossroads",
+          "label": "Come to a halt at the 11:52 PM crossroads again",
           "targetPassage": "Crossroads_Midnight_Start",
           "mutations": [
             {
               "variable": "balma",
               "operator": "=",
-              "value": 20
+              "value": 25
             },
             {
               "variable": "tanikama",
               "operator": "=",
-              "value": 50
+              "value": 55
             }
           ],
           "requiresAnchorHeld": false

@@ -3,7 +3,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw'; import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw';
 import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate';
 import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { FlowBackdrop } from './components/viewport/FlowBackdrop';
-import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { getInitialWebBulath, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter'; import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
+import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { getInitialWebBulath, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter';
+import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, getUnlockedKattadiya, KATTADIYA_UNLOCK_PASSAGES, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
 import { RuntimeVariables, TwineChoice } from './core/schema'; import { applyStateMutations, parseTweeStory } from './core/twineParser'; import { audioMixer } from './juice/audioMixer'; import { juiceDirector } from './juice/JuiceDirector';
 
 export { resolveCasefileConfig };
@@ -23,38 +24,39 @@ export const App: React.FC = () => {
   const [casefile, setCasefile] = useState<CasefileId>(initial.casefile), [currentPassageId, setCurrentPassageId] = useState<string>(initial.passageId);
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(initial.runtimeState);
   const [compendiumOpen, setCompendiumOpen] = useState<boolean>(false), [discoveredIds, setDiscoveredIds] = useState<string[]>(() => loadDiscoveredCompendium());
-  const [leafInspected, setLeafInspected] = useState<boolean>(false);
+  const [leafInspected, setLeafInspected] = useState<boolean>(false), [unlockedKattadiya, setUnlockedKattadiya] = useState<CasefileId[]>(() => getUnlockedKattadiya());
   const [gateMode, setGateMode] = useState<'COLD_OPEN' | 'LEDGER' | null>(() => (getInitialWebBulath() ? null : 'COLD_OPEN'));
 
-  const latestRef = useRef({ casefile, currentPassageId, runtimeState });
-  latestRef.current = { casefile, currentPassageId, runtimeState };
+  const latestRef = useRef({ casefile, currentPassageId, runtimeState, unlockedKattadiya });
+  latestRef.current = { casefile, currentPassageId, runtimeState, unlockedKattadiya };
   const storyGraph = stories[casefile], activePassage = storyGraph[currentPassageId];
 
   const applySummonsPayload = useCallback((payload: BulathHurullaPayload) => {
     const nextState = buildStateFromBulath(payload), nextPassage = CASEFILE_META[payload.casefile].kattadiyaStart;
     setCasefile(payload.casefile); setRuntimeState(nextState); setCurrentPassageId(nextPassage); setGateMode(null);
-    saveSessionSnapshot(payload.casefile, nextPassage, nextState); juiceDirector.triggerHaptic('iron_grip');
+    setUnlockedKattadiya((prev) => prev.includes(payload.casefile) ? prev : [...prev, payload.casefile]);
+    saveSessionSnapshot(payload.casefile, nextPassage, nextState, [payload.casefile]); juiceDirector.triggerHaptic('iron_grip');
   }, []);
 
   useEffect(() => {
     const unlock = () => audioMixer.unlock();
     ['pointerdown', 'keydown'].forEach((e) => window.addEventListener(e, unlock, { once: true }));
     const unsubDeep = listenForBulathDeepLinks(applySummonsPayload);
-    const unsubFlush = bindLifecycleFlush(() => saveSessionSnapshot(latestRef.current.casefile, latestRef.current.currentPassageId, latestRef.current.runtimeState));
+    const unsubFlush = bindLifecycleFlush(() => saveSessionSnapshot(latestRef.current.casefile, latestRef.current.currentPassageId, latestRef.current.runtimeState, latestRef.current.unlockedKattadiya));
     return () => { unsubDeep(); unsubFlush(); };
   }, [applySummonsPayload]);
 
-  useEffect(() => {
-    setLeafInspected(false);
-  }, [casefile, currentPassageId]);
+  useEffect(() => { setLeafInspected(false); }, [casefile, currentPassageId]);
 
   useEffect(() => {
-    if (activePassage) {
-      juiceDirector.enterPassage(activePassage, Number(runtimeState.balma ?? 20));
-      saveSessionSnapshot(casefile, currentPassageId, runtimeState);
-      setDiscoveredIds(syncRuntimeToCompendium(runtimeState, casefile, currentPassageId));
-    }
-  }, [activePassage, casefile, currentPassageId, runtimeState]);
+    if (!activePassage) return;
+    juiceDirector.enterPassage(activePassage, Number(runtimeState.balma ?? 20));
+    const unlock = KATTADIYA_UNLOCK_PASSAGES[currentPassageId];
+    const nextUnlocks = unlock && !unlockedKattadiya.includes(unlock) ? [...unlockedKattadiya, unlock] : unlockedKattadiya;
+    if (nextUnlocks !== unlockedKattadiya) setUnlockedKattadiya(nextUnlocks);
+    saveSessionSnapshot(casefile, currentPassageId, runtimeState, nextUnlocks);
+    setDiscoveredIds(syncRuntimeToCompendium(runtimeState, casefile, currentPassageId));
+  }, [activePassage, casefile, currentPassageId, runtimeState, unlockedKattadiya]);
 
   const switchCasefile = (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA' = 'ATHURA') => {
     setCasefile(nextId); setGateMode(null);
@@ -78,13 +80,13 @@ export const App: React.FC = () => {
       <FlowBackdrop /><ChiaroscuroMask />
       {gateMode ? (
         <SamayamTitleGate
-          mode={gateMode} activeCasefile={casefile} discoveredCount={discoveredIds.length}
+          mode={gateMode} activeCasefile={casefile} discoveredCount={discoveredIds.length} unlockedKattadiya={unlockedKattadiya}
           onEnterDarkness={() => setGateMode(null)} onStartCasefile={switchCasefile}
           onApplySummons={applySummonsPayload} onOpenCompendium={() => setCompendiumOpen(true)}
         />
       ) : (
         <>
-          <AnthologyHeader activeCasefile={casefile} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setGateMode('LEDGER')} />
+          <AnthologyHeader activeCasefile={casefile} kattadiyaUnlocked={unlockedKattadiya.includes(casefile)} onSwitchCasefile={switchCasefile} onOpenCompendium={() => setCompendiumOpen(true)} onApplySummons={applySummonsPayload} onOpenMenu={() => setGateMode('LEDGER')} />
           {sastraNext ? (
             <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16">
               <BulathLeafCanvas payload={bulath.payload} onInspectBlemish={(b) => { setLeafInspected(true); setRuntimeState((prev) => ({ ...prev, [b.tabooKey]: true })); }} />
