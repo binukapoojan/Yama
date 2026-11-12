@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { audioMixer } from '../../juice/audioMixer';
 import { juiceDirector } from '../../juice/JuiceDirector';
+import { triggerStylusScratch } from '../../juice/panhiyaFeedback';
 
 interface HuniyamPuhulProps { onCurseSevered: () => void; }
 const THORNS = [
@@ -32,12 +33,14 @@ export const HuniyamPuhulCanvas: React.FC<HuniyamPuhulProps> = ({ onCurseSevered
   const handlePullThorn = (idx: number) => {
     if (severed) return;
     if (idx === extracted) {
+      triggerStylusScratch();
       setExtracted(extracted + 1); juiceDirector.triggerHaptic('iron_grip'); audioMixer.playYakBeraPulse(0.6 + idx * 0.1);
     } else if (idx > extracted) { juiceDirector.triggerHaptic('dread_throb'); }
   };
 
   const handleTapGourd = () => {
     if (!thornsCleared || severed) return;
+    triggerStylusScratch();
     juiceDirector.triggerHaptic('iron_grip'); audioMixer.playYakBeraPulse(0.85);
     setCutProgress((prev) => { const next = prev + 45; if (next >= 100) completeSeverance(); return Math.min(100, next); });
   };

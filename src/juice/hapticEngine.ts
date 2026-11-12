@@ -7,6 +7,7 @@ const WEB_VIBRATE_PATTERNS: Record<HapticPatternId, number[]> = {
   heartbeat_panic: [50, 80, 70, 220, 50, 80, 70, 220],
   dread_throb: [120, 90, 180],
   iron_grip: [18, 35, 12],
+  stylus_scratch: [14],
 };
 
 class HapticController {
@@ -30,6 +31,9 @@ class HapticController {
 
     try {
       switch (patternId) {
+        case 'stylus_scratch':
+          await Haptics.impact({ style: ImpactStyle.Light });
+          break;
         case 'iron_grip':
           await Haptics.impact({ style: ImpactStyle.Medium });
           break;

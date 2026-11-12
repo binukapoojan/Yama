@@ -1,5 +1,5 @@
 // src/juice/audioMixer.ts
-import { buildCrackleStem, playStrikeSynth, PRELOAD_STEM_NAMES } from './audioHelpers';
+import { buildCrackleStem, playFrictionScratch, playStrikeSynth, PRELOAD_STEM_NAMES } from './audioHelpers';
 import { createCebHumStem, createCicadaStem, createNoiseStem, createPinkNoiseBuffer, playInfantWhimper, playIronKeyTone as triggerIronKeyTone, playMohiniWeeping as triggerMohiniWeeping, playYakBeraClimaxRoll, playYakBeraPulse as triggerYakBera } from './audioStems';
 import { getNotchGain, subscribeCalibration } from '../core/calibrationStore';
 import { spatialPanner } from './spatialPanner';
@@ -105,6 +105,7 @@ class WebAudioMixer {
     this.arterialTimer = setInterval(() => this.playArterialPulse(0.5 + (this.currentBalma / 100) * 0.4), Math.max(460, 980 - this.currentBalma * 4.5));
   }
   public playIronKeyTone(): void { this.setAnchorState(true); } public playIronKeyResonance(): void { this.playIronKeyTone(); }
+  public playStylusScratch(heat = 0): void { if (this.ctx && this.masterFilter) playFrictionScratch(this.ctx, this.masterFilter, heat, this.ambientScale); }
   public getAnalyser(): AnalyserNode | null { return this.analyser; } public getCurrentCueId(): string { return this.currentCue; }
   public getDreamFilter(): BiquadFilterNode | null { return this.masterFilter; } public init(): void { this.unlock(); }
   public previewCue(cue: string, balma = 20): void { this.unlock(); this.setCue(cue, balma); }

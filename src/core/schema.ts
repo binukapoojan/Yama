@@ -31,7 +31,8 @@ export type HapticPatternId =
   | 'heartbeat_slow'
   | 'heartbeat_panic'
   | 'dread_throb'
-  | 'iron_grip';
+  | 'iron_grip'
+  | 'stylus_scratch';
 
 export interface JuiceDirective {
   samayam?: SamayamVelava;

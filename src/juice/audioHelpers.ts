@@ -27,3 +27,37 @@ export function playStrikeSynth(
   gain.gain.setValueAtTime(Math.max(0.001, vol), t0); gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
   osc.connect(gain); gain.connect(dest); osc.start(t0); osc.stop(t0 + dur + 0.02);
 }
+
+export function playFrictionScratch(
+  ctx: AudioContext, dest: AudioNode, heat = 0, volMultiplier = 1
+): void {
+  const dur = 0.045 + Math.random() * 0.025;
+  const length = Math.max(128, Math.floor(ctx.sampleRate * dur));
+  const buf = ctx.createBuffer(1, length, ctx.sampleRate), data = buf.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < length; i++) {
+    const white = Math.random() * 2 - 1;
+    last = (last + 0.15 * white) / 1.15;
+    const snag = Math.random() < 0.08 ? (Math.random() * 2 - 1) * 0.7 : 0;
+    data[i] = last * 0.7 + snag;
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const baseFreq = heat > 0.5 ? 4500 : 3250;
+  const jitter = (Math.random() * 0.16 - 0.08);
+  const centerFreq = baseFreq * (1 + jitter);
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.Q.value = 2.8 + Math.random() * 0.6;
+  const t0 = ctx.currentTime;
+  filter.frequency.setValueAtTime(centerFreq, t0);
+  filter.frequency.exponentialRampToValueAtTime(Math.max(100, centerFreq * 0.88), t0 + dur);
+  const gain = ctx.createGain();
+  const targetGain = Math.max(0.001, 0.24 * volMultiplier);
+  const attack = 0.006;
+  gain.gain.setValueAtTime(0.001, t0);
+  gain.gain.linearRampToValueAtTime(targetGain, t0 + attack);
+  gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+  src.connect(filter); filter.connect(gain); gain.connect(dest);
+  src.start(t0); src.stop(t0 + dur + 0.01);
+}

@@ -4,6 +4,7 @@ import { BulathBlemish, BulathHurullaPayload } from '../../core/bulathCodec';
 import { CASEFILE_AVATAR_CANDIDATES, forensicLedger } from '../../core/forensicLedger';
 import { audioMixer } from '../../juice/audioMixer';
 import { juiceDirector } from '../../juice/JuiceDirector';
+import { triggerStylusScratch } from '../../juice/panhiyaFeedback';
 
 interface BulathLeafCanvasProps {
   payload: BulathHurullaPayload;
@@ -34,6 +35,7 @@ export const BulathLeafCanvas: React.FC<BulathLeafCanvasProps> = ({ payload, onI
   };
 
   const handleSelectCandidate = (candidateId: string) => {
+    triggerStylusScratch();
     forensicLedger.markDiagnosis(payload.casefile, candidateId);
     setMarkedId(candidateId);
     const isCorrect = candidateId === payload.avatar;
