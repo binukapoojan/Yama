@@ -1,9 +1,10 @@
 // src/core/savePersistence.ts
-import { App as CapApp } from '@capacitor/app';
-import { Capacitor } from '@capacitor/core';
+import { App as CapApp } from '@capacitor/app'; import { Capacitor } from '@capacitor/core';
 import { BulathHurullaPayload, CasefileId } from './bulathCodec';
+import { loadDiscoveredCompendium } from './compendiumStore';
 import { getInitialWebBulath } from './deepLinkRouter';
 import { RuntimeVariables, StoryGraph } from './schema';
+import { evaluateAndSyncSteamAchievements } from './steamBridge';
 
 const STORAGE_KEY = 'aftermonsoon_puskola_ledger_v1';
 
@@ -62,8 +63,10 @@ export function saveSessionSnapshot(casefile: CasefileId, passageId: string, run
     const merged = Array.from(new Set([...getUnlockedKattadiya(), ...(unlocked ?? [])]));
     const payload: SessionSnapshot = { version: 1, casefile, passageId, runtimeState, unlockedKattadiya: merged, updatedAt: Date.now() };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    evaluateAndSyncSteamAchievements({ passageId, discoveredIds: loadDiscoveredCompendium(), unlockedKattadiya: merged });
   } catch { /* Ignore storage quota blocks */ }
 }
+export const saveAnthologyState = saveSessionSnapshot;
 
 export function loadSessionSnapshot(stories: Partial<Record<CasefileId, StoryGraph>>): SessionSnapshot | null {
   if (typeof window === 'undefined') return null;

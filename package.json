@@ -18,6 +18,8 @@
     "build": "tsc -b && vite build",
     "test": "vitest run",
     "preview": "vite preview",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
     "cap:init": "npx cap add android",
     "cap:sync": "npm run build && npx cap sync android",
     "cap:open": "npx cap open android",

@@ -1,5 +1,6 @@
 // src/components/viewport/PanhiyaStylusCursor.tsx
 import React, { useEffect, useRef, useState } from 'react';
+import { toggleDesktopFullscreen } from '../../core/steamBridge';
 import { initGlobalPanhiyaListener } from '../../juice/panhiyaFeedback';
 import { wardFatigue, WardFatigueSnapshot } from '../../juice/wardFatigue';
 
@@ -44,19 +45,20 @@ export const PanhiyaStylusCursor: React.FC = () => {
       setScrollPct(Math.max(0, Math.min(100, (window.scrollY / maxScroll) * 100)));
     };
 
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'F11') { e.preventDefault(); void toggleDesktopFullscreen(); } };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
     window.addEventListener('pointerup', onPointerUp, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('keydown', onKey);
     onScroll();
 
     return () => {
       unsubGlobal();
       if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerdown', onPointerDown);
-      window.removeEventListener('pointerup', onPointerUp);
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('pointermove', onPointerMove); window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointerup', onPointerUp); window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('keydown', onKey);
     };
   }, []);
 

@@ -1,4 +1,5 @@
 // src/core/memoryScars.ts
+import { evaluateAndSyncSteamAchievements } from './steamBridge';
 
 export const SCARS_STORAGE_KEY = 'after_monsoon_memory_scars_v1';
 
@@ -47,6 +48,7 @@ export function recordMemoryScarIfEnding(passageId: string): string[] {
   if (typeof window !== 'undefined' && window.localStorage) {
     try { window.localStorage.setItem(SCARS_STORAGE_KEY, JSON.stringify(next)); } catch {}
   }
+  evaluateAndSyncSteamAchievements({ sufferedScars: next });
   return next;
 }
 
