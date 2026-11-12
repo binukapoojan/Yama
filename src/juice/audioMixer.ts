@@ -88,8 +88,8 @@ class WebAudioMixer {
   public playYakBeraClimax(): void { if (this.ctx && this.masterFilter) playYakBeraClimaxRoll(this.ctx, this.masterFilter); }
   public playMohiniWhimper(): void { if (this.ctx && this.masterFilter && !this.anchorHeld) playInfantWhimper(this.ctx, this.masterFilter); }
   public playMohiniWeeping(): void { if (this.ctx && this.masterFilter && !this.anchorHeld) triggerMohiniWeeping(this.ctx, this.masterFilter); }
-  public playArterialPulse(intensity = 0.75): void {
-    if (!this.ctx || !this.masterFilter || this.anchorHeld) return;
+  public playArterialPulse(intensity = 0.75, force = false): void {
+    if (!this.ctx || !this.masterFilter || (this.anchorHeld && !force)) return;
     this.playStrike(96, 36, 0.14, intensity * 0.32, 'sine', 0);
     this.playStrike(78, 30, 0.18, intensity * 0.22, 'sine', 0.135);
   }

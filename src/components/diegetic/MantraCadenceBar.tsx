@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { audioMixer } from '../../juice/audioMixer';
 import { juiceDirector } from '../../juice/JuiceDirector';
+import { wardFatigue } from '../../juice/wardFatigue';
 import { MantraBreathYantra, MantraVerseSpec } from './MantraBreathYantra';
 
 export type MantraKey = 'RATA_YAKUMA' | 'PATTINI_VARAMA' | 'RIRI_VARAMA' | 'GOTHAIMBARA_VARAMA';
@@ -47,6 +48,7 @@ export const MantraCadenceBar: React.FC<MantraCadenceProps> = ({ mantraKey, onCo
   const consecrateVerse = useCallback(() => {
     holdingRef.current = false; progressRef.current = 0; setProgress(0);
     audioMixer.playYakBeraPulse(0.9); juiceDirector.triggerHaptic('iron_grip');
+    wardFatigue.ventHeat(40);
     setVerseIdx((v) => {
       if (v + 1 >= script.verses.length) {
         setStatus('CONSECRATED'); audioMixer.playYakBeraClimax(); onCompleted(true);

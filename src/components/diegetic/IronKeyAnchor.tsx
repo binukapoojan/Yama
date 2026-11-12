@@ -1,74 +1,71 @@
+// src/components/diegetic/IronKeyAnchor.tsx
 import React, { useEffect, useState } from 'react';
+import { audioMixer } from '../../juice/audioMixer';
 import { juiceDirector } from '../../juice/JuiceDirector';
+import { wardFatigue, WardFatigueSnapshot } from '../../juice/wardFatigue';
 
 export const IronKeyAnchor: React.FC = () => {
-  const [held, setHeld] = useState<boolean>(() => juiceDirector.isAnchorHeld());
+  const [snap, setSnap] = useState<WardFatigueSnapshot>(() => wardFatigue.getSnapshot());
 
   useEffect(() => {
-    const unsub = juiceDirector.on('ANCHOR_STATE_CHANGE', ({ held: nextHeld }) => setHeld(nextHeld));
+    const unsubFatigue = wardFatigue.subscribe(setSnap);
+    const unsubJuice = juiceDirector.on('ANCHOR_STATE_CHANGE', ({ held }) => {
+      if (!held && wardFatigue.getSnapshot().holding) wardFatigue.releaseHold();
+    });
+    return () => { unsubFatigue(); unsubJuice(); };
+  }, []);
 
+  useEffect(() => {
+    const isTyping = (el: EventTarget | null) => el instanceof HTMLElement && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === 'Space' && !e.repeat) {
-        e.preventDefault();
-        juiceDirector.setAnchorHeld(true);
+      if (e.code === 'Space' && !e.repeat && !isTyping(e.target)) {
+        e.preventDefault(); audioMixer.unlock(); wardFatigue.requestHold();
       }
     };
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.code === 'Space') {
-        e.preventDefault();
-        juiceDirector.setAnchorHeld(false);
+      if (e.code === 'Space' && !isTyping(e.target)) {
+        e.preventDefault(); wardFatigue.releaseHold();
       }
     };
-    const handleWindowBlur = () => juiceDirector.setAnchorHeld(false);
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-    window.addEventListener('blur', handleWindowBlur);
-
-    return () => {
-      unsub();
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-      window.removeEventListener('blur', handleWindowBlur);
-    };
+    window.addEventListener('keydown', handleKeyDown); window.addEventListener('keyup', handleKeyUp);
+    return () => { window.removeEventListener('keydown', handleKeyDown); window.removeEventListener('keyup', handleKeyUp); };
   }, []);
 
+  const { heat, scalded, holding } = snap;
+  const isCritical = heat >= 72 && !scalded;
+
+  const ironStroke = scalded ? '#6E3538' : heat >= 75 ? '#FF7A29' : heat >= 40 ? '#B82932' : holding ? '#D49B27' : '#8A99AD';
+  const glowFilter = scalded ? 'drop-shadow(0 0 10px rgba(140, 29, 36, 0.75))' : heat >= 70 ? 'drop-shadow(0 0 18px rgba(255, 106, 36, 0.9))' : heat >= 35 ? 'drop-shadow(0 0 14px rgba(184, 41, 50, 0.75))' : holding ? 'drop-shadow(0 0 14px rgba(212, 155, 39, 0.65))' : 'none';
+
   return (
-    <div className="fixed inset-x-0 bottom-6 z-20 flex justify-center pointer-events-none">
+    <div className="fixed inset-x-0 bottom-5 z-40 flex flex-col items-center justify-center pointer-events-none select-none font-serif">
       <button
-        type="button"
-        aria-label="Hold Iron Talisman Ward"
-        aria-pressed={held}
-        onContextMenu={(e) => e.preventDefault()}
-        onPointerDown={(e) => {
-          e.currentTarget.setPointerCapture(e.pointerId);
-          juiceDirector.setAnchorHeld(true);
-        }}
-        onPointerUp={() => juiceDirector.setAnchorHeld(false)}
-        onPointerCancel={() => juiceDirector.setAnchorHeld(false)}
-        onLostPointerCapture={() => juiceDirector.setAnchorHeld(false)}
-        className={`pointer-events-auto relative flex h-16 w-16 touch-none select-none items-center justify-center rounded-full transition-all duration-300 ease-out focus:outline-none ${
-          held ? 'scale-95' : 'scale-100 hover:scale-[1.02]'
+        type="button" disabled={scalded} aria-pressed={holding} aria-label="Hold Cold Iron Ward"
+        onPointerDown={(e) => { e.currentTarget.setPointerCapture?.(e.pointerId); audioMixer.unlock(); wardFatigue.requestHold(); }}
+        onPointerUp={() => wardFatigue.releaseHold()} onPointerCancel={() => wardFatigue.releaseHold()}
+        style={{ filter: glowFilter }}
+        className={`pointer-events-auto group flex flex-col items-center gap-1.5 px-6 py-2 transition-transform duration-100 focus:outline-none ${
+          scalded ? 'cursor-not-allowed opacity-70' : isCritical ? 'cursor-pointer translate-x-0.5 scale-105' : holding ? 'cursor-pointer scale-105' : 'cursor-pointer opacity-80 hover:opacity-100'
         }`}
-        style={{
-          background: held
-            ? 'radial-gradient(circle, rgba(212, 155, 39, 0.22) 0%, rgba(16, 13, 10, 0.95) 68%, #090807 100%)'
-            : 'radial-gradient(circle, rgba(28, 24, 19, 0.65) 0%, rgba(9, 8, 7, 0.96) 75%)',
-          boxShadow: held
-            ? 'inset 0 2px 8px rgba(0,0,0,0.9), 0 0 28px rgba(212, 155, 39, 0.28)'
-            : 'inset 0 3px 10px rgba(0,0,0,0.95), 0 1px 0 rgba(200, 150, 62, 0.12)',
-        }}
       >
-        <svg
-          viewBox="0 0 64 64"
-          className={`h-14 w-14 transition-transform duration-1000 ease-out ${held ? 'rotate-45' : 'rotate-0'}`}
-        >
-          <circle cx="32" cy="32" r="28" fill="none" stroke="#C8963E" strokeWidth="0.75" strokeOpacity={held ? '0.85' : '0.28'} />
-          <circle cx="32" cy="32" r="22" fill="none" stroke="#C8963E" strokeWidth="0.6" strokeDasharray="2 3" strokeOpacity={held ? '0.9' : '0.22'} />
-          <polygon points="32,12 49,42 15,42" fill="none" stroke="#C8963E" strokeWidth="0.7" strokeOpacity={held ? '0.75' : '0.18'} />
-          <polygon points="32,52 49,22 15,22" fill="none" stroke="#C8963E" strokeWidth="0.7" strokeOpacity={held ? '0.75' : '0.18'} />
-          <circle cx="32" cy="32" r="3.5" fill={held ? '#D49B27' : 'none'} stroke="#C8963E" strokeWidth="0.9" strokeOpacity={held ? '1' : '0.35'} />
+        <svg viewBox="0 0 180 44" className="h-9 w-40 overflow-visible">
+          {(heat >= 55 || scalded) && (
+            <g fill="none" stroke={scalded ? '#8A99AD' : '#FF7A29'} strokeWidth="1" strokeOpacity="0.65">
+              <path d="M 65,12 C 60,4 70,-2 64,-10" className="animate-smoke" />
+              <path d="M 115,12 C 120,4 110,-2 116,-10" className="animate-smoke" style={{ animationDelay: '0.9s' }} />
+            </g>
+          )}
+          <circle cx="34" cy="22" r="14" fill="#0B0908" stroke={ironStroke} strokeWidth="2.2" />
+          <circle cx="34" cy="22" r="6" fill="none" stroke={ironStroke} strokeWidth="1.2" strokeDasharray="3 2" />
+          <path d="M 48,15 L 54,29 M 52,15 L 48,29" stroke="#D49B27" strokeWidth="1.6" />
+          <line x1="48" y1="22" x2="152" y2="22" stroke={ironStroke} strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M 128,22 L 128,35 L 136,35 L 136,27 L 144,27 L 144,37 L 152,37 L 152,22" fill="none" stroke={ironStroke} strokeWidth="2.4" />
         </svg>
+        <span className={`text-[11px] tracking-[0.24em] uppercase transition-colors duration-300 ${
+          scalded ? 'text-[#B82932] italic' : isCritical ? 'text-[#FF7A29]' : holding ? 'text-[#D49B27]' : 'text-[#8A99AD]/75 group-hover:text-[#D49B27]'
+        }`}>
+          {scalded ? 'යකඩ ගිනි · Palm Scalded — Let the Iron Cool' : isCritical ? '❖ Iron Blistering — Release Soon ❖' : holding ? '❖ යකඩ ආරක්ෂාව · Cold Iron Anchored ❖' : 'යකඩ ආරක්ෂාව · Hold Cold Iron Seal'}
+        </span>
       </button>
     </div>
   );
