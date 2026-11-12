@@ -5,7 +5,7 @@ import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF
 import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard';
 import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium';
 import { RitualStageRouter } from './components/diegetic/RitualStageRouter'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate'; import { WickCalibrationModal } from './components/diegetic/WickCalibrationModal';
-import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { DummalaShaderFilter } from './components/viewport/DummalaShaderFilter'; import { FlowBackdrop } from './components/viewport/FlowBackdrop';
+import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { DummalaShaderFilter } from './components/viewport/DummalaShaderFilter'; import { FlowBackdrop } from './components/viewport/FlowBackdrop'; import { PanhiyaStylusCursor } from './components/viewport/PanhiyaStylusCursor';
 import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { getInitialWebBulath, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter';
 import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, createInitialStateForCasefile, getUnlockedKattadiya, KATTADIYA_UNLOCK_PASSAGES, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
 import { RuntimeVariables, TwineChoice } from './core/schema'; import { applyStateMutations, parseTweeStory } from './core/twineParser'; import { audioMixer } from './juice/audioMixer'; import { juiceDirector } from './juice/JuiceDirector';
@@ -81,7 +81,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-[#090807] selection:bg-[#C8963E]/20 selection:text-[#EAE3D2]">
-      <div className="dummala-warp-target"><FlowBackdrop /></div><ChiaroscuroMask /><DummalaShaderFilter balma={Number(runtimeState.balma ?? 20)} />
+      <div className="dummala-warp-target"><FlowBackdrop /></div><ChiaroscuroMask /><DummalaShaderFilter balma={Number(runtimeState.balma ?? 20)} /><PanhiyaStylusCursor />
       {gateMode ? (
         <SamayamTitleGate
           mode={gateMode} activeCasefile={casefile} discoveredCount={discoveredIds.length} unlockedKattadiya={unlockedKattadiya}
