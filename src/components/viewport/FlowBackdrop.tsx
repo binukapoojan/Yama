@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FlowLoopId } from '../../core/schema';
 import { juiceDirector } from '../../juice/JuiceDirector';
+import { ScratchboardEtchPlate } from './ScratchboardEtchPlate';
 
 const FLOW_LOOPS: ReadonlyArray<FlowLoopId> = [
   'bodima_rain_window', 'pahana_steady', 'pahana_nil_manel', 'mirror_dark_idle',
@@ -21,34 +22,18 @@ export const FlowBackdrop: React.FC = () => {
 
   useEffect(() => {
     const unsubFlow = juiceDirector.on('FLOW_CROSSFADE', ({ loopId, isProtectedOverride }) => {
-      setActiveLoop(loopId);
-      setIsProtected(isProtectedOverride);
+      setActiveLoop(loopId); setIsProtected(isProtectedOverride);
     });
-    const unsubVignette = juiceDirector.on('VIGNETTE_SHIFT', ({ intensity }) => {
-      setVignetteIntensity(intensity);
-    });
-    return () => {
-      unsubFlow();
-      unsubVignette();
-    };
+    const unsubVignette = juiceDirector.on('VIGNETTE_SHIFT', ({ intensity }) => setVignetteIntensity(intensity));
+    return () => { unsubFlow(); unsubVignette(); };
   }, []);
 
-  // Performance: only decode and play active loop (and outgoing during 1.2s crossfade).
-  // Pauses all other 15 background videos to prevent hardware decoder saturation.
   useEffect(() => {
     const activeEl = videoRefs.current[activeLoop];
-    if (activeEl) {
-      activeEl.play().catch(() => {});
-    }
-
+    if (activeEl) activeEl.play().catch(() => {});
     const timer = setTimeout(() => {
-      Object.entries(videoRefs.current).forEach(([id, el]) => {
-        if (el && id !== activeLoop) {
-          el.pause();
-        }
-      });
+      Object.entries(videoRefs.current).forEach(([id, el]) => { if (el && id !== activeLoop) el.pause(); });
     }, 1250);
-
     return () => clearTimeout(timer);
   }, [activeLoop]);
 
@@ -60,16 +45,12 @@ export const FlowBackdrop: React.FC = () => {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#090807] select-none">
       <div className="relative h-[48vh] w-full overflow-hidden">
+        <ScratchboardEtchPlate loopId={activeLoop} />
         {FLOW_LOOPS.map((loopId) => {
           const isCurrent = activeLoop === loopId;
           return (
             <video
-              key={loopId}
-              ref={(el) => { videoRefs.current[loopId] = el; }}
-              autoPlay={isCurrent}
-              loop
-              muted
-              playsInline
+              key={loopId} ref={(el) => { videoRefs.current[loopId] = el; }} autoPlay={isCurrent} loop muted playsInline
               preload={isCurrent ? 'auto' : 'none'}
               className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1200 ease-in-out ${
                 isCurrent ? 'opacity-85 scale-100' : 'opacity-0 scale-[1.02]'

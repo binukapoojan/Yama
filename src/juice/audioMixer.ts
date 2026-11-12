@@ -1,5 +1,5 @@
 // src/juice/audioMixer.ts
-import { buildCrackleStem, playFrictionScratch, playStrikeSynth, PRELOAD_STEM_NAMES } from './audioHelpers';
+import { buildCrackleStem, playFrictionScratch, playProceduralWhisper, playStrikeSynth, PRELOAD_STEM_NAMES } from './audioHelpers';
 import { createCebHumStem, createCicadaStem, createNoiseStem, createPinkNoiseBuffer, playInfantWhimper, playIronKeyTone as triggerIronKeyTone, playMohiniWeeping as triggerMohiniWeeping, playYakBeraClimaxRoll, playYakBeraPulse as triggerYakBera } from './audioStems';
 import { getNotchGain, subscribeCalibration } from '../core/calibrationStore';
 import { spatialPanner } from './spatialPanner';
@@ -83,7 +83,9 @@ class WebAudioMixer {
       const g = this.ctx.createGain(); g.gain.value = this.whisperScale;
       src.connect(g); g.connect(spatialPanner.getDestination(this.ctx, this.masterFilter));
       src.start(); this.activeWhisperSource = src;
-    } else if (fallback) fallback();
+    } else {
+      if (this.ctx && this.masterFilter) playProceduralWhisper(this.ctx, spatialPanner.getDestination(this.ctx, this.masterFilter)); if (fallback) fallback();
+    }
   }
 
   public playYakBeraPulse(i = 0.7): void { if (this.ctx && this.masterFilter) triggerYakBera(this.ctx, this.masterFilter, i * this.ambientScale); }

@@ -61,3 +61,27 @@ export function playFrictionScratch(
   src.connect(filter); filter.connect(gain); gain.connect(dest);
   src.start(t0); src.stop(t0 + dur + 0.01);
 }
+
+export function playProceduralWhisper(ctx: AudioContext, dest: AudioNode): void {
+  const now = ctx.currentTime, dur = 0.65;
+  const frames = Math.max(1, Math.floor(ctx.sampleRate * dur));
+  const buf = ctx.createBuffer(1, frames, ctx.sampleRate), data = buf.getChannelData(0);
+  for (let i = 0; i < frames; i++) {
+    const env = Math.sin((i / frames) * Math.PI) * (0.65 + 0.35 * Math.sin((i / frames) * Math.PI * 4));
+    data[i] = (Math.random() * 2 - 1) * env * 0.45;
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const formant1 = ctx.createBiquadFilter();
+  formant1.type = 'bandpass'; formant1.frequency.setValueAtTime(780, now);
+  formant1.frequency.linearRampToValueAtTime(640, now + dur); formant1.Q.value = 5.5;
+  const formant2 = ctx.createBiquadFilter();
+  formant2.type = 'bandpass'; formant2.frequency.setValueAtTime(1950, now);
+  formant2.frequency.linearRampToValueAtTime(1620, now + dur); formant2.Q.value = 7.0;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.001, now); gain.gain.linearRampToValueAtTime(0.28, now + 0.08);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+  src.connect(formant1); src.connect(formant2);
+  formant1.connect(gain); formant2.connect(gain); gain.connect(dest);
+  src.start(now); src.stop(now + dur + 0.02);
+}

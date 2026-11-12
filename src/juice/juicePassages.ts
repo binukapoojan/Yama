@@ -8,6 +8,9 @@ export const PASSAGE_WHISPERS: Record<string, string> = {
   Rafters_Simian_Chatter: 'whisper_riri_rafters',
   Culvert_Pilgrim_Lantern: 'whisper_pilgrim_boar',
   Tank_Bund_Footsteps: 'whisper_mahasona_neck',
+  Cardinal_Sima_Collapse: 'whisper_oddisa_gate',
+  Viper_Venom_Paralysis: 'whisper_viper_pit',
+  Shrine_Mirror_Convergence: 'whisper_huniyam_debt',
 };
 
 export const WEEPING_PASSAGES = new Set([

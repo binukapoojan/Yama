@@ -30,7 +30,6 @@ export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoic
     textMutator.loadPassage(passage);
     const unsubMutator = textMutator.subscribe(setMutations);
     const unsubAnchor = juiceDirector.on('ANCHOR_STATE_CHANGE', ({ held }) => setAnchorHeld(held));
-
     const total = passage.paragraphs.length;
     const timers: Array<ReturnType<typeof setTimeout>> = [];
     for (let i = 1; i <= total; i++) timers.push(setTimeout(() => setVisibleCount(i + 1), i * 620));
@@ -39,6 +38,19 @@ export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoic
 
   const choicesReady = visibleCount > passage.paragraphs.length;
   const watchMeta = passage.directives.samayam ? SAMAYAM_LABELS[passage.directives.samayam] : null;
+
+  useEffect(() => {
+    if (!choicesReady || hideChoices) return;
+    const onKey = (e: KeyboardEvent) => {
+      const idx = ['Digit1', 'Digit2', 'Digit3', 'Digit4'].indexOf(e.code);
+      const picked = idx >= 0 ? passage.choices[idx] : undefined;
+      if (picked && (!picked.requiresAnchorHeld || juiceDirector.isAnchorHeld())) {
+        e.preventDefault(); onSelectChoice(picked);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [choicesReady, hideChoices, passage.choices, onSelectChoice]);
 
   return (
     <main className="relative z-10 mx-auto flex min-h-screen w-full max-w-[39rem] flex-col justify-end px-7 pt-[28vh] pb-32 md:px-12">
@@ -52,22 +64,15 @@ export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoic
 
       <article className="space-y-6 font-serif text-[1.22rem] leading-[1.88] tracking-[0.012em] text-[#EAE3D2] antialiased">
         {passage.paragraphs.map((paragraph, pIdx) => (
-          <p
-            key={`${passage.name}_p_${pIdx}`}
-            className={`typo-dropcap transition-all duration-700 ease-out ${pIdx < visibleCount ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-2 opacity-0'}`}
-          >
+          <p key={`${passage.name}_p_${pIdx}`} className={`typo-dropcap transition-all duration-700 ease-out ${pIdx < visibleCount ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-2 opacity-0'}`}>
             {paragraph.map((seg, sIdx) => {
               if (seg.type === 'plain') return <React.Fragment key={sIdx}>{seg.text}</React.Fragment>;
-              const tok = mutations[seg.id];
-              const isCorrupted = tok?.isCorrupted ?? false;
+              const tok = mutations[seg.id], isCorrupted = tok?.isCorrupted ?? false;
               return (
                 <span
-                  key={seg.id}
-                  style={isCorrupted && !anchorHeld ? { textShadow: '0 0 16px rgba(91, 120, 184, 0.75)' } : undefined}
+                  key={seg.id} style={isCorrupted && !anchorHeld ? { textShadow: '0 0 16px rgba(91, 120, 184, 0.75)' } : undefined}
                   className={`inline transition-all duration-500 ${
-                    anchorHeld
-                      ? 'text-[#D49B27] decoration-[#C8963E]/60 underline decoration-1 underline-offset-4'
-                      : tok?.isMorphing ? 'text-[#6883BA] opacity-85 italic' : isCorrupted ? 'text-[#9BB4E8] italic' : 'text-[#EAE3D2]'
+                    anchorHeld ? 'text-[#D49B27] decoration-[#C8963E]/60 underline decoration-1 underline-offset-4' : tok?.isMorphing ? 'text-[#6883BA] opacity-85 italic' : isCorrupted ? 'text-[#9BB4E8] italic' : 'text-[#EAE3D2]'
                   }`}
                 >
                   {tok?.currentText ?? seg.wakingText}
@@ -80,8 +85,7 @@ export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoic
 
       {activeScar && choicesReady && (
         <aside className="animate-folio mt-6 border-l border-[#8C1D24]/70 pl-3.5 font-serif text-xs leading-relaxed text-[#9BB4E8]/85 italic">
-          <span className="not-italic tracking-[0.2em] text-[#B82932] uppercase">{activeScar.marginaliaSinhala} · </span>
-          {activeScar.marginaliaEcho}
+          <span className="not-italic tracking-[0.2em] text-[#B82932] uppercase">{activeScar.marginaliaSinhala} · </span>{activeScar.marginaliaEcho}
         </aside>
       )}
 
@@ -92,9 +96,7 @@ export const ProseStream: React.FC<ProseStreamProps> = ({ passage, onSelectChoic
             return (
               <button
                 key={`${passage.name}_c_${idx}`} type="button" disabled={lockedByWard} onClick={() => onSelectChoice(choice)}
-                className={`group flex w-full items-baseline text-left font-serif text-[1.12rem] leading-relaxed transition-all duration-300 ${
-                  lockedByWard ? 'cursor-not-allowed text-[#8A99AD]/30 italic' : 'incised-trigger cursor-pointer text-[#EAE3D2]/85 focus:outline-none'
-                }`}
+                className={`group flex w-full items-baseline text-left font-serif text-[1.12rem] leading-relaxed transition-all duration-300 ${lockedByWard ? 'cursor-not-allowed text-[#8A99AD]/30 italic' : 'incised-trigger cursor-pointer text-[#EAE3D2]/85 focus:outline-none'}`}
               >
                 <span className={`mr-3.5 text-xs transition-transform duration-300 ${lockedByWard ? 'text-[#3B4D7A]/50' : 'text-[#C8963E]/75 group-hover:translate-x-1 group-hover:text-[#D49B27]'}`}>❖</span>
                 <span>
