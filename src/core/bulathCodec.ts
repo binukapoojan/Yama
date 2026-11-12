@@ -1,7 +1,7 @@
 // src/core/bulathCodec.ts
 import { RuntimeVariables } from './schema';
 
-export type CasefileId = 'CF01' | 'CF02' | 'CF03' | 'CF04';
+export type CasefileId = 'CF01' | 'CF02' | 'CF03' | 'CF04' | 'CF05';
 export type DemonAvatar =
   | 'HANDUN_KUMARA' | 'VATHA_KUMARA' | 'MALA_MOHINI' | 'RATI_MOHINI'
   | 'MARU_RIRI' | 'SOHON_RIRI' | 'JAYASENA_YAKA' | 'MAHA_SOHONA';
@@ -19,11 +19,11 @@ export interface BulathHurullaPayload {
 const BLEMISH_SLOTS: ReadonlyArray<{
   bit: number; keys: Record<CasefileId, string>; type: BlemishType; x: number; y: number;
 }> = [
-  { bit: 1 << 0, keys: { CF01: 'taboo_bathed_dusk', CF02: 'taboo_walked_samayam', CF03: 'taboo_fried_pulutu', CF04: 'taboo_whistled_crossroads' }, type: 'DARK_BRUISE', x: 0.50, y: 0.20 },
-  { bit: 1 << 1, keys: { CF01: 'taboo_hair_unbound', CF02: 'taboo_answered_call', CF03: 'taboo_unwashed_blood', CF04: 'taboo_carried_uncovered_meat' }, type: 'VEIN_KNOT', x: 0.35, y: 0.38 },
-  { bit: 1 << 2, keys: { CF01: 'taboo_mirror_unshrouded', CF02: 'taboo_met_eyes', CF03: 'taboo_plucked_wadamal', CF04: 'taboo_looked_back_snap' }, type: 'PINHOLE_TEAR', x: 0.50, y: 0.52 },
-  { bit: 1 << 3, keys: { CF01: 'taboo_sweet_snacks', CF02: 'taboo_mirrored_gesture', CF03: 'taboo_crossed_anthill', CF04: 'taboo_stepped_ash_pot' }, type: 'OILY_SHEEN', x: 0.66, y: 0.60 },
-  { bit: 1 << 4, keys: { CF01: 'taboo_laundry', CF02: 'taboo_accepted_bundle', CF03: 'taboo_tasted_hearth_ash', CF04: 'taboo_cursed_boar_shadow' }, type: 'STEM_ROT', x: 0.50, y: 0.79 },
+  { bit: 1 << 0, keys: { CF01: 'taboo_bathed_dusk', CF02: 'taboo_walked_samayam', CF03: 'taboo_fried_pulutu', CF04: 'taboo_whistled_crossroads', CF05: 'taboo_whistled_crossroads' }, type: 'DARK_BRUISE', x: 0.50, y: 0.20 },
+  { bit: 1 << 1, keys: { CF01: 'taboo_hair_unbound', CF02: 'taboo_answered_call', CF03: 'taboo_unwashed_blood', CF04: 'taboo_carried_uncovered_meat', CF05: 'taboo_unwashed_blood' }, type: 'VEIN_KNOT', x: 0.35, y: 0.38 },
+  { bit: 1 << 2, keys: { CF01: 'taboo_mirror_unshrouded', CF02: 'taboo_met_eyes', CF03: 'taboo_plucked_wadamal', CF04: 'taboo_looked_back_snap', CF05: 'taboo_looked_back_snap' }, type: 'PINHOLE_TEAR', x: 0.50, y: 0.52 },
+  { bit: 1 << 3, keys: { CF01: 'taboo_sweet_snacks', CF02: 'taboo_mirrored_gesture', CF03: 'taboo_crossed_anthill', CF04: 'taboo_stepped_ash_pot', CF05: 'taboo_stepped_ash_pot' }, type: 'OILY_SHEEN', x: 0.66, y: 0.60 },
+  { bit: 1 << 4, keys: { CF01: 'taboo_laundry', CF02: 'taboo_accepted_bundle', CF03: 'taboo_tasted_hearth_ash', CF04: 'taboo_cursed_boar_shadow', CF05: 'taboo_cursed_boar_shadow' }, type: 'STEM_ROT', x: 0.50, y: 0.79 },
 ];
 
 export function encodeBulathPayload(
@@ -61,7 +61,7 @@ export function decodeBulathPayload(input: string): BulathHurullaPayload | null 
   try {
     const decoded = typeof atob !== 'undefined' ? atob(cleaned) : cleaned;
     const parts = decoded.split('.');
-    const hasPrefix = parts[0] === 'CF01' || parts[0] === 'CF02' || parts[0] === 'CF03' || parts[0] === 'CF04';
+    const hasPrefix = ['CF01', 'CF02', 'CF03', 'CF04', 'CF05'].includes(parts[0]);
     const casefile: CasefileId = hasPrefix ? (parts[0] as CasefileId) : 'CF01';
     const [mStr, bStr, tStr] = hasPrefix ? parts.slice(1) : parts;
     const mask = parseInt(mStr, 10), balma = parseInt(bStr, 10), tanikama = parseInt(tStr, 10);
@@ -85,10 +85,9 @@ function buildPayloadFromBits(casefile: CasefileId, mask: number, balma: number,
   const isPhysical = physicalScore > sensoryScore;
 
   const avatarMap: Record<CasefileId, [DemonAvatar, DemonAvatar]> = {
-    CF01: ['HANDUN_KUMARA', 'VATHA_KUMARA'],
-    CF02: ['MALA_MOHINI', 'RATI_MOHINI'],
-    CF03: ['MARU_RIRI', 'SOHON_RIRI'],
-    CF04: ['JAYASENA_YAKA', 'MAHA_SOHONA'],
+    CF01: ['HANDUN_KUMARA', 'VATHA_KUMARA'], CF02: ['MALA_MOHINI', 'RATI_MOHINI'],
+    CF03: ['MARU_RIRI', 'SOHON_RIRI'], CF04: ['JAYASENA_YAKA', 'MAHA_SOHONA'],
+    CF05: ['JAYASENA_YAKA', 'MAHA_SOHONA'],
   };
   const avatar = avatarMap[casefile][isPhysical ? 1 : 0];
   const prefixMap: Record<DemonAvatar, string> = {

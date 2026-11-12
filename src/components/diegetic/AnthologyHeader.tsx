@@ -36,7 +36,7 @@ export const AnthologyHeader: React.FC<AnthologyHeaderProps> = ({
     <header className="fixed inset-x-0 top-0 z-40 mx-auto max-w-[46rem] border-b border-[#C8963E]/15 bg-[#060504]/85 px-6 py-4 font-serif text-xs tracking-[0.16em] text-[#EAE3D2]/55 uppercase backdrop-blur-xs select-none">
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap gap-x-5 gap-y-1">
-          {(['CF01', 'CF02', 'CF03', 'CF04'] as CasefileId[]).map((id) => (
+          {((activeCasefile === 'CF05' ? ['CF01', 'CF02', 'CF03', 'CF04', 'CF05'] : ['CF01', 'CF02', 'CF03', 'CF04']) as CasefileId[]).map((id) => (
             <button
               key={id} type="button"
               onClick={() => { setDrawerOpen(false); onSwitchCasefile(id, 'ATHURA'); }}

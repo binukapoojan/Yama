@@ -6183,5 +6183,586 @@
         }
       ]
     }
+  },
+  "CF05": {
+    "Walawwa_Eclipse_Start": {
+      "name": "Walawwa_Eclipse_Start",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "pahana_nil_manel",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_slow",
+        "vignette": 0.58
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "A bruised copper shadow—the Rāhu Grahanaya blood-eclipse—devours the full moon above the mossy roof-tiles of your ancestral Walawwa. Inside your private shrine room, the four clay Sīmā boundary lamps you lit at dusk for the four quarters of the island gutter simultaneously in a draft that smells of "
+          },
+          {
+            "type": "mutate",
+            "id": "Walawwa_Eclipse_Start_p0_m0",
+            "wakingText": "damp courtyard jasmine and old lime plaster",
+            "corruptedText": "burnt five-metal copper, shedding viper skin, and hot cremation tallow",
+            "delayMs": 2400
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "On the teak peg-rail, the tools of your four completed exorcisms—the Nugegoda clay shards, the Kandy Kaduru masks, the Matara rush-mat cord, and the Anuradhapura iron Giraya—begin to vibrate against the lime wall. Someone has buried a consecrated Kodivina sorcery charm beneath your own threshold stone during the eclipse watch, cracking the protective warrant that kept your four banished debtors at bay."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Lift your brass Pahana lamp and inspect the granite threshold stone at the front verandah",
+          "targetPassage": "Threshold_Stone_Breach",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            },
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Grip your cold iron Giraya and check the four cardinal boundary lamps in the courtyard first",
+          "targetPassage": "Cardinal_Sima_Collapse",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 5
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Cardinal_Sima_Collapse": {
+      "name": "Cardinal_Sima_Collapse",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "thummansala_banyan_wind",
+        "audio": "monsoon_heavy",
+        "haptic": "dread_throb",
+        "vignette": 0.68,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "You step barefoot onto the wet inner courtyard sand. One by one, the four earthen boundary lamps around your compound perimeter are being snuffed out from the outside:\nTo the West, bruised Nil Manel petals float in the rain-gutter; to the North-East, a wet white saree hem drags across the culvert grate; to the South, a macaque-jawed shadow chatters on the well-wall; and by the northern gate, a twelve-cubit boar silhouette breathes grey steam over the hedge."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "From the dark road beyond the gate comes the rhythmic iron chime of a staff—and the hoofbeats of a pale stallion whose rider smells of "
+          },
+          {
+            "type": "mutate",
+            "id": "Cardinal_Sima_Collapse_p1_m0",
+            "wakingText": "burning frankincense at a village shrine",
+            "corruptedText": "sixteen coiled vipers hissing in hair matted with human blood",
+            "delayMs": 2100
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Follow the line of dead ants back to the cracked granite moonstone at your threshold",
+          "targetPassage": "Threshold_Stone_Breach",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Threshold_Stone_Breach": {
+      "name": "Threshold_Stone_Breach",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "iron_sickle_ember",
+        "audio": "ceb_power_cut",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.74,
+        "balmaDelta": 10
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Beneath the carved granite Sandakada Pahana moonstone at your front door, the red laterite earth has been freshly turned and watered with sour lime and cemetery ash."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "When you pry the loose flagstone upward with your iron bar, a wave of suffocating heat belches from the pit. Wrapped in a rotting shroud of red silk is a six-inch beeswax effigy—the Hūniyam Pili—molded in your exact likeness, bound with strands of your own grey hair, and "
+          },
+          {
+            "type": "mutate",
+            "id": "Threshold_Stone_Breach_p1_m0",
+            "wakingText": "wrapped around a blank sheet of palm leaf",
+            "corruptedText": "lashed to a thin Paslo five-metal copper sheet etched with backwards-running curses and pierced through the crown, throat, heart, and spine with four venomous thorns",
+            "delayMs": 1950
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Snatch the wax effigy out of the pit with your bare, unwarded fingers",
+          "targetPassage": "Viper_Venom_Paralysis",
+          "mutations": [
+            {
+              "variable": "taboo_unwashed_blood",
+              "operator": "=",
+              "value": true
+            },
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 30
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Hold the cold iron Giraya over the pit and lift the cursed bundle onto a banana leaf",
+          "targetPassage": "Shrine_Mirror_Convergence",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Viper_Venom_Paralysis": {
+      "name": "Viper_Venom_Paralysis",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "wadamal_blood_hedge",
+        "audio": "arterial_pulse",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.84,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The instant your bare skin touches the warm beeswax, one of the blackened Kaduru thorns pricks the crease of your index finger. A freezing, neurotoxic numbness shoots up your median nerve into your collarbone."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Down inside the shallow threshold pit, the loose red earth begins to coil and hiss—not tree roots, but "
+          },
+          {
+            "type": "mutate",
+            "id": "Viper_Venom_Paralysis_p1_m0",
+            "wakingText": "earthworms fleeing the damp clay",
+            "corruptedText": "a knot of blue-bellied Polonga vipers emerging from the hollow mouth of the wax doll",
+            "delayMs": 1900
+          },
+          {
+            "type": "plain",
+            "text": ". Every heartbeat in your chest drives the sorcery deeper into your marrow."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Stumble backward into the shrine room before your knees lock solid",
+          "targetPassage": "Shrine_Mirror_Convergence",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 15
+            },
+            {
+              "variable": "tanikama",
+              "operator": "+=",
+              "value": 15
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Shrine_Mirror_Convergence": {
+      "name": "Shrine_Mirror_Convergence",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "mirror_dark_idle",
+        "audio": "yak_bera_ritual",
+        "haptic": "dread_throb",
+        "vignette": 0.8
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "Inside the shuttered shrine room, the brass Pahana flame burns a sickly, eclipsed violet. On the floor before the altar lies a consecrated white ash-gourd—the Alu Puhul—smeared with vermilion lime-paste beside your heavy iron Giraya cutter."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Around the room, the four relics of your past exorcisms begin to bleed: water-lily silt oozes from the clay shards, white Kaduru latex drips from the three masks, red Rathu Kaha Diya pools under the rush mat, and five black soot-fingers smoke on the wall. From the threshold doorway speaks the dual voice of Oddisa Hūniyam Yakā: "
+          },
+          {
+            "type": "mutate",
+            "id": "Shrine_Mirror_Convergence_p1_m0",
+            "wakingText": "You have no patient to hide behind tonight, old Kattadiya",
+            "corruptedText": "Every warrant you broke for strangers was written against your own blood when the moon went dark!",
+            "delayMs": 2000
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Bow your forehead to the threshold stone and offer your own breath to settle the four warrants",
+          "targetPassage": "Outcome_Huniyam_Fourfold_Debt",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 45
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Attempt to burn the wax effigy directly in the brass Pahana flame",
+          "targetPassage": "Outcome_Huniyam_Ash_Tomb",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 40
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Lay the wax effigy and ash-gourd on the mat to draw the four thorns and cleave the curse",
+          "targetPassage": "Puhul_Sacrifice_Prep",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "-=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": true
+        }
+      ]
+    },
+    "Puhul_Sacrifice_Prep": {
+      "name": "Puhul_Sacrifice_Prep",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "dummala_vidiya_cards",
+        "audio": "yak_bera_ritual",
+        "haptic": "iron_grip",
+        "vignette": 0.65
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "To survive a buried Maha Hūniyam Kodivina when the moon is in Rāhu’s jaws, a Kattadiya must become both patient and exorcist—laying his own body flat on the funeral mat while holding the ash-gourd over his breastbone."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "Before the eclipse seals at midnight, you must pluck the four cardinal thorns (Crown, Throat, Heart, and Spine) out of the wax effigy in strict order to unbind the four hijacked demons, and then shear the white Alu Puhul ash-gourd and copper Yantra cleanly in two with your forged iron Giraya."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Extract the four cardinal thorns, cleave the ash-gourd, and face the Midnight Oddisa",
+          "targetPassage": "Midnight_Oddisa_Confrontation",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 10
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Midnight_Oddisa_Confrontation": {
+      "name": "Midnight_Oddisa_Confrontation",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sanni_mask_torch",
+        "audio": "yak_bera_ritual",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.88,
+        "balmaDelta": 15
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The split halves of the white ash-gourd fall open across your chest, weeping blood-red lime water over the severed copper Yantra! Outside in the eclipsed courtyard, a blinding column of green and crimson Dummala fire roars to the roof-tiles as Hūniyam Yakā rears in his full midnight Oddisa form—sixteen living vipers writhing in his hair, fire streaming from his nostrils, holding a curved sword above your throat."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "The four shadows at the windows press inward to choke your lungs: "
+          },
+          {
+            "type": "mutate",
+            "id": "Midnight_Oddisa_Confrontation_p1_m0",
+            "wakingText": "Your voice is spent, old man—let the iron cutter slip from your fingers!",
+            "corruptedText": "By the Varama of Oddisa Rishi and the Cleaved Ash-Gourd, let this Kodivina turn back into harmless ash!",
+            "delayMs": 1950
+          },
+          {
+            "type": "plain",
+            "text": ". Anchor the cold iron seal and strike all four verses of the Maha Hūniyam Käpīma warrant!"
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Hold the cold iron seal, chant the Oddisa Varama, and shatter the copper Yantra",
+          "targetPassage": "Outcome_Huniyam_Sovereign_Cut",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 0
+            }
+          ],
+          "requiresAnchorHeld": true
+        },
+        {
+          "label": "Strike the copper Yantra without anchoring the cold iron ward",
+          "targetPassage": "Outcome_Huniyam_Ash_Tomb",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "+=",
+              "value": 45
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Huniyam_Sovereign_Cut": {
+      "name": "Outcome_Huniyam_Sovereign_Cut",
+      "directives": {
+        "samayam": "ALUYA_DAWN",
+        "flow": "pahana_steady",
+        "audio": "monsoon_light",
+        "haptic": "iron_grip",
+        "vignette": 0.25
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "With the forged iron Giraya glowing blood-hot under your thumb, the final Swāhī syllable rings through the Walawwa like a temple bell! A bolt of dry monsoon lightning splits the eclipsed sky outside, striking the granite threshold pit."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "In your hands, the cursed Paslo copper sheet fractures into harmless grey powder, and the beeswax effigy melts into clean, unscented water. Outside the windows, the four cardinal boundary lamps flare back to life in steady, golden-amber columns as the blood-shadow slips off the moon. You have survived the four watches and mastered the Maha Hūniyam Samayama."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Revisit the Eclipse Siege at the Ancestral Walawwa",
+          "targetPassage": "Walawwa_Eclipse_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 20
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 40
+            }
+          ],
+          "requiresAnchorHeld": false
+        },
+        {
+          "label": "Return to the Funeral Mat and Sever the Gourd Anew",
+          "targetPassage": "Puhul_Sacrifice_Prep",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 15
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 30
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Huniyam_Fourfold_Debt": {
+      "name": "Outcome_Huniyam_Fourfold_Debt",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "sohon_boar_silhouette",
+        "audio": "yak_bera_ritual",
+        "haptic": "dread_throb",
+        "vignette": 0.95
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "The moment your forehead touches the cursed threshold stone, the four boundary lamps explode into shards of black clay. The warrants you severed across the island rush inward through the open doors to collect their unpaid balance from a single vessel."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "When the village temple boy brings morning alms to the Walawwa at dawn, he finds you kneeling rigid in the shrine room: "
+          },
+          {
+            "type": "mutate",
+            "id": "Outcome_Huniyam_Fourfold_Debt_p1_m0",
+            "wakingText": "asleep beside your extinguished brass lamp",
+            "corruptedText": "your lungs packed with blue Nil Manel lilies, your forearms locked around a bleeding banana stem, your right palm blistered in cold hearth-grease, and your head turned one hundred and eighty degrees backward toward the road",
+            "delayMs": 1950
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Wake at the onset of the Blood-Lunar Eclipse",
+          "targetPassage": "Walawwa_Eclipse_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 25
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 55
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    },
+    "Outcome_Huniyam_Ash_Tomb": {
+      "name": "Outcome_Huniyam_Ash_Tomb",
+      "directives": {
+        "samayam": "MADDHAMA_MIDNIGHT",
+        "flow": "peduru_funeral_mat",
+        "audio": "yak_bera_ritual",
+        "haptic": "heartbeat_panic",
+        "vignette": 0.95
+      },
+      "paragraphs": [
+        [
+          {
+            "type": "plain",
+            "text": "As the beeswax effigy touches the naked flame—or as your unwarded blade skids off the copper plate—a deafening crack splits the granite Sandakada Pahana moonstone at the doorway."
+          }
+        ],
+        [
+          {
+            "type": "plain",
+            "text": "In Sri Lankan sorcery, whatever happens to the wax Hūniyam Pili happens simultaneously to the flesh it was christened for. Across the room, "
+          },
+          {
+            "type": "mutate",
+            "id": "Outcome_Huniyam_Ash_Tomb_p1_m0",
+            "wakingText": "wax drips onto the brass lamp stand",
+            "corruptedText": "your own ribs soften like melting tallow over a furnace while the granite threshold slab seals itself over your head, entombing your living breath beneath the doorstep of your own Walawwa",
+            "delayMs": 1950
+          },
+          {
+            "type": "plain",
+            "text": "."
+          }
+        ]
+      ],
+      "choices": [
+        {
+          "label": "Wake at the onset of the Blood-Lunar Eclipse",
+          "targetPassage": "Walawwa_Eclipse_Start",
+          "mutations": [
+            {
+              "variable": "balma",
+              "operator": "=",
+              "value": 25
+            },
+            {
+              "variable": "tanikama",
+              "operator": "=",
+              "value": 55
+            }
+          ],
+          "requiresAnchorHeld": false
+        }
+      ]
+    }
   }
 }

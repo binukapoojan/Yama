@@ -12,6 +12,7 @@ export const CASEFILE_META: Record<CasefileId, { title: string; athuraStart: str
   CF02: { title: 'II · Mala Mohini', athuraStart: 'Upper_Lake_Mist_Start', kattadiyaStart: 'Kattadiya_Mohini_Entry' },
   CF03: { title: 'III · Riri Yaka', athuraStart: 'Crimson_Hearth_Start', kattadiyaStart: 'Kattadiya_Riri_Entry' },
   CF04: { title: 'IV · Mahasona', athuraStart: 'Crossroads_Midnight_Start', kattadiyaStart: 'Kattadiya_Mahasona_Entry' },
+  CF05: { title: 'V · Maha Huniyam', athuraStart: 'Walawwa_Eclipse_Start', kattadiyaStart: 'Puhul_Sacrifice_Prep' },
 };
 
 export const KATTADIYA_UNLOCK_PASSAGES: Record<string, CasefileId> = {
@@ -19,6 +20,7 @@ export const KATTADIYA_UNLOCK_PASSAGES: Record<string, CasefileId> = {
   Outcome_Athura_Road_Escaped: 'CF02', Outcome_Athura_Mohini_Bound: 'CF02',
   Outcome_Athura_Riri_Survived: 'CF03', Outcome_Athura_Riri_Drained: 'CF03',
   Outcome_Athura_Mahasona_Survived: 'CF04', Outcome_Athura_Mahasona_Struck: 'CF04',
+  Outcome_Huniyam_Sovereign_Cut: 'CF05',
 };
 
 export interface SessionSnapshot {
@@ -40,6 +42,11 @@ export function getUnlockedKattadiya(): CasefileId[] {
     const p = JSON.parse(raw);
     return Array.isArray(p.unlockedKattadiya) ? p.unlockedKattadiya : [];
   } catch { return []; }
+}
+
+export function isHuniyamUnsealed(unlockedKattadiya: CasefileId[], discovered: number | string[] = 0): boolean {
+  const count = typeof discovered === 'number' ? discovered : discovered.length;
+  return unlockedKattadiya.filter((id) => id !== 'CF05').length >= 4 || count >= 20;
 }
 
 export function saveSessionSnapshot(casefile: CasefileId, passageId: string, runtimeState: RuntimeVariables, unlocked?: CasefileId[]): void {
@@ -72,6 +79,7 @@ export function resolveInitialSession(stories: Partial<Record<CasefileId, StoryG
     if (c === '2' || c === '02' || c?.toLowerCase() === 'mohini') return { casefile: 'CF02', passageId: CASEFILE_META.CF02.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'MADDHAMA_MIDNIGHT' } };
     if (c === '3' || c === '03' || c?.toLowerCase() === 'riri' || c?.toLowerCase() === 'riri_yaka') return { casefile: 'CF03', passageId: CASEFILE_META.CF03.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'SANDHYA_DUSK' } };
     if (c === '4' || c === '04' || c?.toLowerCase() === 'mahasona') return { casefile: 'CF04', passageId: CASEFILE_META.CF04.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'MADDHAMA_MIDNIGHT' } };
+    if (c === '5' || c === '05' || c?.toLowerCase() === 'huniyam') return { casefile: 'CF05', passageId: CASEFILE_META.CF05.athuraStart, runtimeState: { tanikama: 50, balma: 20, samayam_velava: 'MADDHAMA_MIDNIGHT' } };
   }
   const saved = loadSessionSnapshot(stories);
   if (saved) return { casefile: saved.casefile, passageId: saved.passageId, runtimeState: saved.runtimeState };

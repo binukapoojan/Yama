@@ -1,7 +1,7 @@
 // src/components/diegetic/SamayamTitleGate.tsx
 import React, { useEffect, useState } from 'react';
 import { BulathHurullaPayload, CasefileId } from '../../core/bulathCodec';
-import { CASEFILE_META } from '../../core/savePersistence';
+import { CASEFILE_META, isHuniyamUnsealed } from '../../core/savePersistence';
 import { audioMixer } from '../../juice/audioMixer';
 import { juiceDirector } from '../../juice/JuiceDirector';
 import { BulathTelegramFoldOut } from './BulathTelegramFoldOut';
@@ -41,6 +41,11 @@ export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
     );
   }
 
+  const huniyamOpen = isHuniyamUnsealed(unlockedKattadiya, discoveredCount);
+  const visibleFolios = DOCKET_FOLIOS.filter((s) => s.id !== 'CF05' || huniyamOpen);
+  const remainingCardinal = Math.max(0, 4 - unlockedKattadiya.filter((c) => c !== 'CF05').length);
+  const remainingFolios = Math.max(0, 20 - discoveredCount);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#040406]/96 px-4 py-10 font-serif text-[#EAE3D2] select-none">
       <LivingPuskolaSurface pageKey={openFolio} balma={55}>
@@ -65,7 +70,7 @@ export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
         </div>
 
         <div className="divide-y divide-[#C8963E]/15">
-          {DOCKET_FOLIOS.map((spec) => (
+          {visibleFolios.map((spec) => (
             <CasefileAccordionFolio
               key={spec.id}
               spec={spec}
@@ -80,6 +85,11 @@ export const SamayamTitleGate: React.FC<SamayamTitleGateProps> = ({
               onSelectRole={onStartCasefile}
             />
           ))}
+          {!huniyamOpen && (
+            <div className="py-3.5 text-center text-xs tracking-[0.16em] text-[#8C1D24]/75 italic">
+              රාහු ග්රහණය · Fifth Watch Sealed ({remainingCardinal} Cardinal Exorcisms or {remainingFolios} Folios Remain)
+            </div>
+          )}
         </div>
 
         <BulathTelegramFoldOut onApplySummons={onApplySummons} />

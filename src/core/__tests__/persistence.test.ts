@@ -17,6 +17,7 @@ const MOCK_STORIES: Record<CasefileId, StoryGraph> = {
   CF02: parseTweeStory(':: Upper_Lake_Mist_Start\nCF02 Start.\n:: Kattadiya_Mohini_Entry\nCF02 Triage.\n:: Midnight_Kesel_Kanda_Severance\nCF02 Climax.'),
   CF03: parseTweeStory(':: Crimson_Hearth_Start\nCF03 Start.\n:: Kattadiya_Riri_Entry\nCF03 Triage.\n:: Outcome_Athura_Riri_Drained\nCF03 Drained.'),
   CF04: parseTweeStory(':: Crossroads_Midnight_Start\nCF04 Start.\n:: Kattadiya_Mahasona_Entry\nCF04 Triage.\n:: Midnight_Gothaimbara_Varama\nCF04 Climax.'),
+  CF05: parseTweeStory(':: Walawwa_Eclipse_Start\nCF05 Start.\n:: Puhul_Sacrifice_Prep\nCF05 Triage.\n:: Midnight_Oddisa_Confrontation\nCF05 Climax.'),
 };
 
 function setupMockDom(search = '') {

@@ -18,6 +18,7 @@ const CASEFILE_MANIFEST: ReadonlyArray<{
   { id: 'CF02', file: 'casefile02_mohini.twee', entries: ['Upper_Lake_Mist_Start', 'Kattadiya_Mohini_Entry'] },
   { id: 'CF03', file: 'casefile03_riri_yaka.twee', entries: ['Crimson_Hearth_Start', 'Kattadiya_Riri_Entry'] },
   { id: 'CF04', file: 'casefile04_mahasona.twee', entries: ['Crossroads_Midnight_Start', 'Kattadiya_Mahasona_Entry'] },
+  { id: 'CF05', file: 'casefile05_huniyam.twee', entries: ['Walawwa_Eclipse_Start', 'Puhul_Sacrifice_Prep'] },
 ];
 
 const VALID_FLOWS = new Set<FlowLoopId>([

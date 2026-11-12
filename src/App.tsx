@@ -1,7 +1,10 @@
 // src/App.tsx
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw'; import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw';
-import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard'; import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MahasonaCardDuelCanvas } from './components/diegetic/MahasonaCardDuelCanvas'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { MohiniMaskPaliyaCanvas } from './components/diegetic/MohiniMaskPaliyaCanvas'; import { PideniThattuwaCanvas } from './components/diegetic/PideniThattuwaCanvas'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium'; import { RiriMatFuneralCanvas } from './components/diegetic/RiriMatFuneralCanvas'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate'; import { WickCalibrationModal } from './components/diegetic/WickCalibrationModal';
+import rawCF01 from '../story-twine/casefile01_kalu_kumara.twee?raw'; import rawCF02 from '../story-twine/casefile02_mohini.twee?raw';
+import rawCF03 from '../story-twine/casefile03_riri_yaka.twee?raw'; import rawCF04 from '../story-twine/casefile04_mahasona.twee?raw'; import rawCF05 from '../story-twine/casefile05_huniyam.twee?raw';
+import { AnthologyHeader } from './components/diegetic/AnthologyHeader'; import { BulathLeafCanvas } from './components/diegetic/BulathLeafCanvas'; import { BulathSummonCard } from './components/diegetic/BulathSummonCard';
+import { IronKeyAnchor } from './components/diegetic/IronKeyAnchor'; import { MantraCadenceBar } from './components/diegetic/MantraCadenceBar'; import { PuskolaCompendium } from './components/diegetic/PuskolaCompendium';
+import { RitualStageRouter } from './components/diegetic/RitualStageRouter'; import { SamayamTitleGate } from './components/diegetic/SamayamTitleGate'; import { WickCalibrationModal } from './components/diegetic/WickCalibrationModal';
 import { ProseStream } from './components/narrative/ProseStream'; import { ChiaroscuroMask } from './components/viewport/ChiaroscuroMask'; import { DummalaShaderFilter } from './components/viewport/DummalaShaderFilter'; import { FlowBackdrop } from './components/viewport/FlowBackdrop';
 import { BulathHurullaPayload, CasefileId, encodeBulathPayload } from './core/bulathCodec'; import { loadDiscoveredCompendium, syncRuntimeToCompendium } from './core/compendiumStore'; import { getInitialWebBulath, listenForBulathDeepLinks, resolveCasefileConfig } from './core/deepLinkRouter';
 import { bindLifecycleFlush, buildStateFromBulath, CASEFILE_META, getUnlockedKattadiya, KATTADIYA_UNLOCK_PASSAGES, resolveInitialSession, saveSessionSnapshot } from './core/savePersistence';
@@ -11,13 +14,16 @@ export { resolveCasefileConfig };
 
 const SASTRA_NEXT: Record<string, string> = { Sastra_Vein_Deduction: 'Bedroom_Lakunu_Forensics', Sastra_Kaduru_Leaf_Check: 'Patient_Catatonia_Inspection', Sastra_Riri_Leaf_Check: 'Patient_Hemorrhage_Check', Sastra_Mahasona_Leaf_Check: 'Patient_Handprint_Forensics' };
 const CLIMAX_MANTRAS: Record<string, { key: 'RATA_YAKUMA' | 'PATTINI_VARAMA' | 'RIRI_VARAMA' | 'GOTHAIMBARA_VARAMA'; win: string; lose: string }> = {
-  Midnight_Samayama_Confrontation: { key: 'RATA_YAKUMA', win: 'Outcome_Kattadiya_Banished', lose: 'Outcome_Kattadiya_Backfire' }, Midnight_Kesel_Kanda_Severance: { key: 'PATTINI_VARAMA', win: 'Outcome_Kattadiya_Mohini_Cured', lose: 'Outcome_Kattadiya_Mohini_Failed' },
-  Midnight_Peduru_Surrender: { key: 'RIRI_VARAMA', win: 'Outcome_Kattadiya_Riri_Banished', lose: 'Outcome_Kattadiya_Riri_Backfire' }, Midnight_Gothaimbara_Varama: { key: 'GOTHAIMBARA_VARAMA', win: 'Outcome_Kattadiya_Mahasona_Banished', lose: 'Outcome_Kattadiya_Mahasona_Backfire' },
+  Midnight_Samayama_Confrontation: { key: 'RATA_YAKUMA', win: 'Outcome_Kattadiya_Banished', lose: 'Outcome_Kattadiya_Backfire' },
+  Midnight_Kesel_Kanda_Severance: { key: 'PATTINI_VARAMA', win: 'Outcome_Kattadiya_Mohini_Cured', lose: 'Outcome_Kattadiya_Mohini_Failed' },
+  Midnight_Peduru_Surrender: { key: 'RIRI_VARAMA', win: 'Outcome_Kattadiya_Riri_Banished', lose: 'Outcome_Kattadiya_Riri_Backfire' },
+  Midnight_Gothaimbara_Varama: { key: 'GOTHAIMBARA_VARAMA', win: 'Outcome_Kattadiya_Mahasona_Banished', lose: 'Outcome_Kattadiya_Mahasona_Backfire' },
+  Midnight_Oddisa_Confrontation: { key: 'GOTHAIMBARA_VARAMA', win: 'Outcome_Huniyam_Sovereign_Cut', lose: 'Outcome_Huniyam_Ash_Tomb' },
 };
 const isPossessedEnding = (id: string) => id.startsWith('Outcome_Athura_') && !id.endsWith('_Survived') && !id.endsWith('_Escaped');
 
 export const App: React.FC = () => {
-  const stories = useMemo(() => ({ CF01: parseTweeStory(rawCF01), CF02: parseTweeStory(rawCF02), CF03: parseTweeStory(rawCF03), CF04: parseTweeStory(rawCF04) }), []);
+  const stories = useMemo(() => ({ CF01: parseTweeStory(rawCF01), CF02: parseTweeStory(rawCF02), CF03: parseTweeStory(rawCF03), CF04: parseTweeStory(rawCF04), CF05: parseTweeStory(rawCF05) }), []);
   const initial = useMemo(() => resolveInitialSession(stories), [stories]);
   const [casefile, setCasefile] = useState<CasefileId>(initial.casefile), [currentPassageId, setCurrentPassageId] = useState<string>(initial.passageId);
   const [runtimeState, setRuntimeState] = useState<RuntimeVariables>(initial.runtimeState);
@@ -58,7 +64,7 @@ export const App: React.FC = () => {
 
   const switchCasefile = (nextId: CasefileId, role: 'ATHURA' | 'KATTADIYA' = 'ATHURA') => {
     setCasefile(nextId); setGateMode(null);
-    setRuntimeState({ tanikama: 50, balma: 20, samayam_velava: role === 'ATHURA' ? (nextId === 'CF04' || nextId === 'CF02' ? 'MADDHAMA_MIDNIGHT' : 'SANDHYA_DUSK') : 'MADDHAMA_MIDNIGHT' });
+    setRuntimeState({ tanikama: 50, balma: 20, samayam_velava: role === 'ATHURA' ? (nextId === 'CF04' || nextId === 'CF02' || nextId === 'CF05' ? 'MADDHAMA_MIDNIGHT' : 'SANDHYA_DUSK') : 'MADDHAMA_MIDNIGHT' });
     setCurrentPassageId(role === 'ATHURA' ? CASEFILE_META[nextId].athuraStart : CASEFILE_META[nextId].kattadiyaStart);
   };
 
@@ -92,19 +98,11 @@ export const App: React.FC = () => {
                 {canConcludeDivination ? '❖ Conclude Betel Divination' : 'Inspect Leaf Veins with Pahana to Proceed'}
               </button>
             </div>
-          ) : currentPassageId === 'Pideni_Altar_Preparation' ? (
-            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><PideniThattuwaCanvas expectedAvatar={bulath.payload.avatar === 'VATHA_KUMARA' ? 'VATHA_KUMARA' : 'HANDUN_KUMARA'} onConsecrated={() => setCurrentPassageId('Midnight_Samayama_Confrontation')} /></div>
-          ) : currentPassageId === 'Three_Mask_Paliya_Prep' ? (
-            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><MohiniMaskPaliyaCanvas onSevered={() => setCurrentPassageId('Midnight_Kesel_Kanda_Severance')} /></div>
-          ) : currentPassageId === 'Woven_Mat_Funeral_Prep' ? (
-            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><RiriMatFuneralCanvas onFuneralSealed={() => setCurrentPassageId('Midnight_Peduru_Surrender')} /></div>
-          ) : currentPassageId === 'Thovil_Card_Duel_Prep' ? (
-            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[34rem] flex-col justify-center px-6 py-16"><MahasonaCardDuelCanvas onDerisionComplete={() => setCurrentPassageId('Midnight_Gothaimbara_Varama')} /></div>
           ) : (
-            <>
+            <RitualStageRouter passageId={currentPassageId} payload={bulath.payload} onNavigate={setCurrentPassageId}>
               {climaxMantra && <div className="relative z-20 pt-20"><MantraCadenceBar mantraKey={climaxMantra.key} onCompleted={(ok) => setCurrentPassageId(ok ? climaxMantra.win : climaxMantra.lose)} /></div>}
               <ProseStream passage={activePassage} onSelectChoice={handleSelectChoice} hideChoices={Boolean(climaxMantra)} />
-            </>
+            </RitualStageRouter>
           )}
           {isPossessedEnding(currentPassageId) && <BulathSummonCard payload={bulath.payload} urlParam={bulath.urlParam} />}
           <IronKeyAnchor />

@@ -80,5 +80,6 @@ export function syncRuntimeToCompendium(state: RuntimeVariables, casefile: Casef
 }
 
 export function getEntriesByCasefile(casefile: CasefileId): PuskolaEntry[] {
-  return PUSKOLA_ENTRIES.filter((e) => e.casefile === casefile);
+  const matches = PUSKOLA_ENTRIES.filter((e) => e.casefile === casefile);
+  return matches.length > 0 ? matches : PUSKOLA_ENTRIES.filter((e) => e.category === 'AVATARA');
 }
